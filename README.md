@@ -1,12 +1,8 @@
-#### AppLock 
-
-##### English version
+#### AppLock an English version
 
 
 
-![](art/ic_launcher.png)
-
-#### About me
+#### About upstream developer
 An android developer in GuangZhou  
 简书：[http://www.jianshu.com/users/286f9ad9c417/latest_articles](http://www.jianshu.com/users/286f9ad9c417/latest_articles)   
 Email:386707112@qq.com  
