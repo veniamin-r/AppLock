@@ -1,8 +1,27 @@
-#### AppLock an English version
+## AppLock  (FOSS)
+[![licence](https://img.shields.io/badge/Licence-GPLv2-red.svg)](https://github.com/SubhamTyagi/AppLock/blob/master/LICENSE)
+
+- A privacy App lock FOSS application
+
+### Features
+
+- Completely Free
+- No ads
+- No Tracking
+- Prevent unauthorized access by taking Photos
+
+##  Screenshots
+| HOME | AppLock |
+|:-:|:-:|
+| ![home](/screen/1.png?raw=true "home") | ![profile](/screen/2.png?raw=true "AppLock") |
+
+| AppLock 2 |Settings|
+|:-:|:-:|
+| ![home](/screen/3.png?raw=true "applock") | ![profile](/screen/4.png?raw=true "Settings") |
 
 
-
-#### About upstream developer
+#### This app is forked from [github.com/lizixian18/AppLock](https://github.com/lizixian18/AppLock)
+* About upstream developer
 An android developer in GuangZhou  
 简书：[http://www.jianshu.com/users/286f9ad9c417/latest_articles](http://www.jianshu.com/users/286f9ad9c417/latest_articles)   
 Email:386707112@qq.com  
@@ -11,7 +30,8 @@ If you want to make friends with me, You can give me a Email and follow me。
 #### License
 ```
 Copyright 2017 L_Xian   
- 
+Copyright 2018 Shubham Tyagi
+
 Licensed under the Apache License, Version 2.0 (the "License");  
 you may not use this file except in compliance with the License.  
 You may obtain a copy of the License at  
