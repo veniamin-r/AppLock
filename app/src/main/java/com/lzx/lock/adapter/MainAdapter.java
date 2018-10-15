@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 import com.lzx.lock.R;
 import com.lzx.lock.bean.CommLockInfo;
 import com.lzx.lock.db.CommLockInfoManager;
@@ -59,9 +60,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         });
     }
 
-    /**
-     * 初始化数据
-     */
+
     private void initData(TextView tvAppName, CheckBox switchCompat, ImageView mAppIcon, CommLockInfo lockInfo) {
         tvAppName.setText(packageManager.getApplicationLabel(lockInfo.getAppInfo()));
         switchCompat.setChecked(lockInfo.isLocked());

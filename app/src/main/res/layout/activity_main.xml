@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
@@ -29,7 +30,7 @@
             android:layout_height="50dp"
             android:layout_toRightOf="@+id/btn_back"
             android:gravity="center"
-            android:text="应用锁"
+            android:text="Application lock"
             android:textColor="#2c2c2c"
             android:textSize="14sp"/>
 
@@ -46,7 +47,7 @@
             android:id="@+id/line"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_below="@+id/btn_setting"
+            android:layout_below="@id/btn_setting"
             android:layout_marginTop="10dp"
             android:background="#CACACA"/>
 
@@ -60,7 +61,7 @@
             android:background="@drawable/bg_frame_search"
             android:drawableLeft="@drawable/ic_search"
             android:drawablePadding="10dp"
-            android:hint="搜索应用"
+            android:hint="Search application"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textColorHint="#9F9F9F"

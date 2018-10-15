@@ -54,12 +54,12 @@ import java.util.List;
  */
 public class LockPatternView extends View {
 
-    public int line_color_right = 0xff97C7F2; //正常时候路径颜色
-    public int line_color_wrong = 0x66fe5479; //错误时候路径颜色
+    public int line_color_right = 0xff97C7F2; 
+    public int line_color_wrong = 0x66fe5479;
 
-    private int res_gesture_pattern_item_bg = R.drawable.gesture_pattern_item_bg; //正常情况下的图片
-    private int res_gesture_pattern_selected = R.drawable.gesture_pattern_selected; //选中时候的图片
-    private int res_gesture_pattern_selected_wrong = R.drawable.gesture_pattern_selected_wrong; //错误的时候的图片
+    private int res_gesture_pattern_item_bg = R.drawable.gesture_pattern_item_bg;
+    private int res_gesture_pattern_selected = R.drawable.gesture_pattern_selected;
+    private int res_gesture_pattern_selected_wrong = R.drawable.gesture_pattern_selected_wrong;
 
     // private boolean ishideline = false; //是否隐藏路径
 

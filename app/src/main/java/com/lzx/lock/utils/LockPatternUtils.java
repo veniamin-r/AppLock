@@ -56,7 +56,7 @@ public class LockPatternUtils {
 	 * The minimum number of dots the user must include in a wrong pattern
 	 * attempt for it to be counted against the counts that affect
 	 * {@link #FAILED_ATTEMPTS_BEFORE_TIMEOUT} and
-	 * {@link #FAILED_ATTEMPTS_BEFORE_RESET}
+	 * 
 	 */
 	public static final int MIN_PATTERN_REGISTER_FAIL = MIN_LOCK_PATTERN_SIZE;
 	/**
@@ -152,7 +152,7 @@ public class LockPatternUtils {
 	 * Save a lock pattern.
 	 * 
 	 * @param pattern The new pattern to save.
-	 * @param isFallback Specifies if this is a fallback to biometric weak
+	 *
 	 */
 	public void saveLockPattern(List<LockPatternView.Cell> pattern) {
 		// Compute the hash

@@ -139,7 +139,7 @@ public class GestureCreateActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void ChoiceTooShort() {
-        mLockPatternView.setDisplayMode(LockPatternView.DisplayMode.Wrong);  //路径太短
+        mLockPatternView.setDisplayMode(LockPatternView.DisplayMode.Wrong);
         mLockPatternView.removeCallbacks(mClearPatternRunnable);
         mLockPatternView.postDelayed(mClearPatternRunnable, 1000);
     }
@@ -168,7 +168,7 @@ public class GestureCreateActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void ChoiceConfirmed() {
-        mLockPatternUtils.saveLockPattern(mChosenPattern); //保存密码
+        mLockPatternUtils.saveLockPattern(mChosenPattern);
         clearPattern();
         setResult(RESULT_OK);
         finish();

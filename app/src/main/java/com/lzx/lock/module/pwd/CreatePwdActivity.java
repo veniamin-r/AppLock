@@ -32,9 +32,9 @@ public class CreatePwdActivity extends BaseActivity implements View.OnClickListe
     private TextView mLockTip;
     private LockPatternView mLockPatternView;
     private TextView mBtnReset;
-    //图案锁相关
+
     private LockStage mUiStage = LockStage.Introduction;
-    protected List<LockPatternView.Cell> mChosenPattern = null; //密码
+    protected List<LockPatternView.Cell> mChosenPattern = null;
     private LockPatternUtils mLockPatternUtils;
     private LockPatternViewPattern mPatternViewPattern;
     private GestureCreatePresenter mGestureCreatePresenter;
@@ -60,9 +60,7 @@ public class CreatePwdActivity extends BaseActivity implements View.OnClickListe
         initLockPatternView();
     }
 
-    /**
-     * 初始化锁屏控件
-     */
+
     private void initLockPatternView() {
         mLockPatternUtils = new LockPatternUtils(this);
         mPatternViewPattern = new LockPatternViewPattern(mLockPatternView);
@@ -90,57 +88,45 @@ public class CreatePwdActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-    /**
-     * 恢复到第一步
-     */
+
     private void setStepOne() {
         mGestureCreatePresenter.updateStage(LockStage.Introduction);
         mLockTip.setText(getString(R.string.lock_recording_intro_header));
     }
 
     private void gotoLockMainActivity() {
-        SpUtil.getInstance().putBoolean(AppConstants.LOCK_STATE, true); //开启应用锁开关
+        SpUtil.getInstance().putBoolean(AppConstants.LOCK_STATE, true);
         startService(new Intent(this, LockService.class));
         SpUtil.getInstance().putBoolean(AppConstants.LOCK_IS_FIRST_LOCK, false);
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 
-    /**
-     * 更新当前锁的状态
-     */
+
     @Override
     public void updateUiStage(LockStage stage) {
         mUiStage = stage;
     }
 
-    /**
-     * 更新当前密码
-     */
+
     @Override
     public void updateChosenPattern(List<LockPatternView.Cell> mChosenPattern) {
         this.mChosenPattern = mChosenPattern;
     }
 
-    /**
-     * 更新提示信息
-     */
+
     @Override
     public void updateLockTip(String text, boolean isToast) {
         mLockTip.setText(text);
     }
 
-    /**
-     * 更新提示信息
-     */
+
     @Override
     public void setHeaderMessage(int headerMessage) {
         mLockTip.setText(headerMessage);
     }
 
-    /**
-     * LockPatternView的一些配置
-     */
+
     @Override
     public void lockPatternViewConfiguration(boolean patternEnabled, LockPatternView.DisplayMode displayMode) {
         if (patternEnabled) {
@@ -151,9 +137,7 @@ public class CreatePwdActivity extends BaseActivity implements View.OnClickListe
         mLockPatternView.setDisplayMode(displayMode);
     }
 
-    /**
-     * 初始化
-     */
+
     @Override
     public void Introduction() {
         clearPattern();
@@ -164,12 +148,10 @@ public class CreatePwdActivity extends BaseActivity implements View.OnClickListe
 
     }
 
-    /**
-     * 路径太短
-     */
+
     @Override
     public void ChoiceTooShort() {
-        mLockPatternView.setDisplayMode(LockPatternView.DisplayMode.Wrong);  //路径太短
+        mLockPatternView.setDisplayMode(LockPatternView.DisplayMode.Wrong);
         mLockPatternView.removeCallbacks(mClearPatternRunnable);
         mLockPatternView.postDelayed(mClearPatternRunnable, 500);
     }
@@ -180,38 +162,30 @@ public class CreatePwdActivity extends BaseActivity implements View.OnClickListe
         }
     };
 
-    /**
-     * 画完第一步转到第二步
-     */
+
     @Override
     public void moveToStatusTwo() {
 
     }
 
-    /**
-     * 清空控件路径
-     */
+
     @Override
     public void clearPattern() {
         mLockPatternView.clearPattern();
     }
 
-    /**
-     * 第一次和第二次画得不一样
-     */
+
     @Override
     public void ConfirmWrong() {
-        mLockPatternView.setDisplayMode(LockPatternView.DisplayMode.Wrong);  //路径太短
+        mLockPatternView.setDisplayMode(LockPatternView.DisplayMode.Wrong);
         mLockPatternView.removeCallbacks(mClearPatternRunnable);
         mLockPatternView.postDelayed(mClearPatternRunnable, 500);
     }
 
-    /**
-     * 画成功了
-     */
+
     @Override
     public void ChoiceConfirmed() {
-        mLockPatternUtils.saveLockPattern(mChosenPattern); //保存密码
+        mLockPatternUtils.saveLockPattern(mChosenPattern);
         clearPattern();
         gotoLockMainActivity();
     }

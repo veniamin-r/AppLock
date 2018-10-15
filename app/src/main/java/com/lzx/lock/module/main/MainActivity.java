@@ -90,8 +90,8 @@ public class MainActivity extends BaseActivity implements LockMainContract.View,
             }
         }
         titles = new ArrayList<>();
-        titles.add("系统应用" + " (" + sysNum + ")");
-        titles.add("第三方应用" + " (" + userNum + ")");
+        titles.add("System Applications" + " (" + sysNum + ")");
+        titles.add("Third-party usage" + " (" + userNum + ")");
         SysAppFragment sysAppFragment = SysAppFragment.newInstance(list);
         UserAppFragment userAppFragment = UserAppFragment.newInstance(list);
         fragmentList = new ArrayList<>();

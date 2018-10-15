@@ -15,10 +15,10 @@ public class CommLockInfo extends DataSupport implements Parcelable {
     private long id;
     private String packageName;
     private String appName;
-    private boolean isLocked;  //是否已加锁
-    private boolean isFaviterApp;  //是否是推荐加锁的app
+    private boolean isLocked;
+    private boolean isFaviterApp;
     private ApplicationInfo appInfo;
-    private boolean isSysApp; //是否是系统应用
+    private boolean isSysApp;
     private String topTitle;
     private boolean isSetUnLock;
 

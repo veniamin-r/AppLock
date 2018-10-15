@@ -22,12 +22,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.regex.Pattern;
 
-/**
- * 状态栏工具类
- * 状态栏两种模式(Android 4.4以上)
- * 1.沉浸式全屏模式
- * 2.状态栏着色模式
- */
+
 public class SystemBarHelper {
 
   private static float DEFAULT_ALPHA = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP

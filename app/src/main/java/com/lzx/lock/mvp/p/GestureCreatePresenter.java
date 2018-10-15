@@ -48,28 +48,28 @@ public class GestureCreatePresenter implements GestureCreateContract.Presenter {
         mView.lockPatternViewConfiguration(stage.patternEnabled, LockPatternView.DisplayMode.Correct);
 
         switch (stage) {
-            case Introduction:  //介绍
-                mView.Introduction(); //第一步
+            case Introduction:
+                mView.Introduction();
                 break;
-            case HelpScreen: //帮助（错误多少次后可以启动帮助动画）
+            case HelpScreen:
                 mView.HelpScreen();
                 break;
-            case ChoiceTooShort: //锁屏路径太短
+            case ChoiceTooShort:
                 mView.ChoiceTooShort();
                 break;
-            case FirstChoiceValid: //第一步提交成功
-                updateStage(NeedToConfirm); //转跳到第二步
+            case FirstChoiceValid:
+                updateStage(NeedToConfirm);
                 mView.moveToStatusTwo();
                 break;
             case NeedToConfirm:
-                mView.clearPattern();  //第二步
+                mView.clearPattern();
                 break;
             case ConfirmWrong:
-                //第二步跟第一步不一样
+
                 mView.ConfirmWrong();
                 break;
             case ChoiceConfirmed:
-                //第三步
+
                 mView.ChoiceConfirmed();
                 break;
         }
@@ -77,7 +77,7 @@ public class GestureCreatePresenter implements GestureCreateContract.Presenter {
 
     @Override
     public void onPatternDetected(List<LockPatternView.Cell> pattern, List<LockPatternView.Cell> mChosenPattern, LockStage mUiStage) {
-        if (mUiStage == NeedToConfirm) { //如果下一步
+        if (mUiStage == NeedToConfirm) {
             if (mChosenPattern == null)
                 throw new IllegalStateException("null chosen pattern in stage 'need to confirm");
             if (mChosenPattern.equals(pattern)) {

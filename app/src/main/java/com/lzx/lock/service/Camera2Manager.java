@@ -60,7 +60,7 @@ public class Camera2Manager {
     private Size mPreViewSize;
     private Rect maxZoomrect;
     private int maxRealRadio;
-    //相机缩放相关
+
     private Rect picRect;
 
     public Camera2Manager(TextureView textureView, Context context) {
@@ -140,9 +140,9 @@ public class Camera2Manager {
             try {
                 mCameraCharacteristics = manager.getCameraCharacteristics(cameraid);
 
-                //画面传感器的面积，单位是像素。
+
                 maxZoomrect = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
-                //最大的数字缩放
+
                 maxRealRadio = mCameraCharacteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM).intValue();
                 picRect = new Rect(maxZoomrect);
                 StreamConfigurationMap map = mCameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
@@ -162,7 +162,7 @@ public class Camera2Manager {
                     return;
                 }
                 manager.openCamera(cameraid, cameraOpenCallBack, mHandler);
-                //设置点击拍照的监听
+
                 takePhoto();
             } catch (CameraAccessException e) {
                 ToastUtil.showToast(e.getMessage());
@@ -211,7 +211,7 @@ public class Camera2Manager {
             captureBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, 0);
             captureBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, (10000 - 100) / 2);//设置 ISO，感光度
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, 90);
-            //设置每秒30帧
+
             CaptureRequest mCaptureRequest = captureBuilder.build();
             mCameraSession.capture(mCaptureRequest, null, mHandler); //拍照
 //            CameraManager cameraManager = (CameraManager) mContext.getSystemService(Context.CAMERA_SERVICE);
@@ -279,7 +279,7 @@ public class Camera2Manager {
             switch (message.what) {
                 case SETIMAGE:
                     Bitmap bm = (Bitmap) message.obj;
-                    //预览头像
+
                     break;
                 case MOVE_FOCK:
                     mPreViewBuidler.set(CaptureRequest.SCALER_CROP_REGION, picRect);

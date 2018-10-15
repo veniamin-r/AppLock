@@ -1,5 +1,6 @@
 package com.lzx.lock.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -23,6 +24,7 @@ import com.lzx.lock.R;
  * Created by xian on 2017/2/17.
  */
 
+@SuppressLint("AppCompatCustomView")
 public class CircleImageView extends ImageView {
     private static final String TAG = "CircleImageView";
 

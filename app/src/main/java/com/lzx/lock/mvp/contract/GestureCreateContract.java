@@ -14,29 +14,28 @@ import java.util.List;
 public interface GestureCreateContract {
 
     interface View extends BaseView<MainContract.Presenter> {
-        void updateUiStage(LockStage stage); //更新UI状态
+        void updateUiStage(LockStage stage);
 
-        void updateChosenPattern(List<LockPatternView.Cell> mChosenPattern); //更新密码
+        void updateChosenPattern(List<LockPatternView.Cell> mChosenPattern);
 
-        void updateLockTip(String text,boolean isToast); //更新解锁提示
+        void updateLockTip(String text,boolean isToast);
 
         void setHeaderMessage(int headerMessage);
 
-        void lockPatternViewConfiguration(boolean patternEnabled, LockPatternView.DisplayMode displayMode);  //控件的一些配置
+        void lockPatternViewConfiguration(boolean patternEnabled, LockPatternView.DisplayMode displayMode);
 
-        void Introduction(); //控件状态（刚开始）
+        void Introduction();
 
-        void HelpScreen(); //帮助（错误多少次后可以启动帮助动画）
+        void HelpScreen();
 
-        void ChoiceTooShort(); //锁屏路径太短
+        void ChoiceTooShort();
 
-        void moveToStatusTwo(); //转到第二步
+        void moveToStatusTwo();
 
-        void clearPattern(); //清空控件状态
+        void clearPattern();
 
-        void ConfirmWrong(); //两次的路径不一样
-
-        void ChoiceConfirmed(); //成功绘制了2次路径
+        void ConfirmWrong();
+        void ChoiceConfirmed();
     }
 
     interface Presenter extends BasePresenter {

@@ -68,7 +68,8 @@ public class Camera2Fragment extends Fragment {
     CameraCaptureSession mCameraSession;
     CameraCharacteristics mCameraCharacteristics;
     Ringtone ringtone;
-    //相机会话的监听器，通过他得到mCameraSession对象，这个对象可以用来发送预览和拍照请求
+    //The listener for the camera session, through which he gets the mCameraSession object, which can be used to send previews and photo requests.
+
     private CameraCaptureSession.StateCallback mSessionStateCallBack = new CameraCaptureSession
             .StateCallback() {
         @Override
@@ -87,11 +88,11 @@ public class Camera2Fragment extends Fragment {
         }
     };
     private Surface surface;
-    //打开相机时候的监听器，通过他可以得到相机实例，这个实例可以创建请求建造者
+
     private CameraDevice.StateCallback cameraOpenCallBack = new CameraDevice.StateCallback() {
         @Override
         public void onOpened(CameraDevice cameraDevice) {
-            Log.d(TAG, "相机已经打开");
+            Log.d(TAG, "The camera is already on");
             try {
                 mPreViewBuidler = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
                 SurfaceTexture texture = mTextureView.getSurfaceTexture();
@@ -107,12 +108,12 @@ public class Camera2Fragment extends Fragment {
 
         @Override
         public void onDisconnected(CameraDevice cameraDevice) {
-            Log.d(TAG, "相机连接断开");
+            Log.d(TAG, "Camera disconnected");
         }
 
         @Override
         public void onError(CameraDevice cameraDevice, int i) {
-            Log.d(TAG, "相机打开失败");
+            Log.d(TAG, "Camera failed to open");
         }
     };
     private ImageReader.OnImageAvailableListener onImageAvaiableListener = new ImageReader
@@ -140,10 +141,10 @@ public class Camera2Fragment extends Fragment {
             try {
                 mCameraCharacteristics = manager.getCameraCharacteristics(cameraid);
 
-                //画面传感器的面积，单位是像素。
+
                 maxZoomrect = mCameraCharacteristics.get(CameraCharacteristics
                         .SENSOR_INFO_ACTIVE_ARRAY_SIZE);
-                //最大的数字缩放
+
                 maxRealRadio = mCameraCharacteristics.get(CameraCharacteristics
                         .SCALER_AVAILABLE_MAX_DIGITAL_ZOOM).intValue();
                 picRect = new Rect(maxZoomrect);
@@ -167,7 +168,7 @@ public class Camera2Fragment extends Fragment {
                     return;
                 }
                 manager.openCamera(cameraid, cameraOpenCallBack, mHandler);
-                //设置点击拍照的监听
+
                 mButton.setOnTouchListener(onTouchListener);
             } catch (CameraAccessException e) {
                 e.printStackTrace();
@@ -198,14 +199,14 @@ public class Camera2Fragment extends Fragment {
                     try {
                         mCameraSession.setRepeatingRequest(initDngBuilder().build(), null, mHandler);
                     } catch (CameraAccessException e) {
-                        Toast.makeText(getActivity(), "请求相机权限被拒绝", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Request camera permission denied", Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case MotionEvent.ACTION_UP:
                     try {
                         updateCameraPreviewSession();
                     } catch (CameraAccessException e) {
-                        Toast.makeText(getActivity(), "请求相机权限被拒绝", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Request camera permission denied", Toast.LENGTH_SHORT).show();
                     }
                     break;
             }
@@ -246,9 +247,9 @@ public class Camera2Fragment extends Fragment {
             Range<Integer> fps[] = cameraCharacteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_TARGET_FPS_RANGES);
             captureBuilder.set(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps[fps.length - 1]);
         } catch (CameraAccessException e) {
-            Toast.makeText(getActivity(), "请求相机权限被拒绝", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Request camera permission denied", Toast.LENGTH_SHORT).show();
         } catch (NullPointerException e) {
-            Toast.makeText(getActivity(), "打开相机失败", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Failed to open camera", Toast.LENGTH_SHORT).show();
         }
         return captureBuilder;
     }
@@ -258,7 +259,7 @@ public class Camera2Fragment extends Fragment {
         public void onClick(View view) {
             try {
                 shootSound();
-                Log.d(TAG, "正在拍照");
+                Log.d(TAG, "Taking pictures");
                 CaptureRequest.Builder builder = mCameraSession.getDevice().createCaptureRequest
                         (CameraDevice.TEMPLATE_STILL_CAPTURE);
                 builder.addTarget(mImageReader.getSurface());
@@ -351,7 +352,7 @@ public class Camera2Fragment extends Fragment {
         AudioAttributes.Builder attr = new AudioAttributes.Builder();
         attr.setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION);
         ringtone.setAudioAttributes(attr.build());
-        //初始化相机布局
+
         mTextureView.setSurfaceTextureListener(mSurfacetextlistener);
         mTextureView.setOnTouchListener(textTureOntuchListener);
         return v;
@@ -373,7 +374,7 @@ public class Camera2Fragment extends Fragment {
         mThumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "别戳了，那个页面还没写", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Don't poke, that page has not been written yet.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -395,7 +396,7 @@ public class Camera2Fragment extends Fragment {
 
         @Override
         public void run() {
-            Log.d(TAG, "正在保存图片");
+            Log.d(TAG, "Saving image");
             File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
                     .getAbsoluteFile();
             if (!dir.exists()) {
@@ -413,7 +414,7 @@ public class Camera2Fragment extends Fragment {
                 Bitmap bm = BitmapFactory.decodeByteArray(buff, 0, buff.length, ontain);
                 Message.obtain(mUIHandler, SETIMAGE, bm).sendToTarget();
                 outputStream.write(buff);
-                Log.d(TAG, "保存图片完成");
+                Log.d(TAG, "Save the picture to complete");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {

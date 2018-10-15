@@ -120,18 +120,18 @@ public abstract class BaseDialog extends Dialog {
         super.dismiss();
     }
 
-    //设置横向缩放比例
+    
     protected abstract float setWidthScale();
 
-    //设置进入动画
+    
     protected abstract AnimatorSet setEnterAnim();
 
-    //设置退出动画
+    
     protected abstract AnimatorSet setExitAnim();
 
-    //初始化
+    
     protected abstract void init();
 
-    //设置布局id
+   
     protected abstract int getContentViewId();
 }

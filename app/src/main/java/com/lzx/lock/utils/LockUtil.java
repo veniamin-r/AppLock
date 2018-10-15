@@ -34,7 +34,7 @@ import java.util.List;
 
 public class LockUtil {
     /**
-     * 判断是否已经获取 有权查看使用情况的应用程序 权限
+     *
      *
      * @param context
      * @return
@@ -57,7 +57,7 @@ public class LockUtil {
     }
 
     /**
-     * 查看是存在查看使用情况的应用程序界面
+     * 
      *
      * @return
      */
@@ -72,7 +72,6 @@ public class LockUtil {
     }
 
     /**
-     * 是否有开启通知栏服务
      */
     private static final String ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners";
 
@@ -173,7 +172,7 @@ public class LockUtil {
     }
 
     /**
-     * Home键操作
+     * Home
      */
     public static void goHome(BaseActivity activity) {
         Intent homeIntent = new Intent(Intent.ACTION_MAIN);

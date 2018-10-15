@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Created by lzx on 2017/1/8.
- * 图形解锁监听实现类
+ * 
  */
 
 public class LockPatternViewPattern implements LockPatternView.OnPatternListener {

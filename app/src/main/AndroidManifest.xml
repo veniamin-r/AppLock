@@ -3,7 +3,7 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.lzx.lock">
 
-    <!--应用锁需要的权限-->
+
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
@@ -26,7 +26,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".module.splash.SplashActivity"
-            android:label=""
+            android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -37,11 +37,11 @@
 
         <activity
             android:name=".module.pwd.CreatePwdActivity"
-            android:label="创建密码"
+            android:label="Create Password"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".module.lock.GestureSelfUnlockActivity"
-            android:label="解锁"
+            android:label="Unlock"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".module.lock.GestureUnlockActivity"
@@ -53,15 +53,15 @@
             android:theme="@style/unlock_activity_style"/>
         <activity
             android:name=".module.setting.LockSettingActivity"
-            android:label="设置"
+            android:label="Settings"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".module.lock.GestureCreateActivity"
-            android:label="创建图案锁"
+            android:label="Create a pattern lock"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".module.about.AboutMeActivity"
-            android:label="关于我"
+            android:label="About me"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".module.main.MainActivity"

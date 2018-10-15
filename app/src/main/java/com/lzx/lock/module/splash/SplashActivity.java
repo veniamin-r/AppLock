@@ -57,11 +57,11 @@ public class SplashActivity extends BaseActivity {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 boolean isFirstLock = SpUtil.getInstance().getBoolean(AppConstants.LOCK_IS_FIRST_LOCK, true);
-                if (isFirstLock) { //如果第一次
+                if (isFirstLock) {
                     showDialog();
                 } else {
                     Intent intent = new Intent(SplashActivity.this, GestureSelfUnlockActivity.class);
-                    intent.putExtra(AppConstants.LOCK_PACKAGE_NAME, AppConstants.APP_PACKAGE_NAME); //传自己的包名
+                    intent.putExtra(AppConstants.LOCK_PACKAGE_NAME, AppConstants.APP_PACKAGE_NAME);
                     intent.putExtra(AppConstants.LOCK_FROM, AppConstants.LOCK_FROM_LOCK_MAIN_ACITVITY);
                     startActivity(intent);
                     finish();
@@ -71,11 +71,9 @@ public class SplashActivity extends BaseActivity {
         });
     }
 
-    /**
-     * 弹出dialog
-     */
+
     private void showDialog() {
-        //如果没有获得查看使用情况权限和手机存在查看使用情况这个界面
+        // If you do not have access to view usage rights and the phone exists to view usage this interface
         if (!LockUtil.isStatAccessPermissionSet(SplashActivity.this) && LockUtil.isNoOption(SplashActivity.this)) {
             DialogPermission dialog = new DialogPermission(SplashActivity.this);
             dialog.show();
@@ -97,7 +95,7 @@ public class SplashActivity extends BaseActivity {
             if (LockUtil.isStatAccessPermissionSet(SplashActivity.this)) {
                 gotoCreatePwdActivity();
             } else {
-                ToastUtil.showToast("没有权限");
+                ToastUtil.showToast("Permission denied");
                 finish();
             }
         }

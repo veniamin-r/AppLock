@@ -4,17 +4,16 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * 自动锁屏时间
+ *
  * Created by lzx on 2017/1/10.
  *
- * 15秒=15000，30秒=30000 1分钟=60000  3分钟=180000 5分钟=300000
- * 10分钟=600000 30分钟=1800000
+ *
  *
  */
 
 public class LockAutoTime implements Parcelable {
-    private String title; //标题
-    private long time;  //对应时间（毫秒）
+    private String title;
+    private long time;
 
     public String getTitle() {
         return title;

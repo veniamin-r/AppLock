@@ -44,8 +44,8 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
     private RelativeLayout mUnLockLayout;
 
     private PackageManager packageManager;
-    private String pkgName; //解锁应用的包名
-    private String actionFrom;//按返回键的操作
+    private String pkgName;
+    private String actionFrom;
     private LockPatternUtils mLockPatternUtils;
     private int mFailedPatternAttemptsSinceLastTimeout = 0;
     private CommLockInfoManager mLockInfoManager;
@@ -64,7 +64,7 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
-        StatusBarUtil.setTransparent(this); //状态栏透明
+        StatusBarUtil.setTransparent(this);
         mUnLockLayout = (RelativeLayout) findViewById(R.id.unlock_layout);
         mIconMore = (ImageView) findViewById(R.id.btn_more);
         mLockPatternView = (LockPatternView) findViewById(R.id.unlock_lock_view);
@@ -81,11 +81,11 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initData() {
-        //获取解锁应用的包名
+
         pkgName = getIntent().getStringExtra(AppConstants.LOCK_PACKAGE_NAME);
-        //获取按返回键的操作
+
         actionFrom = getIntent().getStringExtra(AppConstants.LOCK_FROM);
-        //初始化
+
         packageManager = getPackageManager();
 
         mLockInfoManager = new CommLockInfoManager(this);
@@ -103,9 +103,7 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
 
     }
 
-    /**
-     * 给应用Icon和背景赋值
-     */
+
     private void initLayoutBackground() {
         try {
             appInfo = packageManager.getApplicationInfo(pkgName, PackageManager.GET_UNINSTALLED_PACKAGES);
@@ -134,9 +132,7 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
         }
     }
 
-    /**
-     * 初始化解锁控件
-     */
+
     private void initLockPatternView() {
         mLockPatternView.setLineColorRight(0x80ffffff);
         mLockPatternUtils = new LockPatternUtils(this);
@@ -144,16 +140,16 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
         mPatternViewPattern.setPatternListener(new LockPatternViewPattern.onPatternListener() {
             @Override
             public void onPatternDetected(List<LockPatternView.Cell> pattern) {
-                if (mLockPatternUtils.checkPattern(pattern)) { //解锁成功,更改数据库状态
+                if (mLockPatternUtils.checkPattern(pattern)) { //
                     mLockPatternView.setDisplayMode(LockPatternView.DisplayMode.Correct);
                     if (actionFrom.equals(AppConstants.LOCK_FROM_LOCK_MAIN_ACITVITY)) {
                         startActivity(new Intent(GestureUnlockActivity.this, MainActivity.class));
                         finish();
                     } else {
-                        SpUtil.getInstance().putLong(AppConstants.LOCK_CURR_MILLISENCONS, System.currentTimeMillis()); //记录解锁时间
-                        SpUtil.getInstance().putString(AppConstants.LOCK_LAST_LOAD_PKG_NAME, pkgName);//记录解锁包名
+                        SpUtil.getInstance().putLong(AppConstants.LOCK_CURR_MILLISENCONS, System.currentTimeMillis());
+                        SpUtil.getInstance().putString(AppConstants.LOCK_LAST_LOAD_PKG_NAME, pkgName);
 
-                        //发送最后解锁的时间给应用锁服务
+                        //Send the last unlocked time to the app lock service
                         Intent intent = new Intent(LockService.UNLOCK_ACTION);
                         intent.putExtra(LockService.LOCK_SERVICE_LASTTIME, System.currentTimeMillis());
                         intent.putExtra(LockService.LOCK_SERVICE_LASTAPP, pkgName);
@@ -176,10 +172,10 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
                     } else {
 //                        ToastUtil.showShort(getString(R.string.password_short));
                     }
-                    if (mFailedPatternAttemptsSinceLastTimeout >= 3) { //失败次数大于3次
+                    if (mFailedPatternAttemptsSinceLastTimeout >= 3) {
                         mLockPatternView.postDelayed(mClearPatternRunnable, 500);
                     }
-                    if (mFailedPatternAttemptsSinceLastTimeout >= LockPatternUtils.FAILED_ATTEMPTS_BEFORE_TIMEOUT) { //失败次数大于阻止用户前的最大错误尝试次数
+                    if (mFailedPatternAttemptsSinceLastTimeout >= LockPatternUtils.FAILED_ATTEMPTS_BEFORE_TIMEOUT) { // The number of failures is greater than the maximum number of error attempts before blocking the user
                         mLockPatternView.postDelayed(mClearPatternRunnable, 500);
                     } else {
                         mLockPatternView.postDelayed(mClearPatternRunnable, 500);

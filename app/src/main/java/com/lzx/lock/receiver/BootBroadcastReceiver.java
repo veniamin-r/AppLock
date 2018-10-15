@@ -18,7 +18,7 @@ import com.lzx.lock.utils.SpUtil;
 public class BootBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        LogUtil.i("开机启动服务....");
+        LogUtil.i("Boot service....");
         context.startService(new Intent(context, LoadAppListService.class));
         if (SpUtil.getInstance().getBoolean(AppConstants.LOCK_STATE, false)) {
             context.startService(new Intent(context, LockService.class));

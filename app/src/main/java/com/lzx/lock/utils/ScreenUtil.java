@@ -9,7 +9,7 @@ import android.util.DisplayMetrics;
 
 public class ScreenUtil {
     /**
-     * 获取屏幕高度
+     * 
      *
      * @param context
      * @return

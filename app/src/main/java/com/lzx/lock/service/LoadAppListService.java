@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * 后台加载应用列表
+ *
  * Created by xian on 2017/2/17.
  */
 
@@ -52,22 +52,22 @@ public class LoadAppListService extends IntentService {
             initFavoriteApps();
         }
 
-        //每次都获取手机上的所有应用
+
         Intent intent = new Intent(Intent.ACTION_MAIN, null);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         List<ResolveInfo> resolveInfos = mPackageManager.queryIntentActivities(intent, 0);
-        //非第一次，对比数据
+
         if (isInitDb) {
             List<ResolveInfo> appList = new ArrayList<>();
-            List<CommLockInfo> dbList = mLockInfoManager.getAllCommLockInfos(); //获取数据库列表
-            //处理应用列表
+            List<CommLockInfo> dbList = mLockInfoManager.getAllCommLockInfos();
+
             for (ResolveInfo resolveInfo : resolveInfos) {
                 if (!resolveInfo.activityInfo.packageName.equals(AppConstants.APP_PACKAGE_NAME) &&
                         !resolveInfo.activityInfo.packageName.equals("com.android.settings")) {
                     appList.add(resolveInfo);
                 }
             }
-            if (appList.size() > dbList.size()) { //如果有安装新应用
+            if (appList.size() > dbList.size()) {
                 List<ResolveInfo> reslist = new ArrayList<>();
                 HashMap<String, CommLockInfo> hashMap = new HashMap<>();
                 for (CommLockInfo info : dbList) {
@@ -80,11 +80,11 @@ public class LoadAppListService extends IntentService {
                 }
                 try {
                     if (reslist.size() != 0)
-                        mLockInfoManager.instanceCommLockInfoTable(reslist); //将剩下不同的插入数据库
+                        mLockInfoManager.instanceCommLockInfoTable(reslist);
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                 }
-            } else if (appList.size() < dbList.size()) { //如果有卸载应用
+            } else if (appList.size() < dbList.size()) {
                 List<CommLockInfo> commlist = new ArrayList<>();
                 HashMap<String, ResolveInfo> hashMap = new HashMap<>();
                 for (ResolveInfo info : appList) {
@@ -95,22 +95,22 @@ public class LoadAppListService extends IntentService {
                         commlist.add(info);
                     }
                 }
-                //Logger.d("有应用卸载，个数是 = " + dbList.size());
+
                 if (commlist.size() != 0)
-                    mLockInfoManager.deleteCommLockInfoTable(commlist);//将多的从数据库删除
+                    mLockInfoManager.deleteCommLockInfoTable(commlist);
             } else {
-                //Logger.d("应用没多没少，正常");
+
             }
         } else {
-            //数据库只插入一次
+
             SpUtil.getInstance().putBoolean(AppConstants.LOCK_IS_INIT_DB, true);
             try {
-                mLockInfoManager.instanceCommLockInfoTable(resolveInfos);    //插入数据库
+                mLockInfoManager.instanceCommLockInfoTable(resolveInfos);
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
         }
-        // Log.i("onHandleIntent", "耗时 = " + (System.currentTimeMillis() - time));
+        // Log.i("onHandleIntent", "time consuming = " + (System.currentTimeMillis() - time));
     }
 
     @Override
@@ -125,22 +125,29 @@ public class LoadAppListService extends IntentService {
     public void initFavoriteApps() {
         List<String> packageList = new ArrayList<>();
         List<FaviterInfo> faviterInfos = new ArrayList<>();
-        packageList.add("com.android.gallery3d");       //相册
-        packageList.add("com.android.mms");             //短信
-        packageList.add("com.tencent.mm");              //微信
-        packageList.add("com.android.contacts");        //联系人和电话
-        packageList.add("com.facebook.katana");         //facebook
-        packageList.add("com.facebook.orca");           //facebook Messenger
-        packageList.add("com.mediatek.filemanager");    //文件管理器
-        packageList.add("com.sec.android.gallery3d");   //也是个相册
-        packageList.add("com.android.email");           //邮箱
-        packageList.add("com.sec.android.app.myfiles"); //三星的文件
-        packageList.add("com.android.vending");         //应用商店
-        packageList.add("com.google.android.youtube");  //youtube
-        packageList.add("com.tencent.mobileqq");        //qq
-        packageList.add("com.tencent.qq");              //qq
-        packageList.add("com.android.dialer");          //拨号
-        packageList.add("com.twitter.android");         //twitter
+        packageList.add("com.android.gallery3d");
+        packageList.add("com.android.mms");
+        packageList.add("com.android.contacts");
+        packageList.add("com.android.email");
+        packageList.add("com.android.vending");
+        packageList.add("com.android.settings");
+        packageList.add("com.android.dialer");
+
+        packageList.add("com.google.android.apps.photos");
+        packageList.add("com.google.android.gm");
+        packageList.add("com.google.android.youtube");
+
+        packageList.add("com.net.one97.paytm");
+
+        packageList.add("com.whatsapp");
+        packageList.add("com.twitter.android");
+        packageList.add("com.facebook.katana");
+        packageList.add("com.facebook.orca");
+
+        packageList.add("com.mediatek.filemanager");
+        packageList.add("com.sec.android.gallery3d");
+        packageList.add("com.sec.android.app.myfiles");
+
         for (String packageName : packageList) {
             FaviterInfo info = new FaviterInfo();
             info.setPackageName(packageName);

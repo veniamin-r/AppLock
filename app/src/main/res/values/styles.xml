@@ -21,7 +21,7 @@
 
     </style>
 
-    <!--普通按钮样式-->
+
     <style name="comm_btn_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">50dp</item>
