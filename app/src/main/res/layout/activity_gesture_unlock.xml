@@ -28,6 +28,7 @@
         android:id="@+id/btn_more"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginTop="20dp"
         android:paddingRight="20dp"
@@ -80,8 +81,8 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignTop="@+id/app_label"
-        android:layout_toLeftOf="@+id/unlock_lock_view"
         android:layout_toStartOf="@+id/unlock_lock_view"
+        android:layout_toLeftOf="@+id/unlock_lock_view"
         android:src="@drawable/ic_launcher"/>
 
 

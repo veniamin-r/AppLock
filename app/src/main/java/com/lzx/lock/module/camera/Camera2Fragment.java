@@ -1,6 +1,7 @@
 package com.lzx.lock.module.camera;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -23,6 +24,7 @@ import android.media.ImageReader;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -53,6 +55,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Collections;
 
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class Camera2Fragment extends Fragment {
     private static final String TAG = "Camera2Fragment";
     private static final int SETIMAGE = 1;
@@ -60,6 +63,7 @@ public class Camera2Fragment extends Fragment {
 
     TextureView mTextureView;
     ImageView mThumbnail;
+
     Button mButton;
     Handler mHandler;
     Handler mUIHandler;
@@ -225,6 +229,7 @@ public class Camera2Fragment extends Fragment {
      *
      * @return
      */
+
     private CaptureRequest.Builder initDngBuilder() {
         CaptureRequest.Builder captureBuilder = null;
         try {

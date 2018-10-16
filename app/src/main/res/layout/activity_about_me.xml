@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="Shubham tyagi"
+        android:text="@string/shubham_tyagi"
         android:textColor="@color/font_deep_gray"
         android:textSize="16sp"/>
 
@@ -38,10 +38,11 @@
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
         android:layout_marginStart="40dp"
         android:autoLink="web"
         android:padding="@dimen/activity_horizontal_margin"
-        android:text="GitHub:https://github.com/subhamtyagi"
+        android:text="@string/github_https_github_com_subhamtyagi"
         android:textColorLink="@color/colorPrimary"/>
 
 
@@ -57,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="Upstream Developer "
+        android:text="@string/upstream_developer"
         android:textColor="@color/font_deep_gray"
         android:textSize="16sp"/>
 
@@ -72,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="L_Xian"
+        android:text="@string/l_xian"
         android:textColor="@color/font_deep_gray"
         android:textSize="16sp"/>
 
@@ -80,10 +81,11 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
         android:layout_marginStart="40dp"
         android:autoLink="web"
         android:padding="@dimen/activity_horizontal_margin"
-        android:text="GitHub:https://github.com/lizixian18"
+        android:text="@string/github_https_github_com_lizixian18"
         android:textColorLink="@color/colorPrimary"/>
 
 

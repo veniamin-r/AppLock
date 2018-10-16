@@ -6,10 +6,7 @@ import android.os.Parcelable;
 /**
  *
  * Created by lzx on 2017/1/10.
- *
- *
- *
- */
+  */
 
 public class LockAutoTime implements Parcelable {
     private String title;

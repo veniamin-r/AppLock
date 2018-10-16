@@ -47,6 +47,31 @@
         <item>Immediately </item>
     </string-array>
  
-    <string name = "dialog_tip"> Your Android version is greater than or equal Android 5.0, we need to get the \"View Application Usage\" permission
+    <string name = "dialog_tip"> Your Android version is greater than or equal Android 5.0, we need to get the \"Application Usage\" permission
     </string>
+    <string name="shubham_tyagi">Shubham tyagi</string>
+    <string name="github_https_github_com_subhamtyagi">GitHub:https://github.com/subhamtyagi</string>
+    <string name="upstream_developer">Upstream Developer</string>
+    <string name="l_xian">L_Xian</string>
+    <string name="github_https_github_com_lizixian18">GitHub:https://github.com/lizixian18</string>
+    <string name="welcome_to_the_app_lock">Welcome to the app lock</string>
+    <string name="reset">Reset</string>
+    <string name="create_password">create password</string>
+    <string name="please_draw_your_password">Please draw your password</string>
+    <string name="identity_confirmation">Identity confirmation</string>
+    <string name="search_application">Search application</string>
+    <string name="settings">Settings</string>
+    <string name="lock_settings">Lock Settings</string>
+    <string name="lock_immediately_after_locking_the_screen">Lock immediately after locking the screen</string>
+    <string name="open">Open</string>
+    <string name="change_the_password">Change the password</string>
+    <string name="display_path">Display path</string>
+    <string name="about_me">About Me</string>
+    <string name="go_to_give_permission">Go to Give Permission</string>
+    <string name="warning">Warning</string>
+    <string name="search_applications">Search Applications</string>
+    <string name="search_for">Search For</string>
+    <string name="take_a_photo">Take a Photo</string>
+    <string name="_1_minute">1 minute</string>
+    <string name="apps">Apps</string>
 </resources>

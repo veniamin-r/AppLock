@@ -29,9 +29,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="50dp"
+            android:layout_toEndOf="@+id/btn_back"
             android:layout_toRightOf="@+id/btn_back"
             android:gravity="center"
-            android:text="create password"
+            android:text="@string/create_password"
             android:textColor="@color/white"
             android:textSize="14sp"/>
 
@@ -49,7 +50,7 @@
             android:layout_below="@+id/lock_icon"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="Please draw your password"
+            android:text="@string/please_draw_your_password"
             android:textColor="@color/white"
             android:textSize="14sp"/>
     </RelativeLayout>

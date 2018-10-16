@@ -28,9 +28,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="50dp"
+            android:layout_toEndOf="@+id/btn_back"
             android:layout_toRightOf="@+id/btn_back"
             android:gravity="center"
-            android:text="Settings"
+            android:text="@string/settings"
             android:textColor="#2c2c2c"
             android:textSize="14sp"/>
     </RelativeLayout>
@@ -53,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:gravity="center_vertical"
-            android:text="App Lock"
+            android:text="@string/app_name"
             android:textColor="#2c2c2c"
             android:textSize="14sp"/>
 
@@ -93,7 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="Lock Settings"
+            android:text="@string/lock_settings"
             android:textColor="#2c2c2c"
             android:textSize="14sp"/>
 
@@ -127,7 +128,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="Lock immediately after locking the screen"
+            android:text="@string/lock_immediately_after_locking_the_screen"
             android:textColor="#2c2c2c"
             android:textSize="14sp"/>
 
@@ -139,7 +140,7 @@
             android:layout_centerVertical="true"
             android:drawablePadding="15dp"
             android:drawableRight="@drawable/arrow_more"
-            android:text="Open"/>
+            android:text="@string/open"/>
 
         <View
             android:layout_width="match_parent"
@@ -172,7 +173,7 @@
             android:layout_centerVertical="true"
             android:drawablePadding="15dp"
             android:drawableRight="@drawable/arrow_more"
-            android:text="Open"/>
+            android:text="@string/open"/>
 
         <View
             android:layout_width="match_parent"
@@ -191,7 +192,7 @@
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:text="Change the password"
+        android:text="@string/change_the_password"
         android:textColor="#2c2c2c"
         android:textSize="14sp"/>
 
@@ -211,7 +212,7 @@
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:text="Display path"
+        android:text="@string/display_path"
         android:textColor="#2c2c2c"
         android:textSize="14sp"/>
 
@@ -231,7 +232,7 @@
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:text="About Me"
+        android:text="@string/about_me"
         android:textColor="#2c2c2c"
         android:textSize="14sp"/>
 

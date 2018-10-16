@@ -2,6 +2,7 @@ package com.lzx.lock.service;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -18,10 +19,12 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.util.Size;
 import android.view.Surface;
@@ -39,10 +42,10 @@ import java.util.Collections;
 
 /**
  * 参考：https://github.com/miqt/camera2
- * Created by lzx on 2017/3/9.
- * 386707112@qq.com
+ *
  */
 
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class Camera2Manager {
 
     private static final int SETIMAGE = 1;
@@ -73,8 +76,9 @@ public class Camera2Manager {
         mTextureView.setSurfaceTextureListener(mSurfacetextlistener);
     }
 
-    @SuppressLint("NewApi")
+
     private ImageReader.OnImageAvailableListener onImageAvaiableListener = new ImageReader.OnImageAvailableListener() {
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         public void onImageAvailable(ImageReader imageReader) {
             mHandler.post(new ImageSaver(imageReader.acquireNextImage()));
@@ -82,7 +86,7 @@ public class Camera2Manager {
     };
 
     private Surface surface;
-    @SuppressLint("NewApi")
+
     private CameraDevice.StateCallback cameraOpenCallBack = new CameraDevice.StateCallback() {
         @Override
         public void onOpened(CameraDevice cameraDevice) {
@@ -109,7 +113,7 @@ public class Camera2Manager {
         }
     };
 
-    @SuppressLint("NewApi")
+    
     private CameraCaptureSession.StateCallback mSessionStateCallBack = new CameraCaptureSession.StateCallback() {
         @Override
         public void onConfigured(CameraCaptureSession cameraCaptureSession) {
@@ -129,7 +133,7 @@ public class Camera2Manager {
 
     private TextureView.SurfaceTextureListener mSurfacetextlistener = new TextureView
             .SurfaceTextureListener() {
-        @SuppressLint("NewApi")
+       
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
             HandlerThread thread = new HandlerThread("Camera2");
@@ -186,7 +190,7 @@ public class Camera2Manager {
         }
     };
 
-    @SuppressLint("NewApi")
+    
     private void takePhoto() {
         try {
             mCameraSession.setRepeatingRequest(initDngBuilder().build(), null, mHandler);
@@ -195,7 +199,7 @@ public class Camera2Manager {
         }
     }
 
-    @SuppressLint("NewApi")
+    
     private CaptureRequest.Builder initDngBuilder() {
         CaptureRequest.Builder captureBuilder = null;
         try {
@@ -234,7 +238,7 @@ public class Camera2Manager {
             this.reader = reader;
         }
 
-        @SuppressLint("NewApi")
+        
         @Override
         public void run() {
             File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsoluteFile();
@@ -273,7 +277,7 @@ public class Camera2Manager {
     }
 
     private class InnerCallBack implements Handler.Callback {
-        @SuppressLint("NewApi")
+        
         @Override
         public boolean handleMessage(Message message) {
             switch (message.what) {
@@ -295,7 +299,7 @@ public class Camera2Manager {
         }
     }
 
-    @SuppressLint("NewApi")
+    
     public class CompareSizeByArea implements java.util.Comparator<Size> {
         @Override
         public int compare(Size lhs, Size rhs) {

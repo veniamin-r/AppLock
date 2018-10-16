@@ -55,6 +55,10 @@ public class LockMainPresenter implements LockMainContract.Presenter {
         }
     }
 
+    public interface ISearchResultListener {
+        void onSearchResult(List<CommLockInfo> commLockInfos);
+    }
+
     private class LoadAppInfo extends AsyncTask<Void, String, List<CommLockInfo>> {
 
         @Override
@@ -74,10 +78,10 @@ public class LockMainPresenter implements LockMainContract.Presenter {
                         info.setAppInfo(appInfo); //给列表ApplicationInfo赋值
                         if ((appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) { //判断是否是系统应用 ApplicationInfo#isSystemApp()
                             info.setSysApp(true);
-                            info.setTopTitle("系统应用");
+                            info.setTopTitle("Aystem Applications");
                         } else {
                             info.setSysApp(false);
-                            info.setTopTitle("用户应用");
+                            info.setTopTitle("User Application");
                         }
                     }
                     //获取推荐应用总数
@@ -117,15 +121,14 @@ public class LockMainPresenter implements LockMainContract.Presenter {
                     ApplicationInfo appInfo = mPackageManager.getApplicationInfo(info.getPackageName(), PackageManager.GET_UNINSTALLED_PACKAGES);
                     if (appInfo == null || mPackageManager.getApplicationIcon(appInfo) == null) {
                         infoIterator.remove(); //将有错的app移除
-                        continue;
                     } else {
-                        info.setAppInfo(appInfo); //给列表ApplicationInfo赋值
-                        if ((appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) { //判断是否是系统应用 ApplicationInfo#isSystemApp()
+                        info.setAppInfo(appInfo);
+                        if ((appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
                             info.setSysApp(true);
-                            info.setTopTitle("系统应用");
+                            info.setTopTitle("System Applications");
                         } else {
                             info.setSysApp(false);
-                            info.setTopTitle("用户应用");
+                            info.setTopTitle("User Application");
                         }
                     }
 
@@ -142,9 +145,5 @@ public class LockMainPresenter implements LockMainContract.Presenter {
             super.onPostExecute(commLockInfos);
             mSearchResultListener.onSearchResult(commLockInfos);
         }
-    }
-
-    public interface ISearchResultListener {
-        void onSearchResult(List<CommLockInfo> commLockInfos);
     }
 }

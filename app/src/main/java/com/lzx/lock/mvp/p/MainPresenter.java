@@ -74,10 +74,10 @@ public class MainPresenter implements MainContract.Presenter {
                         info.setAppInfo(appInfo); //给列表ApplicationInfo赋值
                         if ((appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) { //判断是否是系统应用 ApplicationInfo#isSystemApp()
                             info.setSysApp(true);
-                            info.setTopTitle("系统应用");
+                            info.setTopTitle("System Application");
                         } else {
                             info.setSysApp(false);
-                            info.setTopTitle("用户应用");
+                            info.setTopTitle("User application");
                         }
                     }
                     //获取推荐应用总数
@@ -135,12 +135,12 @@ public class MainPresenter implements MainContract.Presenter {
                         continue;
                     } else {
                         info.setAppInfo(appInfo); //给列表ApplicationInfo赋值
-                        if ((appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) { //判断是否是系统应用 ApplicationInfo#isSystemApp()
+                        if ((appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
                             info.setSysApp(true);
-                            info.setTopTitle("系统应用");
+                            info.setTopTitle("System Application");
                         } else {
                             info.setSysApp(false);
-                            info.setTopTitle("用户应用");
+                            info.setTopTitle("User Application");
                         }
                     }
                 } catch (PackageManager.NameNotFoundException e) {
