@@ -29,6 +29,21 @@ import java.util.List;
  */
 
 public class LockService extends IntentService {
+    public static final String UNLOCK_ACTION = "UNLOCK_ACTION";
+    public static final String LOCK_SERVICE_LASTTIME = "LOCK_SERVICE_LASTTIME";
+    public static final String LOCK_SERVICE_LASTAPP = "LOCK_SERVICE_LASTAPP";
+    public static boolean isActionLock = false;
+    public boolean threadIsTerminate = false;
+    public String savePkgName;
+    private long lastUnlockTimeSeconds = 0;
+    private String lastUnlockPackageName = "";
+
+    private boolean lockState;
+
+    private ServiceReceiver mServiceReceiver;
+    private CommLockInfoManager mLockInfoManager;
+    private ActivityManager activityManager;
+
     public LockService() {
         super("LockService");
     }
@@ -39,27 +54,6 @@ public class LockService extends IntentService {
         return null;
     }
 
-
-
-    public boolean threadIsTerminate = false; 
-
-    public static final String UNLOCK_ACTION = "UNLOCK_ACTION";
-    public static final String LOCK_SERVICE_LASTTIME = "LOCK_SERVICE_LASTTIME";
-    public static final String LOCK_SERVICE_LASTAPP = "LOCK_SERVICE_LASTAPP";
-
-
-    private long lastUnlockTimeSeconds = 0;
-    private String lastUnlockPackageName = ""; 
-
-    private boolean lockState;
-
-    private ServiceReceiver mServiceReceiver;
-    private CommLockInfoManager mLockInfoManager;
-    private ActivityManager activityManager;
-
-    public static boolean isActionLock = false;
-    public String savePkgName;
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -67,14 +61,14 @@ public class LockService extends IntentService {
         mLockInfoManager = new CommLockInfoManager(this);
         activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
 
-        
+
         mServiceReceiver = new ServiceReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(UNLOCK_ACTION);
         registerReceiver(mServiceReceiver, filter);
-        
+
         threadIsTerminate = true;
 
     }
@@ -86,19 +80,17 @@ public class LockService extends IntentService {
 
     private void checkData() {
         while (threadIsTerminate) {
-            
             String packageName = getLauncherTopApp(LockService.this, activityManager);
 
-            
             if (lockState && !inWhiteList(packageName) && !TextUtils.isEmpty(packageName)) {
-                boolean isLockOffScreenTime = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_SCREEN_TIME, false); 
+                boolean isLockOffScreenTime = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_SCREEN_TIME, false);
                 boolean isLockOffScreen = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_SCREEN, false);
                 savePkgName = SpUtil.getInstance().getString(AppConstants.LOCK_LAST_LOAD_PKG_NAME, "");
                 //Log.i("Server", "packageName = " + packageName + "  savePkgName = " + savePkgName);
-                
+
                 if (isLockOffScreenTime && !isLockOffScreen) {
-                    long time = SpUtil.getInstance().getLong(AppConstants.LOCK_CURR_MILLISENCONS, 0); 
-                    long leaverTime = SpUtil.getInstance().getLong(AppConstants.LOCK_APART_MILLISENCONS, 0); 
+                    long time = SpUtil.getInstance().getLong(AppConstants.LOCK_CURR_MILLISENCONS, 0);
+                    long leaverTime = SpUtil.getInstance().getLong(AppConstants.LOCK_APART_MILLISENCONS, 0);
                     if (!TextUtils.isEmpty(savePkgName)) {
                         if (!TextUtils.isEmpty(packageName)) {
                             if (!savePkgName.equals(packageName)) { //
@@ -114,7 +106,7 @@ public class LockService extends IntentService {
                         }
                     }
                 }
-                
+
                 if (isLockOffScreenTime && isLockOffScreen) {
                     long time = SpUtil.getInstance().getLong(AppConstants.LOCK_CURR_MILLISENCONS, 0);
                     long leaverTime = SpUtil.getInstance().getLong(AppConstants.LOCK_APART_MILLISENCONS, 0);
@@ -134,7 +126,7 @@ public class LockService extends IntentService {
                     }
                 }
 
-               
+
                 if (!isLockOffScreenTime && isLockOffScreen) {
                     if (!TextUtils.isEmpty(savePkgName)) {
                         if (!TextUtils.isEmpty(packageName)) {
@@ -153,7 +145,7 @@ public class LockService extends IntentService {
                     }
                 }
 
-               
+
                 if (!isLockOffScreenTime && !isLockOffScreen) {
                     if (!TextUtils.isEmpty(savePkgName)) {
                         if (!TextUtils.isEmpty(packageName)) {
@@ -169,7 +161,7 @@ public class LockService extends IntentService {
                     }
                 }
 
-                
+
                 if (mLockInfoManager.isLockedPackageName(packageName)) {
                     passwordLock(packageName);
                     continue;
@@ -193,40 +185,7 @@ public class LockService extends IntentService {
                 || packageName.equals("com.android.settings");
     }
 
-    /**
-     * 服务广播
-     */
-    public class ServiceReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-
-            boolean isLockOffScreen = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_SCREEN, false); //是否在手机屏幕关闭后再次锁定
-            boolean isLockOffScreenTime = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_SCREEN_TIME, false); //是否在手机屏幕关闭后时间段后再次锁定
-
-            switch (action) {
-                case UNLOCK_ACTION: 
-                    lastUnlockPackageName = intent.getStringExtra(LOCK_SERVICE_LASTAPP); 
-                    lastUnlockTimeSeconds = intent.getLongExtra(LOCK_SERVICE_LASTTIME, lastUnlockTimeSeconds); 
-                    break;
-                case Intent.ACTION_SCREEN_OFF: 
-                    SpUtil.getInstance().putLong(AppConstants.LOCK_CURR_MILLISENCONS, System.currentTimeMillis());
-                    
-                    if (!isLockOffScreenTime && isLockOffScreen) {
-                        String savePkgName = SpUtil.getInstance().getString(AppConstants.LOCK_LAST_LOAD_PKG_NAME, "");
-                        if (!TextUtils.isEmpty(savePkgName)) {
-                            if (isActionLock) {
-                                mLockInfoManager.lockCommApplication(lastUnlockPackageName);
-                            }
-                        }
-                    }
-                    break;
-            }
-        }
-    }
-
-   
+    //TODO:  Find new way to detect which is in foreground (may be use Accessibility service)
     public String getLauncherTopApp(Context context, ActivityManager activityManager) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             List<ActivityManager.RunningTaskInfo> appTasks = activityManager.getRunningTasks(1);
@@ -234,7 +193,7 @@ public class LockService extends IntentService {
                 return appTasks.get(0).topActivity.getPackageName();
             }
         } else {
-            
+
             UsageStatsManager sUsageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
             long endTime = System.currentTimeMillis();
             long beginTime = endTime - 10000;
@@ -254,7 +213,6 @@ public class LockService extends IntentService {
         return "";
     }
 
-    
     private List<String> getHomes() {
         List<String> names = new ArrayList<>();
         PackageManager packageManager = this.getPackageManager();
@@ -267,7 +225,6 @@ public class LockService extends IntentService {
         return names;
     }
 
-    
     private void passwordLock(String packageName) {
         LockApplication.getInstance().clearAllActivity();
         Intent intent = new Intent(this, GestureUnlockActivity.class);
@@ -283,5 +240,38 @@ public class LockService extends IntentService {
         super.onDestroy();
         threadIsTerminate = false;
         unregisterReceiver(mServiceReceiver);
+    }
+
+    /**
+     * 服务广播
+     */
+    public class ServiceReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            boolean isLockOffScreen = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_SCREEN, false); //是否在手机屏幕关闭后再次锁定
+            boolean isLockOffScreenTime = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_SCREEN_TIME, false); //是否在手机屏幕关闭后时间段后再次锁定
+
+            switch (action) {
+                case UNLOCK_ACTION:
+                    lastUnlockPackageName = intent.getStringExtra(LOCK_SERVICE_LASTAPP);
+                    lastUnlockTimeSeconds = intent.getLongExtra(LOCK_SERVICE_LASTTIME, lastUnlockTimeSeconds);
+                    break;
+                case Intent.ACTION_SCREEN_OFF:
+                    SpUtil.getInstance().putLong(AppConstants.LOCK_CURR_MILLISENCONS, System.currentTimeMillis());
+
+                    if (!isLockOffScreenTime && isLockOffScreen) {
+                        String savePkgName = SpUtil.getInstance().getString(AppConstants.LOCK_LAST_LOAD_PKG_NAME, "");
+                        if (!TextUtils.isEmpty(savePkgName)) {
+                            if (isActionLock) {
+                                mLockInfoManager.lockCommApplication(lastUnlockPackageName);
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
     }
 }

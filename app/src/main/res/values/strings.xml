@@ -74,4 +74,6 @@
     <string name="take_a_photo">Take a Photo</string>
     <string name="_1_minute">1 minute</string>
     <string name="apps">Apps</string>
+    <string name="accessibility_service_description">This permmision is used for locking the apps</string>
+    <string name="accessibility_service_name">App lock</string>
 </resources>

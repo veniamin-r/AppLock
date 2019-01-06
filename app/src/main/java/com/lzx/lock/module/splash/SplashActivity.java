@@ -4,14 +4,16 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.lzx.lock.R;
-import com.lzx.lock.module.lock.GestureSelfUnlockActivity;
-import com.lzx.lock.base.BaseActivity;
 import com.lzx.lock.base.AppConstants;
+import com.lzx.lock.base.BaseActivity;
+import com.lzx.lock.module.lock.GestureSelfUnlockActivity;
 import com.lzx.lock.module.pwd.CreatePwdActivity;
 import com.lzx.lock.service.LoadAppListService;
 import com.lzx.lock.service.LockService;
@@ -27,10 +29,11 @@ import com.lzx.lock.widget.DialogPermission;
 
 public class SplashActivity extends BaseActivity {
 
+    private static final int RESULT_ACTION_USAGE_ACCESS_SETTINGS = 1;
+    private static final int RESULT_ACTION_ACCESSIBILITY_SETTINGS = 3;
+    private static final int RESULT_ACTION_MANAGE_OVERLAY_PERMISSION = 2;
     private ImageView mImgSplash;
     private ObjectAnimator animator;
-    private int RESULT_ACTION_USAGE_ACCESS_SETTINGS = 1;
-    private int RESULT_ACTION_MANAGE_OVERLAY_PERMISSION = 2;
 
     @Override
     public int getLayoutId() {
@@ -87,23 +90,63 @@ public class SplashActivity extends BaseActivity {
         } else {
             gotoCreatePwdActivity();
         }
+
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_ACTION_USAGE_ACCESS_SETTINGS) {
             if (LockUtil.isStatAccessPermissionSet(SplashActivity.this)) {
+                //TODO: check for accessibility permission is granted or not, if not start for permission
                 gotoCreatePwdActivity();
             } else {
                 ToastUtil.showToast("Permission denied");
                 finish();
             }
         }
+
+        if (requestCode == RESULT_ACTION_ACCESSIBILITY_SETTINGS) {
+
+            gotoCreatePwdActivity();
+        }
+    }
+
+    public boolean isAccessibilityEnabled() {
+        int accessibilityEnabled = 0;
+        final String ACCESSIBILITY_SERVICE = "io.github.subhamtyagi.privacyapplock/com.lzx.lock.service.LockAccessibilityService";
+        try {
+            accessibilityEnabled = Settings.Secure.getInt(this.getContentResolver(), android.provider.Settings.Secure.ACCESSIBILITY_ENABLED);
+        } catch (Settings.SettingNotFoundException e) {
+            //setting not found so your phone is not supported
+        }
+        TextUtils.SimpleStringSplitter mStringColonSplitter = new TextUtils.SimpleStringSplitter(':');
+        if (accessibilityEnabled == 1) {
+            String settingValue = Settings.Secure.getString(getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+            if (settingValue != null) {
+                mStringColonSplitter.setString(settingValue);
+                while (mStringColonSplitter.hasNext()) {
+                    String accessabilityService = mStringColonSplitter.next();
+                    if (accessabilityService.equalsIgnoreCase(ACCESSIBILITY_SERVICE)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     private void gotoCreatePwdActivity() {
-        Intent intent = new Intent(SplashActivity.this, CreatePwdActivity.class);
-        startActivity(intent);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+            intent.setData(Uri.parse("package:io.github.subhamtyagi.privacyapplock"));
+            startActivity(intent);
+        }
+
+
+        Intent intent2 = new Intent(SplashActivity.this, CreatePwdActivity.class);
+        startActivity(intent2);
         finish();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
