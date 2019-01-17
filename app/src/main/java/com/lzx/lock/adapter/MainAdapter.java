@@ -11,7 +11,6 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.lzx.lock.R;
 import com.lzx.lock.bean.CommLockInfo;
 import com.lzx.lock.db.CommLockInfoManager;
@@ -26,12 +25,12 @@ import java.util.List;
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder> {
 
     private List<CommLockInfo> mLockInfos = new ArrayList<>();
-    private Context mContext;
+
     private PackageManager packageManager;
     private CommLockInfoManager mLockInfoManager;
 
     public MainAdapter(Context mContext) {
-        this.mContext = mContext;
+        // this.mContext = mContext;
         packageManager = mContext.getPackageManager();
         mLockInfoManager = new CommLockInfoManager(mContext);
     }

@@ -12,9 +12,6 @@ import android.view.WindowManager;
 
 import com.lzx.lock.R;
 
-/**
- * Created by xian on 2017/2/17.
- */
 
 public abstract class BaseDialog extends Dialog {
 

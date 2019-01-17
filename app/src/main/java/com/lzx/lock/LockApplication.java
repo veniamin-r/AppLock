@@ -9,19 +9,21 @@ import org.litepal.LitePalApplication;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by xian on 2017/2/17.
- */
+import io.github.subhamtyagi.crashreporter.CrashReporter;
+
 
 public class LockApplication extends LitePalApplication {
 
     private static LockApplication application;
-    private static List<BaseActivity> activityList; //acticity管理
+    private static List<BaseActivity> activityList;
 
     @Override
     public void onCreate() {
         super.onCreate();
         application = this;
+
+        CrashReporter.initialize(this,getCacheDir().getPath());
+
         SpUtil.getInstance().init(application);
         activityList = new ArrayList<>();
     }

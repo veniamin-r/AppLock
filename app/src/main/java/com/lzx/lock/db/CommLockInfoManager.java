@@ -77,7 +77,7 @@ public class CommLockInfoManager {
     }
 
 
-    public boolean isHasFaviterAppInfo(String packageName) {
+    private boolean isHasFaviterAppInfo(String packageName) {
         List<FaviterInfo> infos = DataSupport.where("packageName = ?", packageName).find(FaviterInfo.class);
         return infos.size() > 0;
     }
@@ -92,7 +92,7 @@ public class CommLockInfoManager {
         updateLockStatus(packageName, false);
     }
 
-    public void updateLockStatus(String packageName, boolean isLock) {
+    private void updateLockStatus(String packageName, boolean isLock) {
         ContentValues values = new ContentValues();
         values.put("isLocked", isLock);
         DataSupport.updateAll(CommLockInfo.class, values, "packageName = ?", packageName);
@@ -123,8 +123,7 @@ public class CommLockInfoManager {
 
 
     public List<CommLockInfo> queryBlurryList(String appName) {
-        List<CommLockInfo> infos = DataSupport.where("appName like ?", "%" + appName + "%").find(CommLockInfo.class);
-        return infos;
+        return DataSupport.where("appName like ?", "%" + appName + "%").find(CommLockInfo.class);
     }
 
     public void setIsUnLockThisApp(String packageName, boolean isSetUnLock) {

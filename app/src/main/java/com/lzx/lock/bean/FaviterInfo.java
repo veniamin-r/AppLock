@@ -2,10 +2,7 @@ package com.lzx.lock.bean;
 
 import org.litepal.crud.DataSupport;
 
-/**
- * Created by xian on 2017/2/17.
- *
- */
+
 
 public class FaviterInfo extends DataSupport {
     public String packageName;

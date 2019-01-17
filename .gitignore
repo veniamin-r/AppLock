@@ -6,8 +6,8 @@
 /build
 /captures
 .externalNativeBuild
-*.apk
-*.ap_
+
+
 *.properties
 *.dex
 keystore.properties
@@ -16,7 +16,7 @@ bin/
 gen/
 out/
 app/betaVersion
-app/release
+
 .gradle/
 build/
 local.properties
@@ -24,7 +24,7 @@ proguard/
 *.log
 .navigation/
 captures/
-*.jks
+
 .externalNativeBuild
 google-services.json
 freeline.py
