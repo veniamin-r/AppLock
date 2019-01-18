@@ -2,6 +2,7 @@ package com.lzx.lock.module.lock;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.TextureView;
 import android.widget.RelativeLayout;
 
@@ -35,6 +36,12 @@ public class GestureSelfUnlockActivity extends BaseActivity {
     private RelativeLayout mTopLayout;
 
     private TextureView mTextureView;
+    @NonNull
+    private Runnable mClearPatternRunnable = new Runnable() {
+        public void run() {
+            mLockPatternView.clearPattern();
+        }
+    };
 
     @Override
     public int getLayoutId() {
@@ -43,32 +50,28 @@ public class GestureSelfUnlockActivity extends BaseActivity {
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
-        mLockPatternView = (LockPatternView) findViewById(R.id.unlock_lock_view);
-        mTopLayout = (RelativeLayout) findViewById(R.id.top_layout);
-        mTextureView = (TextureView) findViewById(R.id.texture_view);
+        mLockPatternView = findViewById(R.id.unlock_lock_view);
+        mTopLayout = findViewById(R.id.top_layout);
+        mTextureView = findViewById(R.id.texture_view);
         mTopLayout.setPadding(0, SystemBarHelper.getStatusBarHeight(this), 0, 0);
     }
 
     @Override
     protected void initData() {
         mManager = new CommLockInfoManager(this);
-
         pkgName = getIntent().getStringExtra(AppConstants.LOCK_PACKAGE_NAME);
-
         actionFrom = getIntent().getStringExtra(AppConstants.LOCK_FROM);
-
         initLockPatternView();
 
 
     }
-
 
     private void initLockPatternView() {
         mLockPatternUtils = new LockPatternUtils(this);
         mPatternViewPattern = new LockPatternViewPattern(mLockPatternView);
         mPatternViewPattern.setPatternListener(new LockPatternViewPattern.onPatternListener() {
             @Override
-            public void onPatternDetected(List<LockPatternView.Cell> pattern) {
+            public void onPatternDetected(@NonNull List<LockPatternView.Cell> pattern) {
                 if (mLockPatternUtils.checkPattern(pattern)) {
                     mLockPatternView.setDisplayMode(LockPatternView.DisplayMode.Correct);
                     if (actionFrom.equals(AppConstants.LOCK_FROM_LOCK_MAIN_ACITVITY)) {
@@ -115,18 +118,10 @@ public class GestureSelfUnlockActivity extends BaseActivity {
         mLockPatternView.setTactileFeedbackEnabled(true);
     }
 
-    private Runnable mClearPatternRunnable = new Runnable() {
-        public void run() {
-            mLockPatternView.clearPattern();
-        }
-    };
-
     @Override
     protected void initAction() {
 
     }
-
-
 
 
 }

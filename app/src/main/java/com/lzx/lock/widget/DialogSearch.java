@@ -3,6 +3,8 @@ package com.lzx.lock.widget;
 import android.animation.AnimatorSet;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -34,7 +36,7 @@ public class DialogSearch extends BaseDialog implements LockMainContract.View {
     private MainAdapter mMainAdapter;
     private LockMainPresenter mLockMainPresenter;
 
-    public DialogSearch(Context context) {
+    public DialogSearch(@NonNull Context context) {
         super(context);
         mContext = context;
     }
@@ -50,11 +52,13 @@ public class DialogSearch extends BaseDialog implements LockMainContract.View {
         return 1;
     }
 
+    @Nullable
     @Override
     protected AnimatorSet setEnterAnim() {
         return null;
     }
 
+    @Nullable
     @Override
     protected AnimatorSet setExitAnim() {
         return null;
@@ -63,9 +67,9 @@ public class DialogSearch extends BaseDialog implements LockMainContract.View {
     @Override
     protected void init() {
         mLockMainPresenter = new LockMainPresenter(this, mContext);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mEditSearch = (EditText) findViewById(R.id.edit_search);
-        mBtnBack = (ImageView) findViewById(R.id.btn_back);
+        mRecyclerView = findViewById(R.id.recycler_view);
+        mEditSearch = findViewById(R.id.edit_search);
+        mBtnBack = findViewById(R.id.btn_back);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mMainAdapter = new MainAdapter(mContext);
         mRecyclerView.setAdapter(mMainAdapter);
@@ -82,7 +86,7 @@ public class DialogSearch extends BaseDialog implements LockMainContract.View {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(@NonNull Editable editable) {
                 if (editable.length() == 0) {
                     mMainAdapter.setLockInfos(new ArrayList<CommLockInfo>());
                 } else {

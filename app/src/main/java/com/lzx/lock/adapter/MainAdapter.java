@@ -3,6 +3,7 @@ package com.lzx.lock.adapter;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import java.util.List;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder> {
 
+    @NonNull
     private List<CommLockInfo> mLockInfos = new ArrayList<>();
 
     private PackageManager packageManager;
@@ -35,12 +37,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         mLockInfoManager = new CommLockInfoManager(mContext);
     }
 
-    public void setLockInfos(List<CommLockInfo> lockInfos) {
+    public void setLockInfos(@NonNull List<CommLockInfo> lockInfos) {
         mLockInfos.clear();
         mLockInfos.addAll(lockInfos);
         notifyDataSetChanged();
     }
 
+    @NonNull
     @Override
     public MainViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main_list, parent, false);
@@ -67,7 +70,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         mAppIcon.setImageDrawable(packageManager.getApplicationIcon(appInfo));
     }
 
-    public void changeItemLockStatus(CheckBox checkBox, CommLockInfo info, int position) {
+    public void changeItemLockStatus(@NonNull CheckBox checkBox, @NonNull CommLockInfo info, int position) {
         if (checkBox.isChecked()) {
             info.setLocked(true);
             mLockInfoManager.lockCommApplication(info.getPackageName());
@@ -88,11 +91,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         private TextView mAppName;
         private CheckBox mSwitchCompat;
 
-        public MainViewHolder(View itemView) {
+        public MainViewHolder(@NonNull View itemView) {
             super(itemView);
-            mAppIcon = (ImageView) itemView.findViewById(R.id.app_icon);
-            mAppName = (TextView) itemView.findViewById(R.id.app_name);
-            mSwitchCompat = (CheckBox) itemView.findViewById(R.id.switch_compat);
+            mAppIcon = itemView.findViewById(R.id.app_icon);
+            mAppName = itemView.findViewById(R.id.app_name);
+            mSwitchCompat = itemView.findViewById(R.id.switch_compat);
         }
     }
 }

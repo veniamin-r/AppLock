@@ -1,5 +1,5 @@
 ## AppLock  (FOSS)
-[![licence](https://img.shields.io/badge/Licence-GPLv2-red.svg)](https://github.com/SubhamTyagi/AppLock/blob/master/LICENSE)
+[![licence](https://img.shields.io/badge/Licence-GPLv2-red.svg)](https://github.com/SubhamTyagi/AppLock/blob/master/LICENSE) [![Build Status](https://travis-ci.org/SubhamTyagi/AppLock.svg?branch=master)](https://travis-ci.org/SubhamTyagi/AppLock)
 
 - A privacy App lock FOSS application
 

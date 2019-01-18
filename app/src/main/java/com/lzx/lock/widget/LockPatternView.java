@@ -29,6 +29,8 @@ import android.os.Debug;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
@@ -75,7 +77,9 @@ public class LockPatternView extends View {
     private static final boolean PROFILE_DRAWING = false;
     private boolean mDrawingProfilingStarted = false;
 
+    @NonNull
     private Paint mPaint = new Paint();
+    @NonNull
     private Paint mPathPaint = new Paint();
 
     // TODO: make this common with PhoneWindow
@@ -89,6 +93,7 @@ public class LockPatternView extends View {
     private static final int MILLIS_PER_CIRCLE_ANIMATING = 700;
 
     private OnPatternListener mOnPatternListener;
+    @NonNull
     private ArrayList<Cell> mPattern = new ArrayList<Cell>(9);
 
     /**
@@ -97,6 +102,7 @@ public class LockPatternView extends View {
      * in which case we use this to hold the cells we are drawing for the in
      * progress animation.
      */
+    @NonNull
     private boolean[][] mPatternDrawLookup = new boolean[3][3];
 
     /**
@@ -189,6 +195,7 @@ public class LockPatternView extends View {
         int column;
 
         // keep # objects limited to 9
+        @NonNull
         static Cell[][] sCells = new Cell[3][3];
 
         static {
@@ -236,6 +243,7 @@ public class LockPatternView extends View {
             }
         }
 
+        @NonNull
         public String toString() {
             return "(row=" + row + ",clmn=" + column + ")";
         }
@@ -265,7 +273,7 @@ public class LockPatternView extends View {
     /**
      * The call back interface for detecting patterns entered by the user.
      */
-    public static interface OnPatternListener {
+    public interface OnPatternListener {
 
         /**
          * A new pattern has begun.
@@ -292,15 +300,15 @@ public class LockPatternView extends View {
         void onPatternDetected(List<Cell> pattern);
     }
 
-    public LockPatternView(Context context) {
+    public LockPatternView(@NonNull Context context) {
         this(context, null);
     }
 
-    public LockPatternView(Context context, AttributeSet attrs) {
+    public LockPatternView(@NonNull Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public LockPatternView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public LockPatternView(@NonNull Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LockPatternView);
 
@@ -385,7 +393,7 @@ public class LockPatternView extends View {
      * @param displayMode How to display the pattern.
      * @param pattern     The pattern.
      */
-    public void setPattern(DisplayMode displayMode, List<Cell> pattern) {
+    public void setPattern(DisplayMode displayMode, @NonNull List<Cell> pattern) {
         mPattern.clear();
         mPattern.addAll(pattern);
         clearPatternDrawLookup();
@@ -695,7 +703,7 @@ public class LockPatternView extends View {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(@NonNull MotionEvent event) {
         if (!mInputEnabled || !isEnabled()) {
             return false;
         }
@@ -926,7 +934,7 @@ public class LockPatternView extends View {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(@NonNull Canvas canvas) {
         final ArrayList<Cell> pattern = mPattern;
         final int count = pattern.size();
         final boolean[][] drawLookup = mPatternDrawLookup;
@@ -1057,7 +1065,7 @@ public class LockPatternView extends View {
      * @param topY
      * @param partOfPattern Whether this circle is part of the pattern.
      */
-    private void drawCircle(Canvas canvas, int leftX, int topY,
+    private void drawCircle(@NonNull Canvas canvas, int leftX, int topY,
                             boolean partOfPattern) {
         Bitmap outerCircle;
         Bitmap innerCircle = null;
@@ -1134,6 +1142,7 @@ public class LockPatternView extends View {
      */
     private static class SavedState extends BaseSavedState {
 
+        @Nullable
         private final String mSerializedPattern;
         private final int mDisplayMode;
         private final boolean mInputEnabled;
@@ -1157,7 +1166,7 @@ public class LockPatternView extends View {
         /**
          * Constructor called from {@link #CREATOR}
          */
-        private SavedState(Parcel in) {
+        private SavedState(@NonNull Parcel in) {
             super(in);
             mSerializedPattern = in.readString();
             mDisplayMode = in.readInt();
@@ -1166,6 +1175,7 @@ public class LockPatternView extends View {
             mTactileFeedbackEnabled = (Boolean) in.readValue(null);
         }
 
+        @Nullable
         public String getSerializedPattern() {
             return mSerializedPattern;
         }
@@ -1187,7 +1197,7 @@ public class LockPatternView extends View {
         }
 
         @Override
-        public void writeToParcel(Parcel dest, int flags) {
+        public void writeToParcel(@NonNull Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
             dest.writeString(mSerializedPattern);
             dest.writeInt(mDisplayMode);
@@ -1197,7 +1207,7 @@ public class LockPatternView extends View {
         }
 
         public static final Parcelable.Creator<SavedState> CREATOR = new Creator<SavedState>() {
-            public SavedState createFromParcel(Parcel in) {
+            public SavedState createFromParcel(@NonNull Parcel in) {
                 return new SavedState(in);
             }
 

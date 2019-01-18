@@ -2,6 +2,8 @@ package com.lzx.lock.widget;
 
 import android.animation.AnimatorSet;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,7 +18,7 @@ public class DialogPermission extends BaseDialog {
     private TextView mBtnPermission;
     private onClickListener mOnClickListener;
 
-    public DialogPermission(Context context) {
+    public DialogPermission(@NonNull Context context) {
         super(context);
     }
 
@@ -25,11 +27,13 @@ public class DialogPermission extends BaseDialog {
         return 0.9f;
     }
 
+    @Nullable
     @Override
     protected AnimatorSet setEnterAnim() {
         return null;
     }
 
+    @Nullable
     @Override
     protected AnimatorSet setExitAnim() {
         return null;
@@ -37,7 +41,7 @@ public class DialogPermission extends BaseDialog {
 
     @Override
     protected void init() {
-        mBtnPermission = (TextView) findViewById(R.id.btn_permission);
+        mBtnPermission = findViewById(R.id.btn_permission);
         mBtnPermission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

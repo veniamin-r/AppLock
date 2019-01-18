@@ -1,13 +1,22 @@
 package com.lzx.lock.module.main;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -31,6 +40,8 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity implements LockMainContract.View, View.OnClickListener {
 
+    private static final int RESULT_ACTION_IGNORE_BATTERY_OPTIMIZATION = 351;
+    private static final String TAG="MainActivity";
     private RelativeLayout mTopLayout;
     private ImageView mBtnSetting;
     private TextView mEditSearch;
@@ -39,9 +50,8 @@ public class MainActivity extends BaseActivity implements LockMainContract.View,
     private CommentPagerAdapter mPagerAdapter;
     private LockMainPresenter mLockMainPresenter;
     private DialogSearch mDialogSearch;
-
-    private List<String> titles ;
-    private List<Fragment> fragmentList ;
+    private List<String> titles;
+    private List<Fragment> fragmentList;
 
     @Override
     public int getLayoutId() {
@@ -50,20 +60,35 @@ public class MainActivity extends BaseActivity implements LockMainContract.View,
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
-        mBtnSetting = (ImageView) findViewById(R.id.btn_setting);
-        mEditSearch = (TextView) findViewById(R.id.edit_search);
-        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        mViewPager = (ViewPager) findViewById(R.id.view_pager);
-        mTopLayout = (RelativeLayout) findViewById(R.id.top_layout);
+        mBtnSetting = findViewById(R.id.btn_setting);
+        mEditSearch = findViewById(R.id.edit_search);
+        mTabLayout = findViewById(R.id.tab_layout);
+        mViewPager = findViewById(R.id.view_pager);
+        mTopLayout = findViewById(R.id.top_layout);
         mTopLayout.setPadding(0, SystemBarHelper.getStatusBarHeight(this), 0, 0);
 
         mLockMainPresenter = new LockMainPresenter(this, this);
         mLockMainPresenter.loadAppInfo(this);
+
+        //
     }
 
     @Override
     protected void initData() {
         mDialogSearch = new DialogSearch(this);
+        String packageName = this.getPackageName();
+        PowerManager powerManager = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
+        Log.d(TAG, "initData: packagename=="+packageName);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (powerManager != null && !powerManager.isIgnoringBatteryOptimizations(packageName)) {
+                Log.d(TAG, "initData: everything is fine here");
+                @SuppressLint("BatteryLife")
+                Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setData(Uri.parse("package:" + packageName));
+                startActivity(intent);
+
+            }else Log.d(TAG, "initData: something is wrong");
+        }
     }
 
     @Override
@@ -76,10 +101,19 @@ public class MainActivity extends BaseActivity implements LockMainContract.View,
                 mLockMainPresenter.loadAppInfo(MainActivity.this);
             }
         });
+
     }
 
     @Override
-    public void loadAppInfoSuccess(List<CommLockInfo> list) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_ACTION_IGNORE_BATTERY_OPTIMIZATION) {
+           // do nothing::  make this required
+        }
+    }
+
+    @Override
+    public void loadAppInfoSuccess(@NonNull List<CommLockInfo> list) {
         int sysNum = 0;
         int userNum = 0;
         for (CommLockInfo info : list) {
@@ -92,8 +126,10 @@ public class MainActivity extends BaseActivity implements LockMainContract.View,
         titles = new ArrayList<>();
         titles.add("System Applications" + " (" + sysNum + ")");
         titles.add("Third-party usage" + " (" + userNum + ")");
+
         SysAppFragment sysAppFragment = SysAppFragment.newInstance(list);
         UserAppFragment userAppFragment = UserAppFragment.newInstance(list);
+
         fragmentList = new ArrayList<>();
         fragmentList.add(sysAppFragment);
         fragmentList.add(userAppFragment);
@@ -103,7 +139,7 @@ public class MainActivity extends BaseActivity implements LockMainContract.View,
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(@NonNull View view) {
         switch (view.getId()) {
             case R.id.btn_setting:
                 startActivity(new Intent(this, LockSettingActivity.class));

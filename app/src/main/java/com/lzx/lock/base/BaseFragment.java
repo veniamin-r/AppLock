@@ -1,6 +1,7 @@
 package com.lzx.lock.base;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -37,7 +38,7 @@ public abstract class BaseFragment extends Fragment {
 
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
         if (getOptionsMenuId() != -1) {
             inflater.inflate(getOptionsMenuId(), menu);
         }
@@ -58,7 +59,6 @@ public abstract class BaseFragment extends Fragment {
     public View findViewById(int id) {
         return view.findViewById(id);
     }
-
 
 
     protected int getOptionsMenuId() {

@@ -72,19 +72,19 @@ public class LockMainPresenter implements LockMainContract.Presenter {
                 try {
                     ApplicationInfo appInfo = mPackageManager.getApplicationInfo(info.getPackageName(), PackageManager.GET_UNINSTALLED_PACKAGES);
                     if (appInfo == null || mPackageManager.getApplicationIcon(appInfo) == null) {
-                        infoIterator.remove(); //将有错的app移除
+                        infoIterator.remove();
                         continue;
                     } else {
-                        info.setAppInfo(appInfo); //给列表ApplicationInfo赋值
-                        if ((appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) { //判断是否是系统应用 ApplicationInfo#isSystemApp()
+                        info.setAppInfo(appInfo);
+                        if ((appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
                             info.setSysApp(true);
-                            info.setTopTitle("Aystem Applications");
+                            info.setTopTitle("System Applications");
                         } else {
                             info.setSysApp(false);
                             info.setTopTitle("User Application");
                         }
                     }
-                    //获取推荐应用总数
+
                     if (info.isLocked()) {
                         favoriteNum++;
                     }

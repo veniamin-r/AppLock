@@ -12,7 +12,7 @@ public class AppConstants {
     public static final String LOCK_USER_APP_NUM = "lock_user_app_num";
     public static final String LOCK_IS_INIT_FAVITER = "lock_is_init_faviter";
     public static final String LOCK_IS_INIT_DB = "lock_is_init_db";
-    public static final String APP_PACKAGE_NAME = "com.lzx.lock";
+    public static final String APP_PACKAGE_NAME = "io.github.subhamtyagi.privacyapplock";
     public static final String LOCK_IS_HIDE_LINE = "lock_is_hide_line";
     public static final String LOCK_PWD = "lock_pwd";
     public static final String LOCK_IS_FIRST_LOCK = "is_lock";
@@ -29,4 +29,8 @@ public class AppConstants {
     public static final String LOCK_FROM_UNLOCK = "lock_from_unlock";
     public static final String LOCK_FROM_LOCK_MAIN_ACITVITY = "lock_from_lock_main_activity";
     public static final String LOCK_AUTO_RECORD_PIC = "AutoRecordPic";
+    public static final String IGNORE_BATTERY_OPTIMIZATION = "battery_optimaztion";
+    //todo: target 2.0
+    public static final String LOCK_TYPE = "lock_type";//ACCESSIBILITY OR USAGES STATES
+
 }

@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -16,8 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lzx.lock.R;
-import com.lzx.lock.base.BaseActivity;
 import com.lzx.lock.base.AppConstants;
+import com.lzx.lock.base.BaseActivity;
 import com.lzx.lock.db.CommLockInfoManager;
 import com.lzx.lock.module.main.MainActivity;
 import com.lzx.lock.service.LockService;
@@ -37,12 +38,12 @@ import java.util.List;
 
 public class GestureUnlockActivity extends BaseActivity implements View.OnClickListener {
 
+    public static final String FINISH_UNLOCK_THIS_APP = "finish_unlock_this_app";
     private ImageView mIconMore;
     private LockPatternView mLockPatternView;
     private ImageView mUnLockIcon, mBgLayout, mAppLogo;
     private TextView mUnLockText, mUnlockFailTip, mAppLabel;
     private RelativeLayout mUnLockLayout;
-
     private PackageManager packageManager;
     private String pkgName;
     private String actionFrom;
@@ -53,10 +54,15 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
     private LockPatternViewPattern mPatternViewPattern;
     private GestureUnlockReceiver mGestureUnlockReceiver;
     private ApplicationInfo appInfo;
-    public static final String FINISH_UNLOCK_THIS_APP = "finish_unlock_this_app";
-
     private Drawable iconDrawable;
     private String appLabel;
+    @NonNull
+    private Runnable mClearPatternRunnable = new Runnable() {
+        public void run() {
+            mLockPatternView.clearPattern();
+        }
+    };
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_gesture_unlock;
@@ -65,16 +71,16 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initViews(Bundle savedInstanceState) {
         StatusBarUtil.setTransparent(this);
-        mUnLockLayout = (RelativeLayout) findViewById(R.id.unlock_layout);
-        mIconMore = (ImageView) findViewById(R.id.btn_more);
-        mLockPatternView = (LockPatternView) findViewById(R.id.unlock_lock_view);
-        mUnLockIcon = (ImageView) findViewById(R.id.unlock_icon);
-        mBgLayout = (ImageView) findViewById(R.id.bg_layout);
-        mUnLockText = (TextView) findViewById(R.id.unlock_text);
-        mUnlockFailTip = (TextView) findViewById(R.id.unlock_fail_tip);
+        mUnLockLayout = findViewById(R.id.unlock_layout);
+        mIconMore = findViewById(R.id.btn_more);
+        mLockPatternView = findViewById(R.id.unlock_lock_view);
+        mUnLockIcon = findViewById(R.id.unlock_icon);
+        mBgLayout = findViewById(R.id.bg_layout);
+        mUnLockText = findViewById(R.id.unlock_text);
+        mUnlockFailTip = findViewById(R.id.unlock_fail_tip);
 
-        mAppLogo = (ImageView) findViewById(R.id.app_logo);
-        mAppLabel = (TextView) findViewById(R.id.app_label);
+        mAppLogo = findViewById(R.id.app_logo);
+        mAppLabel = findViewById(R.id.app_label);
 
 
     }
@@ -97,12 +103,11 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
 
         mGestureUnlockReceiver = new GestureUnlockReceiver();
         IntentFilter filter = new IntentFilter();
-      //  filter.addAction(UnLockMenuPopWindow.UPDATE_LOCK_VIEW);
+        //  filter.addAction(UnLockMenuPopWindow.UPDATE_LOCK_VIEW);
         filter.addAction(FINISH_UNLOCK_THIS_APP);
         registerReceiver(mGestureUnlockReceiver, filter);
 
     }
-
 
     private void initLayoutBackground() {
         try {
@@ -132,14 +137,13 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
         }
     }
 
-
     private void initLockPatternView() {
         mLockPatternView.setLineColorRight(0x80ffffff);
         mLockPatternUtils = new LockPatternUtils(this);
         mPatternViewPattern = new LockPatternViewPattern(mLockPatternView);
         mPatternViewPattern.setPatternListener(new LockPatternViewPattern.onPatternListener() {
             @Override
-            public void onPatternDetected(List<LockPatternView.Cell> pattern) {
+            public void onPatternDetected(@NonNull List<LockPatternView.Cell> pattern) {
                 if (mLockPatternUtils.checkPattern(pattern)) { //
                     mLockPatternView.setDisplayMode(LockPatternView.DisplayMode.Correct);
                     if (actionFrom.equals(AppConstants.LOCK_FROM_LOCK_MAIN_ACITVITY)) {
@@ -187,12 +191,6 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
         mLockPatternView.setTactileFeedbackEnabled(true);
     }
 
-    private Runnable mClearPatternRunnable = new Runnable() {
-        public void run() {
-            mLockPatternView.clearPattern();
-        }
-    };
-
     @Override
     public void onBackPressed() {
         if (actionFrom.equals(AppConstants.LOCK_FROM_FINISH)) {
@@ -203,14 +201,14 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
             startActivity(new Intent(this, MainActivity.class));
         }
     }
-    
+
     @Override
     protected void initAction() {
         mIconMore.setOnClickListener(this);
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(@NonNull View view) {
         switch (view.getId()) {
             case R.id.btn_more:
                 mPopWindow.showAsDropDown(mIconMore);
@@ -218,10 +216,16 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mGestureUnlockReceiver);
+    }
+
     private class GestureUnlockReceiver extends BroadcastReceiver {
 
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context context, @NonNull Intent intent) {
             String action = intent.getAction();
 //            if (action.equals(UnLockMenuPopWindow.UPDATE_LOCK_VIEW)) {
 //                mLockPatternView.initRes();
@@ -230,11 +234,5 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
                 finish();
             }
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(mGestureUnlockReceiver);
     }
 }

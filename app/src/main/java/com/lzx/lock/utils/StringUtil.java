@@ -1,5 +1,7 @@
 package com.lzx.lock.utils;
 
+import android.support.annotation.Nullable;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -9,7 +11,8 @@ import java.security.NoSuchAlgorithmException;
 
 public class StringUtil {
 
-    public static String toMD5(String source) {
+    @Nullable
+    public static String toMD5(@Nullable String source) {
         if (null == source || "".equals(source))
             return null;
         try {
@@ -21,7 +24,7 @@ public class StringUtil {
         return null;
     }
 
-    public static String toHex(byte[] buf) {
+    public static String toHex(@Nullable byte[] buf) {
         if (buf == null)
             return "";
         StringBuffer result = new StringBuffer(2 * buf.length);

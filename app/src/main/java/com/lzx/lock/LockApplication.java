@@ -1,7 +1,7 @@
 package com.lzx.lock;
 
-import com.lzx.lock.module.lock.GestureUnlockActivity;
 import com.lzx.lock.base.BaseActivity;
+import com.lzx.lock.module.lock.GestureUnlockActivity;
 import com.lzx.lock.utils.SpUtil;
 
 import org.litepal.LitePalApplication;
@@ -17,19 +17,19 @@ public class LockApplication extends LitePalApplication {
     private static LockApplication application;
     private static List<BaseActivity> activityList;
 
+    public static LockApplication getInstance() {
+        return application;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         application = this;
 
-        CrashReporter.initialize(this,getCacheDir().getPath());
+        CrashReporter.initialize(this, getCacheDir().getPath());
 
         SpUtil.getInstance().init(application);
         activityList = new ArrayList<>();
-    }
-
-    public static LockApplication getInstance() {
-        return application;
     }
 
     public void doForCreate(BaseActivity activity) {
@@ -55,7 +55,4 @@ public class LockApplication extends LitePalApplication {
     private boolean clearAllWhiteList(BaseActivity activity) {
         return activity instanceof GestureUnlockActivity;
     }
-
-
-
 }

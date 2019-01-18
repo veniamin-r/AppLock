@@ -1,6 +1,8 @@
 package com.lzx.lock.module.lock;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,17 +26,23 @@ import java.util.List;
 
 public class GestureCreateActivity extends BaseActivity implements View.OnClickListener, GestureCreateContract.View {
 
-    private LockPatternView mLockPatternView;
-    private TextView mLockTip;
-
-    private LockStage mUiStage = LockStage.Introduction;
-    protected List<LockPatternView.Cell> mChosenPattern = null; //密码
     private static final String KEY_PATTERN_CHOICE = "chosenPattern";
     private static final String KEY_UI_STAGE = "uiStage";
+    @Nullable
+    protected List<LockPatternView.Cell> mChosenPattern = null; //密码
+    private LockPatternView mLockPatternView;
+    private TextView mLockTip;
+    private LockStage mUiStage = LockStage.Introduction;
     private LockPatternUtils mLockPatternUtils;
     private LockPatternViewPattern mPatternViewPattern;
     private GestureCreatePresenter mGestureCreatePresenter;
     private RelativeLayout mTopLayout;
+    @NonNull
+    private Runnable mClearPatternRunnable = new Runnable() {
+        public void run() {
+            mLockPatternView.clearPattern();
+        }
+    };
 
     @Override
     public int getLayoutId() {
@@ -42,11 +50,11 @@ public class GestureCreateActivity extends BaseActivity implements View.OnClickL
     }
 
     @Override
-    protected void initViews(Bundle savedInstanceState) {
-        mLockTip = (TextView) findViewById(R.id.lock_tip);
-        mLockPatternView = (LockPatternView) findViewById(R.id.lock_pattern_view);
-        mTopLayout = (RelativeLayout) findViewById(R.id.top_layout);
-        mTopLayout.setPadding(0, SystemBarHelper.getStatusBarHeight(this),0,0);
+    protected void initViews(@Nullable Bundle savedInstanceState) {
+        mLockTip = findViewById(R.id.lock_tip);
+        mLockPatternView = findViewById(R.id.lock_pattern_view);
+        mTopLayout = findViewById(R.id.top_layout);
+        mTopLayout.setPadding(0, SystemBarHelper.getStatusBarHeight(this), 0, 0);
 
         mGestureCreatePresenter = new GestureCreatePresenter(this, this);
         initLockPatternView();
@@ -69,14 +77,13 @@ public class GestureCreateActivity extends BaseActivity implements View.OnClickL
         mPatternViewPattern = new LockPatternViewPattern(mLockPatternView);
         mPatternViewPattern.setPatternListener(new LockPatternViewPattern.onPatternListener() {
             @Override
-            public void onPatternDetected(List<LockPatternView.Cell> pattern) {
+            public void onPatternDetected(@NonNull List<LockPatternView.Cell> pattern) {
                 mGestureCreatePresenter.onPatternDetected(pattern, mChosenPattern, mUiStage);
             }
         });
         mLockPatternView.setOnPatternListener(mPatternViewPattern);
         mLockPatternView.setTactileFeedbackEnabled(true);
     }
-
 
     @Override
     protected void initData() {
@@ -143,12 +150,6 @@ public class GestureCreateActivity extends BaseActivity implements View.OnClickL
         mLockPatternView.removeCallbacks(mClearPatternRunnable);
         mLockPatternView.postDelayed(mClearPatternRunnable, 1000);
     }
-
-    private Runnable mClearPatternRunnable = new Runnable() {
-        public void run() {
-            mLockPatternView.clearPattern();
-        }
-    };
 
     @Override
     public void moveToStatusTwo() {

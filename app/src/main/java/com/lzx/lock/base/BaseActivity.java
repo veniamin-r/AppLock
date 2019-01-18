@@ -25,11 +25,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LockApplication.getInstance().doForCreate(this);
-
         setContentView(getLayoutId());
 
         initViews(savedInstanceState);
-
         initToolBar();
         initData();
         initAction();
@@ -40,7 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void initViews(Bundle savedInstanceState);
 
     protected void initToolBar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = findViewById(R.id.toolbar);
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
             getSupportActionBar().setTitle("");
@@ -64,7 +62,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         getSupportActionBar().setCustomView(mCustomTitleTextView, new ActionBar.LayoutParams(Gravity.CENTER));
         if (getTitle() != null) {
-            mCustomTitleTextView = (TextView) getSupportActionBar().getCustomView().findViewById(R.id.toolbar_title);
+            mCustomTitleTextView = getSupportActionBar().getCustomView().findViewById(R.id.toolbar_title);
             mCustomTitleTextView.setText(getTitle());
         }
     }

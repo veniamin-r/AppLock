@@ -19,6 +19,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -39,7 +40,7 @@ public class LockUtil {
      * @param context
      * @return
      */
-    public static boolean isStatAccessPermissionSet(Context context) {
+    public static boolean isStatAccessPermissionSet(@NonNull Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             try {
                 PackageManager packageManager = context.getPackageManager();
@@ -61,7 +62,7 @@ public class LockUtil {
      *
      * @return
      */
-    public static boolean isNoOption(Context context) {
+    public static boolean isNoOption(@NonNull Context context) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             PackageManager packageManager = context.getPackageManager();
             Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
@@ -92,7 +93,7 @@ public class LockUtil {
         return false;
     }
 
-    public static Bitmap drawableToBitmap(Drawable drawable, RelativeLayout mUnLockLayout) {
+    public static Bitmap drawableToBitmap(Drawable drawable, @NonNull RelativeLayout mUnLockLayout) {
         int w = 20;
         int h = 20;
         Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
@@ -125,7 +126,7 @@ public class LockUtil {
         return bitmap2;
     }
 
-    public static void blur(Context mContent, Bitmap bkg, View view) {
+    public static void blur(Context mContent, @NonNull Bitmap bkg, View view) {
         long startMs = System.currentTimeMillis();
         float radius = 50;
         float scaleFactor = 8;
@@ -143,7 +144,7 @@ public class LockUtil {
         view.setBackgroundDrawable(new BitmapDrawable(mContent.getResources(), overlay));
     }
 
-    public static Bitmap big(Bitmap bitmap) {
+    public static Bitmap big(@NonNull Bitmap bitmap) {
         Matrix matrix = new Matrix();
         matrix.postScale(2.5f, 2.5f);
         Bitmap resizeBmp = Bitmap.createBitmap(bitmap, bitmap.getWidth() / 4,

@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -36,7 +38,7 @@ public class SystemBarHelper {
    * @param activity Activity对象
    * @param statusBarColor 状态栏颜色
    */
-  public static void tintStatusBar(Activity activity, @ColorInt int statusBarColor) {
+  public static void tintStatusBar(@NonNull Activity activity, @ColorInt int statusBarColor) {
 
     tintStatusBar(activity, statusBarColor, DEFAULT_ALPHA);
   }
@@ -63,7 +65,7 @@ public class SystemBarHelper {
    * @param window 一般都是用于Activity的window,也可以是其他的例如Dialog,DialogFragment
    * @param statusBarColor 状态栏颜色
    */
-  public static void tintStatusBar(Window window, @ColorInt int statusBarColor) {
+  public static void tintStatusBar(@NonNull Window window, @ColorInt int statusBarColor) {
 
     tintStatusBar(window, statusBarColor, DEFAULT_ALPHA);
   }
@@ -76,7 +78,7 @@ public class SystemBarHelper {
    * @param statusBarColor 状态栏颜色
    * @param alpha 透明栏透明度[0.0-1.0]
    */
-  public static void tintStatusBar(Window window,
+  public static void tintStatusBar(@NonNull Window window,
                                    @ColorInt int statusBarColor,
                                    @FloatRange(from = 0.0, to = 1.0) float alpha) {
 
@@ -93,7 +95,7 @@ public class SystemBarHelper {
     }
 
     ViewGroup decorView = (ViewGroup) window.getDecorView();
-    ViewGroup contentView = (ViewGroup) window.getDecorView()
+    ViewGroup contentView = window.getDecorView()
         .findViewById(Window.ID_ANDROID_CONTENT);
     View rootView = contentView.getChildAt(0);
     if (rootView != null) {
@@ -115,7 +117,7 @@ public class SystemBarHelper {
    * @param drawerLayout DrawerLayout对象
    * @param statusBarColor 状态栏颜色
    */
-  public static void tintStatusBarForDrawer(Activity activity, DrawerLayout drawerLayout,
+  public static void tintStatusBarForDrawer(@NonNull Activity activity, @NonNull DrawerLayout drawerLayout,
                                             @ColorInt int statusBarColor) {
 
     tintStatusBarForDrawer(activity, drawerLayout, statusBarColor, DEFAULT_ALPHA);
@@ -133,7 +135,7 @@ public class SystemBarHelper {
    * @param statusBarColor 状态栏颜色
    * @param alpha 透明栏透明度[0.0-1.0]
    */
-  public static void tintStatusBarForDrawer(Activity activity, DrawerLayout drawerLayout,
+  public static void tintStatusBarForDrawer(@NonNull Activity activity, @NonNull DrawerLayout drawerLayout,
                                             @ColorInt int statusBarColor,
                                             @FloatRange(from = 0.0, to = 1.0) float alpha) {
 
@@ -178,7 +180,7 @@ public class SystemBarHelper {
    *
    * @param activity Activity对象
    */
-  public static void immersiveStatusBar(Activity activity) {
+  public static void immersiveStatusBar(@NonNull Activity activity) {
 
     immersiveStatusBar(activity, DEFAULT_ALPHA);
   }
@@ -210,7 +212,7 @@ public class SystemBarHelper {
    *
    * @param window 一般都是用于Activity的window,也可以是其他的例如Dialog,DialogFragment
    */
-  public static void immersiveStatusBar(Window window) {
+  public static void immersiveStatusBar(@NonNull Window window) {
 
     immersiveStatusBar(window, DEFAULT_ALPHA);
   }
@@ -226,7 +228,7 @@ public class SystemBarHelper {
    * @param window 一般都是用于Activity的window,也可以是其他的例如Dialog,DialogFragment
    * @param alpha 透明栏透明度[0.0-1.0]
    */
-  public static void immersiveStatusBar(Window window,
+  public static void immersiveStatusBar(@NonNull Window window,
                                         @FloatRange(from = 0.0, to = 1.0) float alpha) {
 
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
@@ -247,7 +249,7 @@ public class SystemBarHelper {
     }
 
     ViewGroup decorView = (ViewGroup) window.getDecorView();
-    ViewGroup contentView = (ViewGroup) window.getDecorView()
+    ViewGroup contentView = window.getDecorView()
         .findViewById(Window.ID_ANDROID_CONTENT);
     View rootView = contentView.getChildAt(0);
     int statusBarHeight = getStatusBarHeight(window.getContext());
@@ -274,7 +276,7 @@ public class SystemBarHelper {
   /**
    * 设置状态栏darkMode,字体颜色及icon变黑(目前支持MIUI6以上,Flyme4以上,Android M以上)
    */
-  public static void setStatusBarDarkMode(Window window) {
+  public static void setStatusBarDarkMode(@NonNull Window window) {
 
     if (isFlyme4Later()) {
       setStatusBarDarkModeForFlyme4(window, true);
@@ -308,7 +310,7 @@ public class SystemBarHelper {
    * 设置Flyme4+的darkMode,darkMode时候字体颜色及icon变黑
    * http://open-wiki.flyme.cn/index.php?title=Flyme%E7%B3%BB%E7%BB%9FAPI
    */
-  public static boolean setStatusBarDarkModeForFlyme4(Window window, boolean dark) {
+  public static boolean setStatusBarDarkModeForFlyme4(@Nullable Window window, boolean dark) {
 
     boolean result = false;
     if (window != null) {
@@ -362,7 +364,7 @@ public class SystemBarHelper {
   /**
    * 创建假的状态栏View
    */
-  private static void setStatusBar(ViewGroup container, @ColorInt
+  private static void setStatusBar(@NonNull ViewGroup container, @ColorInt
       int statusBarColor, boolean visible, boolean addToFirst) {
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -388,7 +390,7 @@ public class SystemBarHelper {
   /**
    * 创建假的状态栏View
    */
-  private static void setStatusBar(ViewGroup container,
+  private static void setStatusBar(@NonNull ViewGroup container,
                                    @ColorInt int statusBarColor, boolean visible) {
 
     setStatusBar(container, statusBarColor, visible, false);
@@ -398,7 +400,7 @@ public class SystemBarHelper {
   /**
    * 创建假的透明栏
    */
-  private static void setTranslucentView(ViewGroup container,
+  private static void setTranslucentView(@NonNull ViewGroup container,
                                          @FloatRange(from = 0.0, to = 1.0) float alpha) {
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -463,7 +465,7 @@ public class SystemBarHelper {
   /**
    * 增加View的高度以及paddingTop,增加的值为状态栏高度.一般是在沉浸式全屏给ToolBar用的
    */
-  public static void setHeightAndPadding(Context context, View view) {
+  public static void setHeightAndPadding(@NonNull Context context, @NonNull View view) {
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
       ViewGroup.LayoutParams lp = view.getLayoutParams();
@@ -477,7 +479,7 @@ public class SystemBarHelper {
   /**
    * 增加View的paddingTop,增加的值为状态栏高度
    */
-  public static void setPadding(Context context, View view) {
+  public static void setPadding(@NonNull Context context, @NonNull View view) {
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
       view.setPadding(view.getPaddingLeft(), view.getPaddingTop() + getStatusBarHeight(context),
@@ -508,7 +510,7 @@ public class SystemBarHelper {
   /**
    * 强制rootView下面的子View的FitsSystemWindows为false
    */
-  public static void forceFitsSystemWindows(ViewGroup viewGroup) {
+  public static void forceFitsSystemWindows(@NonNull ViewGroup viewGroup) {
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
       int count = viewGroup.getChildCount();

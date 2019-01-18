@@ -2,6 +2,7 @@ package com.lzx.lock.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.lzx.lock.bean.LockPrivate;
 
@@ -22,11 +23,11 @@ public class LockPrivateManager {
         this.mContext = context;
     }
 
-    public void addLockPrivate(LockPrivate lockPrivate) {
+    public void addLockPrivate(@NonNull LockPrivate lockPrivate) {
         lockPrivate.save();
     }
 
-    public void replaceLockPrivate(LockPrivate lockPrivate) {
+    public void replaceLockPrivate(@NonNull LockPrivate lockPrivate) {
         ContentValues values = new ContentValues();
         values.put("isRead", lockPrivate.isRead());
         values.put("lookDate", lockPrivate.getLookDate());
@@ -34,7 +35,7 @@ public class LockPrivateManager {
         DataSupport.updateAll(LockPrivate.class, values, "packageName = ?", lockPrivate.getPackageName());
     }
 
-    public void setLockPrivateWasReaded(LockPrivate lockPrivate) {
+    public void setLockPrivateWasReaded(@NonNull LockPrivate lockPrivate) {
         ContentValues values = new ContentValues();
         values.put("isRead", true);
         DataSupport.updateAll(LockPrivate.class, values, "packageName = ?", lockPrivate.getPackageName());

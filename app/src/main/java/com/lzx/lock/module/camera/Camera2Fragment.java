@@ -30,6 +30,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
@@ -74,6 +75,7 @@ public class Camera2Fragment extends Fragment {
     Ringtone ringtone;
     //The listener for the camera session, through which he gets the mCameraSession object, which can be used to send previews and photo requests.
 
+    @NonNull
     private CameraCaptureSession.StateCallback mSessionStateCallBack = new CameraCaptureSession
             .StateCallback() {
         @Override
@@ -92,7 +94,16 @@ public class Camera2Fragment extends Fragment {
         }
     };
     private Surface surface;
-
+    @NonNull
+    private ImageReader.OnImageAvailableListener onImageAvaiableListener = new ImageReader
+            .OnImageAvailableListener() {
+        @Override
+        public void onImageAvailable(ImageReader imageReader) {
+            mHandler.post(new ImageSaver(imageReader.acquireNextImage()));
+        }
+    };
+    private Size mPreViewSize;
+    @NonNull
     private CameraDevice.StateCallback cameraOpenCallBack = new CameraDevice.StateCallback() {
         @Override
         public void onOpened(CameraDevice cameraDevice) {
@@ -120,18 +131,37 @@ public class Camera2Fragment extends Fragment {
             Log.d(TAG, "Camera failed to open");
         }
     };
-    private ImageReader.OnImageAvailableListener onImageAvaiableListener = new ImageReader
-            .OnImageAvailableListener() {
-        @Override
-        public void onImageAvailable(ImageReader imageReader) {
-            mHandler.post(new ImageSaver(imageReader.acquireNextImage()));
-        }
-    };
-    private Size mPreViewSize;
+    @Nullable
     private Rect maxZoomrect;
     private int maxRealRadio;
-
+    @NonNull
+    private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    try {
+                        mCameraSession.setRepeatingRequest(initDngBuilder().build(), null, mHandler);
+                    } catch (CameraAccessException e) {
+                        Toast.makeText(getActivity(), "Request camera permission denied", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                    try {
+                        updateCameraPreviewSession();
+                    } catch (CameraAccessException e) {
+                        Toast.makeText(getActivity(), "Request camera permission denied", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+            }
+            return true;
+        }
+    };
+    //相机缩放相关
+    @Nullable
+    private Rect picRect;
     //预览图显示控件的监听器，可以监听这个surface的状态
+    @Nullable
     private TextureView.SurfaceTextureListener mSurfacetextlistener = new TextureView
             .SurfaceTextureListener() {
         @Override
@@ -194,71 +224,7 @@ public class Camera2Fragment extends Fragment {
 
         }
     };
-
-    private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    try {
-                        mCameraSession.setRepeatingRequest(initDngBuilder().build(), null, mHandler);
-                    } catch (CameraAccessException e) {
-                        Toast.makeText(getActivity(), "Request camera permission denied", Toast.LENGTH_SHORT).show();
-                    }
-                    break;
-                case MotionEvent.ACTION_UP:
-                    try {
-                        updateCameraPreviewSession();
-                    } catch (CameraAccessException e) {
-                        Toast.makeText(getActivity(), "Request camera permission denied", Toast.LENGTH_SHORT).show();
-                    }
-                    break;
-            }
-            return true;
-        }
-    };
-
-    private void updateCameraPreviewSession() throws CameraAccessException {
-        mPreViewBuidler.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
-        mPreViewBuidler.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
-        mCameraSession.setRepeatingRequest(mPreViewBuidler.build(), null, mHandler);
-    }
-
-    /**
-     * 设置连拍的参数
-     *
-     * @return
-     */
-
-    private CaptureRequest.Builder initDngBuilder() {
-        CaptureRequest.Builder captureBuilder = null;
-        try {
-            captureBuilder = mCameraSession.getDevice().createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-
-            captureBuilder.addTarget(mImageReader.getSurface());
-            captureBuilder.addTarget(surface);
-            // Required for RAW capture
-            captureBuilder.set(CaptureRequest.STATISTICS_LENS_SHADING_MAP_MODE, CaptureRequest.STATISTICS_LENS_SHADING_MAP_MODE_ON);
-            captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_OFF);
-            captureBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-            captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, (long) ((214735991 - 13231) / 2));
-            captureBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, 0);
-            captureBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, (10000 - 100) / 2);//设置 ISO，感光度
-            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, 90);
-            //设置每秒30帧
-            CameraManager cameraManager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
-            String cameraid = CameraCharacteristics.LENS_FACING_FRONT + "";
-            CameraCharacteristics cameraCharacteristics = cameraManager.getCameraCharacteristics(cameraid);
-            Range<Integer> fps[] = cameraCharacteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_TARGET_FPS_RANGES);
-            captureBuilder.set(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps[fps.length - 1]);
-        } catch (CameraAccessException e) {
-            Toast.makeText(getActivity(), "Request camera permission denied", Toast.LENGTH_SHORT).show();
-        } catch (NullPointerException e) {
-            Toast.makeText(getActivity(), "Failed to open camera", Toast.LENGTH_SHORT).show();
-        }
-        return captureBuilder;
-    }
-
+    @NonNull
     private View.OnClickListener picOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -280,6 +246,7 @@ public class Camera2Fragment extends Fragment {
             }
         }
     };
+    @NonNull
     private View.OnTouchListener textTureOntuchListener = new View.OnTouchListener() {
         //时时当前的zoom
         public double zoom;
@@ -292,7 +259,7 @@ public class Camera2Fragment extends Fragment {
         int count;
 
         @Override
-        public boolean onTouch(View v, MotionEvent event) {
+        public boolean onTouch(@NonNull View v, MotionEvent event) {
             switch (event.getAction() & MotionEvent.ACTION_MASK) {
                 case MotionEvent.ACTION_DOWN:
                     count = 1;
@@ -340,13 +307,52 @@ public class Camera2Fragment extends Fragment {
             return true;
         }
     };
-    //相机缩放相关
-    private Rect picRect;
 
+    private void updateCameraPreviewSession() throws CameraAccessException {
+        mPreViewBuidler.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
+        mPreViewBuidler.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
+        mCameraSession.setRepeatingRequest(mPreViewBuidler.build(), null, mHandler);
+    }
+
+    /**
+     * 设置连拍的参数
+     *
+     * @return
+     */
+
+    @Nullable
+    private CaptureRequest.Builder initDngBuilder() {
+        CaptureRequest.Builder captureBuilder = null;
+        try {
+            captureBuilder = mCameraSession.getDevice().createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+
+            captureBuilder.addTarget(mImageReader.getSurface());
+            captureBuilder.addTarget(surface);
+            // Required for RAW capture
+            captureBuilder.set(CaptureRequest.STATISTICS_LENS_SHADING_MAP_MODE, CaptureRequest.STATISTICS_LENS_SHADING_MAP_MODE_ON);
+            captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_OFF);
+            captureBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
+            captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, (long) ((214735991 - 13231) / 2));
+            captureBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, 0);
+            captureBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, (10000 - 100) / 2);//设置 ISO，感光度
+            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, 90);
+            //设置每秒30帧
+            CameraManager cameraManager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
+            String cameraid = CameraCharacteristics.LENS_FACING_FRONT + "";
+            CameraCharacteristics cameraCharacteristics = cameraManager.getCameraCharacteristics(cameraid);
+            Range<Integer> fps[] = cameraCharacteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_TARGET_FPS_RANGES);
+            captureBuilder.set(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps[fps.length - 1]);
+        } catch (CameraAccessException e) {
+            Toast.makeText(getActivity(), "Request camera permission denied", Toast.LENGTH_SHORT).show();
+        } catch (NullPointerException e) {
+            Toast.makeText(getActivity(), "Failed to open camera", Toast.LENGTH_SHORT).show();
+        }
+        return captureBuilder;
+    }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_camera2, null);
         findview(v);
@@ -373,9 +379,9 @@ public class Camera2Fragment extends Fragment {
     }
 
     private void findview(View v) {
-        mTextureView = (TextureView) v.findViewById(R.id.tv_textview);
-        mButton = (Button) v.findViewById(R.id.btn_takepic);
-        mThumbnail = (ImageView) v.findViewById(R.id.iv_Thumbnail);
+        mTextureView = v.findViewById(R.id.tv_textview);
+        mButton = v.findViewById(R.id.btn_takepic);
+        mThumbnail = v.findViewById(R.id.iv_Thumbnail);
         mThumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -441,7 +447,7 @@ public class Camera2Fragment extends Fragment {
 
     private class InnerCallBack implements Handler.Callback {
         @Override
-        public boolean handleMessage(Message message) {
+        public boolean handleMessage(@NonNull Message message) {
             switch (message.what) {
                 case SETIMAGE:
                     Bitmap bm = (Bitmap) message.obj;

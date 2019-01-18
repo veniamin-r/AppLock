@@ -6,7 +6,6 @@ import com.lzx.lock.R;
 
 /**
  * Created by lzx on 2017/1/8.
- *
  */
 
 public enum LockStage {
@@ -24,6 +23,9 @@ public enum LockStage {
 
     ChoiceConfirmed(R.string.lock_pattern_confirmed_header, -1, false);
 
+    public final int headerMessage;
+    public final int footerMessage;
+    public final boolean patternEnabled;
     /**
      * @param headerMessage  The message displayed at the top.
      * @param footerMessage  The footer message.
@@ -35,8 +37,4 @@ public enum LockStage {
         this.footerMessage = footerMessage;
         this.patternEnabled = patternEnabled;
     }
-
-    public final int headerMessage;
-    public final int footerMessage;
-    public final boolean patternEnabled;
 }

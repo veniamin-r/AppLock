@@ -1,5 +1,7 @@
 package com.lzx.lock.utils;
 
+import android.support.annotation.NonNull;
+
 import com.lzx.lock.bean.CommLockInfo;
 
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import java.util.List;
 
 public class DataUtil {
 
+    @NonNull
     public static List<CommLockInfo> clearRepeatCommLockInfo(List<CommLockInfo> lockInfos) {
         HashMap<String, CommLockInfo> hashMap = new HashMap<>();
         for (CommLockInfo lockInfo : lockInfos) {

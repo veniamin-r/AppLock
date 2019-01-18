@@ -2,6 +2,8 @@ package com.lzx.lock.module.main;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -20,6 +22,13 @@ import java.util.List;
 
 public class UserAppFragment extends BaseFragment {
 
+    private RecyclerView mRecyclerView;
+    @Nullable
+    private List<CommLockInfo> data, list;
+    @Nullable
+    private MainAdapter mMainAdapter;
+
+    @NonNull
     public static UserAppFragment newInstance(List<CommLockInfo> list) {
         UserAppFragment userAppFragment = new UserAppFragment();
         Bundle bundle = new Bundle();
@@ -27,10 +36,6 @@ public class UserAppFragment extends BaseFragment {
         userAppFragment.setArguments(bundle);
         return userAppFragment;
     }
-
-    private RecyclerView mRecyclerView;
-    private List<CommLockInfo> data,list;
-    private MainAdapter mMainAdapter;
 
     @Override
     protected int getContentViewId() {

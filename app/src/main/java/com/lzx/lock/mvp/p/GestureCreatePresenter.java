@@ -1,6 +1,8 @@
 package com.lzx.lock.mvp.p;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.lzx.lock.R;
 import com.lzx.lock.bean.LockStage;
@@ -32,7 +34,7 @@ public class GestureCreatePresenter implements GestureCreateContract.Presenter {
     }
 
     @Override
-    public void updateStage(LockStage stage) {
+    public void updateStage(@NonNull LockStage stage) {
         mView.updateUiStage(stage); //更新UiStage
         if (stage == ChoiceTooShort) { //如果少于4个点
             mView.updateLockTip(mContext.getResources().getString(stage.headerMessage, LockPatternUtils.MIN_LOCK_PATTERN_SIZE), true);
@@ -76,7 +78,7 @@ public class GestureCreatePresenter implements GestureCreateContract.Presenter {
     }
 
     @Override
-    public void onPatternDetected(List<LockPatternView.Cell> pattern, List<LockPatternView.Cell> mChosenPattern, LockStage mUiStage) {
+    public void onPatternDetected(@NonNull List<LockPatternView.Cell> pattern, @Nullable List<LockPatternView.Cell> mChosenPattern, LockStage mUiStage) {
         if (mUiStage == NeedToConfirm) {
             if (mChosenPattern == null)
                 throw new IllegalStateException("null chosen pattern in stage 'need to confirm");

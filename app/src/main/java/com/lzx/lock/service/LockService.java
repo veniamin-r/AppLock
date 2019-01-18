@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
@@ -34,6 +35,7 @@ public class LockService extends IntentService {
     public static final String LOCK_SERVICE_LASTAPP = "LOCK_SERVICE_LASTAPP";
     public static boolean isActionLock = false;
     public boolean threadIsTerminate = false;
+    @Nullable
     public String savePkgName;
     private long lastUnlockTimeSeconds = 0;
     private String lastUnlockPackageName = "";
@@ -42,6 +44,7 @@ public class LockService extends IntentService {
 
     private ServiceReceiver mServiceReceiver;
     private CommLockInfoManager mLockInfoManager;
+    @Nullable
     private ActivityManager activityManager;
 
     public LockService() {
@@ -186,7 +189,7 @@ public class LockService extends IntentService {
     }
 
     //TODO:  Find new way to detect which is in foreground (may be use Accessibility service)
-    public String getLauncherTopApp(Context context, ActivityManager activityManager) {
+    public String getLauncherTopApp(@NonNull Context context, @NonNull ActivityManager activityManager) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             List<ActivityManager.RunningTaskInfo> appTasks = activityManager.getRunningTasks(1);
             if (null != appTasks && !appTasks.isEmpty()) {
@@ -213,6 +216,7 @@ public class LockService extends IntentService {
         return "";
     }
 
+    @NonNull
     private List<String> getHomes() {
         List<String> names = new ArrayList<>();
         PackageManager packageManager = this.getPackageManager();
@@ -248,7 +252,7 @@ public class LockService extends IntentService {
     public class ServiceReceiver extends BroadcastReceiver {
 
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context context, @NonNull Intent intent) {
             String action = intent.getAction();
 
             boolean isLockOffScreen = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_SCREEN, false); //是否在手机屏幕关闭后再次锁定

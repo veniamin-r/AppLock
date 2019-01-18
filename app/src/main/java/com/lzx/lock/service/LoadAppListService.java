@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.support.annotation.Nullable;
 
 import com.lzx.lock.base.AppConstants;
 import com.lzx.lock.bean.CommLockInfo;
@@ -18,16 +19,16 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- *
  * Created by xian on 2017/2/17.
  */
 
 public class LoadAppListService extends IntentService {
 
-    public static final String ACTION_START_LOAD_APP = "com.lzx.lock.service.action.LOADAPP";
-    private PackageManager mPackageManager;
-    private CommLockInfoManager mLockInfoManager;
+    public static final String ACTION_START_LOAD_APP = "io.github.subhamtyagi.privacyapplock.service.action.LOADAPP";
     long time = 0;
+    private PackageManager mPackageManager;
+    @Nullable
+    private CommLockInfoManager mLockInfoManager;
 
     public LoadAppListService() {
         super("LoadAppListService");
@@ -59,7 +60,10 @@ public class LoadAppListService extends IntentService {
 
         if (isInitDb) {
             List<ResolveInfo> appList = new ArrayList<>();
-            List<CommLockInfo> dbList = mLockInfoManager.getAllCommLockInfos();
+            List<CommLockInfo> dbList = null;
+            if (mLockInfoManager != null) {
+                dbList = mLockInfoManager.getAllCommLockInfos();
+            }
 
             for (ResolveInfo resolveInfo : resolveInfos) {
                 if (!resolveInfo.activityInfo.packageName.equals(AppConstants.APP_PACKAGE_NAME) &&
@@ -105,7 +109,9 @@ public class LoadAppListService extends IntentService {
 
             SpUtil.getInstance().putBoolean(AppConstants.LOCK_IS_INIT_DB, true);
             try {
-                mLockInfoManager.instanceCommLockInfoTable(resolveInfos);
+                if (mLockInfoManager != null) {
+                    mLockInfoManager.instanceCommLockInfoTable(resolveInfos);
+                }
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }

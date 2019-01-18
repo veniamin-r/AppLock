@@ -5,6 +5,7 @@ import android.animation.AnimatorSet;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -24,7 +25,7 @@ public abstract class BaseDialog extends Dialog {
 
     protected int width;
 
-    public BaseDialog(Context context) {
+    public BaseDialog(@NonNull Context context) {
         super(context, R.style.DialogTransparent);
         this.context = context;
     }

@@ -1,6 +1,7 @@
 package com.lzx.lock.utils;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 
 /**
@@ -14,7 +15,7 @@ public class ScreenUtil {
      * @param context
      * @return
      */
-    public static int getPhoneHeight(Context context) {
+    public static int getPhoneHeight(@NonNull Context context) {
         DisplayMetrics dm = getDisplayMetrics(context);
         return dm.heightPixels;
     }
@@ -25,7 +26,7 @@ public class ScreenUtil {
      * @param context
      * @return
      */
-    public static int getPhoneWidth(Context context) {
+    public static int getPhoneWidth(@NonNull Context context) {
         DisplayMetrics dm = getDisplayMetrics(context);
         return dm.widthPixels;
     }

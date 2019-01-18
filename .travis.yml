@@ -84,16 +84,16 @@ before_deploy:
 - jarsigner -verify app-release-unsigned.apk
 - ${ANDROID_HOME}/build-tools/${ANDROID_BUILD_TOOLS}/zipalign -v 4 app-release-unsigned.apk AppLock.apk
 
-#deploy:
-#  provider: releases
-#  file: AppLock.apk
-#  skip_cleanup: true
-#  on:
-#    repo: subhamtyagi/AppLock
-#    tags: true
-#    jdk: oraclejdk8
-#    api_key:
-#     secure: ""
+deploy:
+  provider: releases
+  file: AppLock.apk
+  skip_cleanup: true
+  on:
+    repo: subhamtyagi/AppLock
+    tags: true
+    jdk: oraclejdk8
+    api_key:
+     secure: "hhAUsWX+4d0oqDp1ZxLzsSNjs9z+W6U8LkrCN66G5RsIB9wrQ3SqTiShBWk/EoYKT8HqJAYOnKSykn4CVGWlPsC8tfjGvT5r4W+CXQyFoqvxAGtG8V1THqIol+X/v05+LPVlYA+kc0c18huO1FgEL6WdC8Ls30jqj6KHVrcIcer1yc666wWBhj6gHgkFCVq+gjDSSW8Vn0nDVXXixsXgXdf66Mgbfn3uyOVbYYmlUGT02VaASmNiCTbOBRcd/csJ3e44k3ybsEDoP8OP6vFp1TCugaQEJAXUGwiDQHj4a87Y+VWO0zPQR3rMsF1QyVgGLdUa9/OkJ1J1ecAxlY48Pg+V4aupurOjLnePQWpiQW2TqS/zlssUExwAoWqOgZldWqoU4/kLiLVmbEZziEJfPgJYORvO4KMls0/LSwa/EG05dnT3t2pPE0MuLK6HiNbMjTW0gM7EJeRMNZSWq/aEl88RnZJ9UHSEuM8fE8vFhCK1TOBDBX2CAh13FPgPFr8/Cn7cD/E2WTh4Q1LrcmwCJQRTF0TdNXXmvyaK0bRUO37OumiNdfcrAFyR6jSFKDIyf1qOIMisZP2QpRaRjGbCwimd+iY0F4Uimml8cZL27OgdfAH4MWHprxl6TpM33zd+jHKmbH1kYQ6btz7aT1+DgIZhv/KVVMrCW1DuESlSCuY="
 
 
 after_failure:

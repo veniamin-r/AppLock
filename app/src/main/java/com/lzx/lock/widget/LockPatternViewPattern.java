@@ -1,5 +1,8 @@
 package com.lzx.lock.widget;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.util.List;
 
 /**
@@ -45,7 +48,7 @@ public class LockPatternViewPattern implements LockPatternView.OnPatternListener
     }
 
     @Override
-    public void onPatternDetected(List<LockPatternView.Cell> pattern) {
+    public void onPatternDetected(@Nullable List<LockPatternView.Cell> pattern) {
         if (pattern == null)
             return;
         if (mPatternListener != null) {
@@ -53,6 +56,7 @@ public class LockPatternViewPattern implements LockPatternView.OnPatternListener
         }
     }
 
+    @NonNull
     private Runnable mClearPatternRunnable = new Runnable() {
         public void run() {
             mLockPatternView.clearPattern();

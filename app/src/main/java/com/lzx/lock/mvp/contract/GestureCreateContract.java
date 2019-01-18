@@ -18,7 +18,7 @@ public interface GestureCreateContract {
 
         void updateChosenPattern(List<LockPatternView.Cell> mChosenPattern);
 
-        void updateLockTip(String text,boolean isToast);
+        void updateLockTip(String text, boolean isToast);
 
         void setHeaderMessage(int headerMessage);
 
@@ -35,6 +35,7 @@ public interface GestureCreateContract {
         void clearPattern();
 
         void ConfirmWrong();
+
         void ChoiceConfirmed();
     }
 

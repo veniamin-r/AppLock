@@ -3,6 +3,8 @@ package com.lzx.lock.widget;
 import android.animation.AnimatorSet;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -27,7 +29,7 @@ public class SelectLockTimeDialog extends BaseDialog {
     private String title;
 
 
-    public SelectLockTimeDialog(Context context, String title) {
+    public SelectLockTimeDialog(@NonNull Context context, String title) {
         super(context);
         this.context = context;
         this.title = title;
@@ -47,11 +49,13 @@ public class SelectLockTimeDialog extends BaseDialog {
         return 0.9f;
     }
 
+    @Nullable
     @Override
     protected AnimatorSet setEnterAnim() {
         return null;
     }
 
+    @Nullable
     @Override
     protected AnimatorSet setExitAnim() {
         return null;
@@ -60,7 +64,7 @@ public class SelectLockTimeDialog extends BaseDialog {
     @Override
     protected void init() {
         setCanceledOnTouchOutside(false);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         String titleArray[] = context.getResources().getStringArray(R.array.lock_time_array);
         Long timeArray[] = {15000L, 30000L, 60000L, 180000L, 300000L, 600000L, 1800000L, 0L};

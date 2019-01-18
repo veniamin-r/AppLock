@@ -15,6 +15,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -46,7 +48,9 @@ public class CircleImageView extends ImageView {
     private int mBorderColor = DEFAULT_BORDER_COLOR;
     private int mBorderWidth = DEFAULT_BORDER_WIDTH;
 
+    @Nullable
     private Bitmap mBitmap;
+    @Nullable
     private BitmapShader mBitmapShader;
     private int mBitmapWidth;
     private int mBitmapHeight;
@@ -63,11 +67,11 @@ public class CircleImageView extends ImageView {
         init();
     }
 
-    public CircleImageView(Context context, AttributeSet attrs) {
+    public CircleImageView(@NonNull Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CircleImageView(Context context, AttributeSet attrs, int defStyle) {
+    public CircleImageView(@NonNull Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView, defStyle, 0);
@@ -90,6 +94,7 @@ public class CircleImageView extends ImageView {
         }
     }
 
+    @NonNull
     @Override
     public ScaleType getScaleType() {
         return SCALE_TYPE;
@@ -103,7 +108,7 @@ public class CircleImageView extends ImageView {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(@NonNull Canvas canvas) {
         if (getDrawable() == null) {
             return;
         }
@@ -175,7 +180,8 @@ public class CircleImageView extends ImageView {
         setup();
     }
 
-    private Bitmap getBitmapFromDrawable(Drawable drawable) {
+    @Nullable
+    private Bitmap getBitmapFromDrawable(@Nullable Drawable drawable) {
         if (drawable == null) {
             return null;
         }

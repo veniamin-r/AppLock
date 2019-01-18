@@ -4,9 +4,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
@@ -32,7 +32,10 @@ public class SplashActivity extends BaseActivity {
     private static final int RESULT_ACTION_USAGE_ACCESS_SETTINGS = 1;
     private static final int RESULT_ACTION_ACCESSIBILITY_SETTINGS = 3;
     private static final int RESULT_ACTION_MANAGE_OVERLAY_PERMISSION = 2;
+
+
     private ImageView mImgSplash;
+    @Nullable
     private ObjectAnimator animator;
 
     @Override
@@ -43,7 +46,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void initViews(Bundle savedInstanceState) {
         AppUtils.hideStatusBar(getWindow(), true);
-        mImgSplash = (ImageView) findViewById(R.id.img_splash);
+        mImgSplash = findViewById(R.id.img_splash);
     }
 
     @Override
@@ -74,7 +77,6 @@ public class SplashActivity extends BaseActivity {
         });
     }
 
-
     private void showDialog() {
         // If you do not have access to view usage rights and the phone exists to view usage this interface
         if (!LockUtil.isStatAccessPermissionSet(SplashActivity.this) && LockUtil.isNoOption(SplashActivity.this)) {
@@ -83,8 +85,11 @@ public class SplashActivity extends BaseActivity {
             dialog.setOnClickListener(new DialogPermission.onClickListener() {
                 @Override
                 public void onClick() {
-                    Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
-                    startActivityForResult(intent, RESULT_ACTION_USAGE_ACCESS_SETTINGS);
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                        Intent intent = null;
+                        intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+                        startActivityForResult(intent, RESULT_ACTION_USAGE_ACCESS_SETTINGS);
+                    }
                 }
             });
         } else {
@@ -105,9 +110,7 @@ public class SplashActivity extends BaseActivity {
                 finish();
             }
         }
-
         if (requestCode == RESULT_ACTION_ACCESSIBILITY_SETTINGS) {
-
             gotoCreatePwdActivity();
         }
     }
@@ -137,14 +140,6 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void gotoCreatePwdActivity() {
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-            intent.setData(Uri.parse("package:io.github.subhamtyagi.privacyapplock"));
-            startActivity(intent);
-        }
-
-
         Intent intent2 = new Intent(SplashActivity.this, CreatePwdActivity.class);
         startActivity(intent2);
         finish();

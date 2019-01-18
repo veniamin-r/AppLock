@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 
 
 public class SpUtil {
@@ -68,10 +69,12 @@ public class SpUtil {
         return mPref.getBoolean(key, def);
     }
 
+    @Nullable
     public String getString(String key) {
         return mPref.getString(key, "");
     }
 
+    @Nullable
     public String getString(String key, String def) {
         return mPref.getString(key, def);
     }

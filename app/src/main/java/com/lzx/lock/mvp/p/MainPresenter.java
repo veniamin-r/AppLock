@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 
 import com.lzx.lock.base.AppConstants;
 import com.lzx.lock.bean.CommLockInfo;
@@ -45,6 +46,16 @@ public class MainPresenter implements MainContract.Presenter {
     public void loadLockAppInfo(Context context) {
         mLoadLockAsyncTask = new LoadLockAsyncTask();
         mLoadLockAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mLoadAppInfo != null && mLoadAppInfo.getStatus() != AsyncTask.Status.FINISHED) {
+            mLoadAppInfo.cancel(true);
+        }
+        if (mLoadLockAsyncTask != null && mLoadLockAsyncTask.getStatus() != AsyncTask.Status.FINISHED) {
+            mLoadLockAsyncTask.cancel(true);
+        }
     }
 
     private class LoadAppInfoAsyncTask extends AsyncTask<Void, String, List<CommLockInfo>> {
@@ -121,6 +132,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     private class LoadLockAsyncTask extends AsyncTask<String, Void, List<CommLockInfo>> {
 
+        @NonNull
         @Override
         protected List<CommLockInfo> doInBackground(String... params) {
             List<CommLockInfo> commLockInfos = mLockInfoManager.getAllCommLockInfos();
@@ -164,15 +176,5 @@ public class MainPresenter implements MainContract.Presenter {
             mView.loadAppInfoSuccess(commLockInfos);
         }
 
-    }
-
-    @Override
-    public void onDestroy() {
-        if (mLoadAppInfo != null && mLoadAppInfo.getStatus() != AsyncTask.Status.FINISHED) {
-            mLoadAppInfo.cancel(true);
-        }
-        if (mLoadLockAsyncTask != null && mLoadLockAsyncTask.getStatus() != AsyncTask.Status.FINISHED) {
-            mLoadLockAsyncTask.cancel(true);
-        }
     }
 }

@@ -1,5 +1,6 @@
 package com.lzx.lock.utils;
 
+import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.lzx.lock.LockApplication;
@@ -9,6 +10,7 @@ import com.lzx.lock.LockApplication;
  */
 
 public class ToastUtil {
+    @Nullable
     private static Toast mToast = null;
 
     public static void showToast(String text) {
