@@ -35,16 +35,20 @@ android:
 
  - tools
  - platform-tools
+ - tools
  - build-tools-$ANDROID_BUILD_TOOLS
  - android-$ANDROID_API
- - android-$EMULATOR_API_LEVEL
+ - android-$EMULATOR_API
  - extra-android-support
  - extra-google-m2repository
  - extra-android-m2repository # for design library
- - addon-google_apis-google-19 # google play services
- - sys-img-armeabi-v7a-addon-google_apis-google-$ANDROID_API_LEVEL
- - sys-img-armeabi-v7a-addon-google_apis-google-$EMULATOR_API_LEVEL
-
+ - addon-google_apis-google-$ANDROID_API # google play services
+ - sys-img-armeabi-v7a-addon-google_apis-google-$ANDROID_API
+ - sys-img-armeabi-v7a-addon-google_apis-google-$EMULATOR_API
+ - sys-img-armeabi-v7a-android-$ANDROID_API
+ - sys-img-armeabi-v7a-android-$EMULATOR_API
+ - sys-img-$ANDROID_ABI-google_apis-$ANDROID_API
+ - sys-img-$ANDROID_ABI-google_apis-$EMULATOR_API
 
  licenses:
 
@@ -62,14 +66,15 @@ before_install:
 
 before_script:
 
-- echo no | android create avd --force -n test -t android-$EMULATOR_API --abi $ANDROID_ABI
-- emulator -avd test -no-skin -no-audio -no-window &
-- android-wait-for-emulator
-- adb shell input keyevent 82 &
+- android list targets
+#- echo no | android create avd --force -n test -t "android-"$EMULATOR_API --abi google_apis/$ANDROID_ABI --tag $ANDROID_TAG
+#- emulator -avd test -no-skin -no-audio -no-window &
+#- android-wait-for-emulator
+#- adb shell input keyevent 82 &
 
 script:
 
-- "./gradlew clean build connectedCheck -PdisablePreDex --stacktrace"
+- ./gradlew clean build connectedCheck -PdisablePreDex --stacktrace
 
 before_deploy:
 
@@ -77,7 +82,7 @@ before_deploy:
 - cd app/build/outputs/apk/
 - jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/applock.jks -storepass $storepass -keypass $keypass app-release-unsigned.apk key0
 - jarsigner -verify app-release-unsigned.apk
-- "${ANDROID_HOME}/build-tools/${ANDROID_BUILD_TOOLS}/zipalign -v 4 app-release-unsigned.apk AppLock.apk"
+- ${ANDROID_HOME}/build-tools/${ANDROID_BUILD_TOOLS}/zipalign -v 4 app-release-unsigned.apk AppLock.apk
 
 #deploy:
 #  provider: releases
