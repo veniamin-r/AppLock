@@ -1,4 +1,4 @@
-package com.lzx.lock.module.lock;
+package com.lzx.lock.activities.lock;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,8 +20,8 @@ import com.lzx.lock.R;
 import com.lzx.lock.base.AppConstants;
 import com.lzx.lock.base.BaseActivity;
 import com.lzx.lock.db.CommLockInfoManager;
-import com.lzx.lock.module.main.MainActivity;
-import com.lzx.lock.service.LockService;
+import com.lzx.lock.activities.main.MainActivity;
+import com.lzx.lock.services.LockService;
 import com.lzx.lock.utils.LockPatternUtils;
 import com.lzx.lock.utils.LockUtil;
 import com.lzx.lock.utils.SpUtil;

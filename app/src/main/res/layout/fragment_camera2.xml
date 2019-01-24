@@ -4,7 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              tools:context="com.lzx.lock.module.camera.Camera2Fragment">
+              tools:context="com.lzx.lock.activities.camera.Camera2Fragment">
 
     <TextureView
         android:id="@+id/tv_textview"

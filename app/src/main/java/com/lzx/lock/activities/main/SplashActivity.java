@@ -1,4 +1,4 @@
-package com.lzx.lock.module.splash;
+package com.lzx.lock.activities.main;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -13,10 +13,10 @@ import android.widget.ImageView;
 import com.lzx.lock.R;
 import com.lzx.lock.base.AppConstants;
 import com.lzx.lock.base.BaseActivity;
-import com.lzx.lock.module.lock.GestureSelfUnlockActivity;
-import com.lzx.lock.module.pwd.CreatePwdActivity;
-import com.lzx.lock.service.LoadAppListService;
-import com.lzx.lock.service.LockService;
+import com.lzx.lock.activities.lock.GestureSelfUnlockActivity;
+import com.lzx.lock.activities.pwd.CreatePwdActivity;
+import com.lzx.lock.services.LoadAppListService;
+import com.lzx.lock.services.LockService;
 import com.lzx.lock.utils.AppUtils;
 import com.lzx.lock.utils.LockUtil;
 import com.lzx.lock.utils.SpUtil;

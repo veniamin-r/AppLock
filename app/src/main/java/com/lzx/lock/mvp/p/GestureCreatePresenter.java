@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.lzx.lock.R;
-import com.lzx.lock.bean.LockStage;
+import com.lzx.lock.model.LockStage;
 import com.lzx.lock.mvp.contract.GestureCreateContract;
 import com.lzx.lock.utils.LockPatternUtils;
 import com.lzx.lock.widget.LockPatternView;
@@ -13,12 +13,12 @@ import com.lzx.lock.widget.LockPatternView;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.lzx.lock.bean.LockStage.ChoiceConfirmed;
-import static com.lzx.lock.bean.LockStage.ChoiceTooShort;
-import static com.lzx.lock.bean.LockStage.ConfirmWrong;
-import static com.lzx.lock.bean.LockStage.FirstChoiceValid;
-import static com.lzx.lock.bean.LockStage.Introduction;
-import static com.lzx.lock.bean.LockStage.NeedToConfirm;
+import static com.lzx.lock.model.LockStage.ChoiceConfirmed;
+import static com.lzx.lock.model.LockStage.ChoiceTooShort;
+import static com.lzx.lock.model.LockStage.ConfirmWrong;
+import static com.lzx.lock.model.LockStage.FirstChoiceValid;
+import static com.lzx.lock.model.LockStage.Introduction;
+import static com.lzx.lock.model.LockStage.NeedToConfirm;
 
 /**
  * Created by xian on 2017/2/17.

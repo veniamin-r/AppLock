@@ -1,4 +1,4 @@
-package com.lzx.lock.bean;
+package com.lzx.lock.model;
 
 import org.litepal.crud.DataSupport;
 

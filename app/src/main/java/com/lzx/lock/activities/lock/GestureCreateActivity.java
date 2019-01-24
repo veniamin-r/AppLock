@@ -1,6 +1,5 @@
-package com.lzx.lock.module.pwd;
+package com.lzx.lock.activities.lock;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,16 +8,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lzx.lock.R;
-import com.lzx.lock.base.AppConstants;
 import com.lzx.lock.base.BaseActivity;
-import com.lzx.lock.bean.LockStage;
-import com.lzx.lock.module.main.MainActivity;
+import com.lzx.lock.model.LockStage;
 import com.lzx.lock.mvp.contract.GestureCreateContract;
 import com.lzx.lock.mvp.p.GestureCreatePresenter;
-import com.lzx.lock.service.LockService;
 import com.lzx.lock.utils.LockPatternUtils;
-import com.lzx.lock.utils.SpUtil;
 import com.lzx.lock.utils.SystemBarHelper;
+import com.lzx.lock.utils.ToastUtil;
 import com.lzx.lock.widget.LockPatternView;
 import com.lzx.lock.widget.LockPatternViewPattern;
 
@@ -28,47 +24,54 @@ import java.util.List;
  * Created by xian on 2017/2/17.
  */
 
-public class CreatePwdActivity extends BaseActivity implements View.OnClickListener,
-        GestureCreateContract.View {
+public class GestureCreateActivity extends BaseActivity implements View.OnClickListener, GestureCreateContract.View {
 
+    private static final String KEY_PATTERN_CHOICE = "chosenPattern";
+    private static final String KEY_UI_STAGE = "uiStage";
     @Nullable
-    private List<LockPatternView.Cell> mChosenPattern = null;
-
-    private TextView mLockTip;
+    protected List<LockPatternView.Cell> mChosenPattern = null; //密码
     private LockPatternView mLockPatternView;
-    @NonNull
-    private final Runnable mClearPatternRunnable = new Runnable() {
-        public void run() {
-            mLockPatternView.clearPattern();
-        }
-    };
-    private TextView mBtnReset;
+    private TextView mLockTip;
     private LockStage mUiStage = LockStage.Introduction;
     private LockPatternUtils mLockPatternUtils;
     private LockPatternViewPattern mPatternViewPattern;
     private GestureCreatePresenter mGestureCreatePresenter;
     private RelativeLayout mTopLayout;
+    @NonNull
+    private Runnable mClearPatternRunnable = new Runnable() {
+        public void run() {
+            mLockPatternView.clearPattern();
+        }
+    };
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_create_pwd;
+        return R.layout.activity_gesture_lock;
     }
 
     @Override
-    protected void initViews(Bundle savedInstanceState) {
-        mLockPatternView = findViewById(R.id.lock_pattern_view);
+    protected void initViews(@Nullable Bundle savedInstanceState) {
         mLockTip = findViewById(R.id.lock_tip);
-        mBtnReset = findViewById(R.id.btn_reset);
+        mLockPatternView = findViewById(R.id.lock_pattern_view);
         mTopLayout = findViewById(R.id.top_layout);
         mTopLayout.setPadding(0, SystemBarHelper.getStatusBarHeight(this), 0, 0);
-    }
 
-    @Override
-    protected void initData() {
         mGestureCreatePresenter = new GestureCreatePresenter(this, this);
         initLockPatternView();
+        if (savedInstanceState == null) {
+            mGestureCreatePresenter.updateStage(LockStage.Introduction);
+        } else {
+            final String patternString = savedInstanceState.getString(KEY_PATTERN_CHOICE);
+            if (patternString != null) {
+                mChosenPattern = LockPatternUtils.stringToPattern(patternString);
+            }
+            mGestureCreatePresenter.updateStage(LockStage.values()[savedInstanceState.getInt(KEY_UI_STAGE)]);
+        }
     }
 
+    /**
+     * 初始化锁屏控件
+     */
     private void initLockPatternView() {
         mLockPatternUtils = new LockPatternUtils(this);
         mPatternViewPattern = new LockPatternViewPattern(mLockPatternView);
@@ -83,30 +86,18 @@ public class CreatePwdActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Override
-    protected void initAction() {
-        mBtnReset.setOnClickListener(this);
+    protected void initData() {
+
     }
 
     @Override
-    public void onClick(@NonNull View view) {
-        switch (view.getId()) {
-            case R.id.btn_reset:
-                setStepOne();
-                break;
-        }
+    protected void initAction() {
+
     }
 
-    private void setStepOne() {
-        mGestureCreatePresenter.updateStage(LockStage.Introduction);
-        mLockTip.setText(getString(R.string.lock_recording_intro_header));
-    }
+    @Override
+    public void onClick(View view) {
 
-    private void gotoLockMainActivity() {
-        SpUtil.getInstance().putBoolean(AppConstants.LOCK_STATE, true);
-        startService(new Intent(this, LockService.class));
-        SpUtil.getInstance().putBoolean(AppConstants.LOCK_IS_FIRST_LOCK, false);
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
     }
 
     @Override
@@ -121,7 +112,11 @@ public class CreatePwdActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void updateLockTip(String text, boolean isToast) {
-        mLockTip.setText(text);
+        if (isToast) {
+            ToastUtil.showToast(text);
+        } else {
+            mLockTip.setText(text);
+        }
     }
 
     @Override
@@ -153,7 +148,7 @@ public class CreatePwdActivity extends BaseActivity implements View.OnClickListe
     public void ChoiceTooShort() {
         mLockPatternView.setDisplayMode(LockPatternView.DisplayMode.Wrong);
         mLockPatternView.removeCallbacks(mClearPatternRunnable);
-        mLockPatternView.postDelayed(mClearPatternRunnable, 500);
+        mLockPatternView.postDelayed(mClearPatternRunnable, 1000);
     }
 
     @Override
@@ -161,32 +156,22 @@ public class CreatePwdActivity extends BaseActivity implements View.OnClickListe
 
     }
 
-
     @Override
     public void clearPattern() {
         mLockPatternView.clearPattern();
     }
 
-
     @Override
     public void ConfirmWrong() {
-        mLockPatternView.setDisplayMode(LockPatternView.DisplayMode.Wrong);
-        mLockPatternView.removeCallbacks(mClearPatternRunnable);
-        mLockPatternView.postDelayed(mClearPatternRunnable, 500);
+        mChosenPattern = null;
+        clearPattern();
     }
-
 
     @Override
     public void ChoiceConfirmed() {
         mLockPatternUtils.saveLockPattern(mChosenPattern);
         clearPattern();
-        gotoLockMainActivity();
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mGestureCreatePresenter.onDestroy();
+        setResult(RESULT_OK);
+        finish();
     }
 }

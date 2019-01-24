@@ -3,9 +3,9 @@
     <dbname value="sample" />
     <version value="1" />
     <list>
-        <mapping class="com.lzx.lock.bean.CommLockInfo" />
-        <mapping class="com.lzx.lock.bean.FaviterInfo" />
-        <mapping class="com.lzx.lock.bean.LockPrivate"/>
+        <mapping class="com.lzx.lock.model.CommLockInfo" />
+        <mapping class="com.lzx.lock.model.FaviterInfo" />
+        <mapping class="com.lzx.lock.model.LockPrivate"/>
     </list>
 
     <storage value="external" />

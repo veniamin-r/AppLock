@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.lzx.lock.base.AppConstants;
-import com.lzx.lock.service.LoadAppListService;
-import com.lzx.lock.service.LockService;
+import com.lzx.lock.services.LoadAppListService;
+import com.lzx.lock.services.LockService;
 import com.lzx.lock.utils.LogUtil;
 import com.lzx.lock.utils.SpUtil;
 

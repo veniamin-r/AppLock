@@ -1,4 +1,4 @@
-package com.lzx.lock.module.main;
+package com.lzx.lock.activities.main;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -24,8 +24,8 @@ import android.widget.TextView;
 
 import com.lzx.lock.R;
 import com.lzx.lock.base.BaseActivity;
-import com.lzx.lock.bean.CommLockInfo;
-import com.lzx.lock.module.setting.LockSettingActivity;
+import com.lzx.lock.model.CommLockInfo;
+import com.lzx.lock.activities.setting.LockSettingActivity;
 import com.lzx.lock.mvp.contract.LockMainContract;
 import com.lzx.lock.mvp.p.LockMainPresenter;
 import com.lzx.lock.utils.SystemBarHelper;

@@ -9,9 +9,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.lzx.lock.R;
-import com.lzx.lock.adapter.SelectTimeAdapter;
-import com.lzx.lock.bean.LockAutoTime;
-import com.lzx.lock.module.setting.LockSettingActivity;
+import com.lzx.lock.adapters.SelectTimeAdapter;
+import com.lzx.lock.model.LockAutoTime;
+import com.lzx.lock.activities.setting.LockSettingActivity;
 
 import java.util.ArrayList;
 import java.util.List;

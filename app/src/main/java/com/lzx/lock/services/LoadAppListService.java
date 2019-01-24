@@ -1,4 +1,4 @@
-package com.lzx.lock.service;
+package com.lzx.lock.services;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -7,8 +7,8 @@ import android.content.pm.ResolveInfo;
 import android.support.annotation.Nullable;
 
 import com.lzx.lock.base.AppConstants;
-import com.lzx.lock.bean.CommLockInfo;
-import com.lzx.lock.bean.FaviterInfo;
+import com.lzx.lock.model.CommLockInfo;
+import com.lzx.lock.model.FaviterInfo;
 import com.lzx.lock.db.CommLockInfoManager;
 import com.lzx.lock.utils.SpUtil;
 

@@ -2,7 +2,7 @@ package com.lzx.lock.mvp.contract;
 
 import com.lzx.lock.base.BasePresenter;
 import com.lzx.lock.base.BaseView;
-import com.lzx.lock.bean.LockStage;
+import com.lzx.lock.model.LockStage;
 import com.lzx.lock.widget.LockPatternView;
 
 import java.util.List;

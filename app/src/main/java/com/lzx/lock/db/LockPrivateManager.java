@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.lzx.lock.bean.LockPrivate;
+import com.lzx.lock.model.LockPrivate;
 
 import org.litepal.crud.DataSupport;
 

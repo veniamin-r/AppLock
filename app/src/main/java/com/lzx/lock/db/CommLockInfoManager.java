@@ -8,8 +8,8 @@ import android.content.pm.ResolveInfo;
 import android.support.annotation.NonNull;
 
 import com.lzx.lock.base.AppConstants;
-import com.lzx.lock.bean.CommLockInfo;
-import com.lzx.lock.bean.FaviterInfo;
+import com.lzx.lock.model.CommLockInfo;
+import com.lzx.lock.model.FaviterInfo;
 import com.lzx.lock.utils.DataUtil;
 
 import org.litepal.crud.DataSupport;

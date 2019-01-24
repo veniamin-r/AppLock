@@ -1,4 +1,4 @@
-package com.lzx.lock.adapter;
+package com.lzx.lock.adapters;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lzx.lock.R;
-import com.lzx.lock.bean.CommLockInfo;
+import com.lzx.lock.model.CommLockInfo;
 import com.lzx.lock.db.CommLockInfoManager;
 
 import java.util.ArrayList;

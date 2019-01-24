@@ -62,8 +62,7 @@ public class LockPatternUtils {
     public static final long FAILED_ATTEMPT_TIMEOUT_MS = 30000L;
     private static final String TAG = "LockPatternUtils";
     private static final String LOCK_PATTERN_FILE = "gesture.key";
-    private static final AtomicBoolean sHaveNonZeroPatternFile = new AtomicBoolean(
-            false);
+    private static final AtomicBoolean sHaveNonZeroPatternFile = new AtomicBoolean(false);
     private static File sLockPatternFilename;
     private static FileObserver sPasswordObserver;
 

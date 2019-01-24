@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.lzx.lock.base.BasePresenter;
 import com.lzx.lock.base.BaseView;
-import com.lzx.lock.bean.CommLockInfo;
+import com.lzx.lock.model.CommLockInfo;
 
 import java.util.List;
 

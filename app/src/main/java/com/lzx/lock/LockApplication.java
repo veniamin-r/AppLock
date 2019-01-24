@@ -1,7 +1,7 @@
 package com.lzx.lock;
 
 import com.lzx.lock.base.BaseActivity;
-import com.lzx.lock.module.lock.GestureUnlockActivity;
+import com.lzx.lock.activities.lock.GestureUnlockActivity;
 import com.lzx.lock.utils.SpUtil;
 
 import org.litepal.LitePalApplication;
@@ -26,6 +26,7 @@ public class LockApplication extends LitePalApplication {
         super.onCreate();
         application = this;
 
+        //Crash reporter utility
         CrashReporter.initialize(this, getCacheDir().getPath());
 
         SpUtil.getInstance().init(application);

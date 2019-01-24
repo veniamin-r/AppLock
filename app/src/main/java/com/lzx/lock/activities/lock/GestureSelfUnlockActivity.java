@@ -1,4 +1,4 @@
-package com.lzx.lock.module.lock;
+package com.lzx.lock.activities.lock;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,8 +10,8 @@ import com.lzx.lock.R;
 import com.lzx.lock.base.AppConstants;
 import com.lzx.lock.base.BaseActivity;
 import com.lzx.lock.db.CommLockInfoManager;
-import com.lzx.lock.module.main.MainActivity;
-import com.lzx.lock.module.setting.LockSettingActivity;
+import com.lzx.lock.activities.main.MainActivity;
+import com.lzx.lock.activities.setting.LockSettingActivity;
 import com.lzx.lock.utils.LockPatternUtils;
 import com.lzx.lock.utils.SpUtil;
 import com.lzx.lock.utils.SystemBarHelper;

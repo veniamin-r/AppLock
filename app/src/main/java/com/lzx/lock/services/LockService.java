@@ -1,4 +1,4 @@
-package com.lzx.lock.service;
+package com.lzx.lock.services;
 
 import android.app.ActivityManager;
 import android.app.IntentService;
@@ -19,7 +19,7 @@ import android.text.TextUtils;
 import com.lzx.lock.LockApplication;
 import com.lzx.lock.base.AppConstants;
 import com.lzx.lock.db.CommLockInfoManager;
-import com.lzx.lock.module.lock.GestureUnlockActivity;
+import com.lzx.lock.activities.lock.GestureUnlockActivity;
 import com.lzx.lock.utils.SpUtil;
 
 import java.util.ArrayList;

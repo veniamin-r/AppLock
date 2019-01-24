@@ -1,4 +1,4 @@
-package com.lzx.lock.service;
+package com.lzx.lock.services;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;

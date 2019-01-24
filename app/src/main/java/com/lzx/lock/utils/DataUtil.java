@@ -2,7 +2,7 @@ package com.lzx.lock.utils;
 
 import android.support.annotation.NonNull;
 
-import com.lzx.lock.bean.CommLockInfo;
+import com.lzx.lock.model.CommLockInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;

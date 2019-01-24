@@ -1,4 +1,4 @@
-package com.lzx.lock.module.setting;
+package com.lzx.lock.activities.setting;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -16,10 +16,10 @@ import android.widget.TextView;
 import com.lzx.lock.R;
 import com.lzx.lock.base.AppConstants;
 import com.lzx.lock.base.BaseActivity;
-import com.lzx.lock.bean.LockAutoTime;
-import com.lzx.lock.module.about.AboutMeActivity;
-import com.lzx.lock.module.lock.GestureCreateActivity;
-import com.lzx.lock.service.LockService;
+import com.lzx.lock.model.LockAutoTime;
+import com.lzx.lock.activities.about.AboutMeActivity;
+import com.lzx.lock.activities.lock.GestureCreateActivity;
+import com.lzx.lock.services.LockService;
 import com.lzx.lock.utils.SpUtil;
 import com.lzx.lock.utils.SystemBarHelper;
 import com.lzx.lock.utils.ToastUtil;

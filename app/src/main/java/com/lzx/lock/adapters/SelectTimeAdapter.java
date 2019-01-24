@@ -1,4 +1,4 @@
-package com.lzx.lock.adapter;
+package com.lzx.lock.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lzx.lock.R;
-import com.lzx.lock.bean.LockAutoTime;
+import com.lzx.lock.model.LockAutoTime;
 
 import java.util.List;
 

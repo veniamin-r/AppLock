@@ -6,7 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 
 import com.lzx.lock.base.AppConstants;
-import com.lzx.lock.bean.CommLockInfo;
+import com.lzx.lock.model.CommLockInfo;
 import com.lzx.lock.db.CommLockInfoManager;
 import com.lzx.lock.mvp.contract.LockMainContract;
 import com.lzx.lock.utils.SpUtil;

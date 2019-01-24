@@ -1,4 +1,4 @@
-package com.lzx.lock.module.main;
+package com.lzx.lock.activities.main;
 
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -9,9 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.lzx.lock.R;
-import com.lzx.lock.adapter.MainAdapter;
+import com.lzx.lock.adapters.MainAdapter;
 import com.lzx.lock.base.BaseFragment;
-import com.lzx.lock.bean.CommLockInfo;
+import com.lzx.lock.model.CommLockInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.List;
  * Created by xian on 2017/3/1.
  */
 
-public class SysAppFragment extends BaseFragment {
+public class UserAppFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
     @Nullable
@@ -29,12 +29,12 @@ public class SysAppFragment extends BaseFragment {
     private MainAdapter mMainAdapter;
 
     @NonNull
-    public static SysAppFragment newInstance(List<CommLockInfo> list) {
-        SysAppFragment sysAppFragment = new SysAppFragment();
+    public static UserAppFragment newInstance(List<CommLockInfo> list) {
+        UserAppFragment userAppFragment = new UserAppFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("data", (ArrayList<? extends Parcelable>) list);
-        sysAppFragment.setArguments(bundle);
-        return sysAppFragment;
+        userAppFragment.setArguments(bundle);
+        return userAppFragment;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class SysAppFragment extends BaseFragment {
         mRecyclerView.setAdapter(mMainAdapter);
         list = new ArrayList<>();
         for (CommLockInfo info : data) {
-            if (info.isSysApp()) {
+            if (!info.isSysApp()) {
                 list.add(info);
             }
         }

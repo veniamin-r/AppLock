@@ -15,8 +15,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.lzx.lock.R;
-import com.lzx.lock.adapter.MainAdapter;
-import com.lzx.lock.bean.CommLockInfo;
+import com.lzx.lock.adapters.MainAdapter;
+import com.lzx.lock.model.CommLockInfo;
 import com.lzx.lock.mvp.contract.LockMainContract;
 import com.lzx.lock.mvp.p.LockMainPresenter;
 
