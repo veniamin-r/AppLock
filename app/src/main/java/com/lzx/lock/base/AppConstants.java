@@ -30,7 +30,7 @@ public class AppConstants {
     public static final String LOCK_FROM_LOCK_MAIN_ACITVITY = "lock_from_lock_main_activity";
     public static final String LOCK_AUTO_RECORD_PIC = "AutoRecordPic";
     public static final String IGNORE_BATTERY_OPTIMIZATION = "battery_optimaztion";
-    //todo: target 2.0
-    public static final String LOCK_TYPE = "lock_type";//ACCESSIBILITY OR USAGES STATES
+    public static final String LOCK_TYPE = "lock_type";//ACCESSIBILITY OR USAGES STATE
+
 
 }

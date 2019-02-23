@@ -6,14 +6,14 @@ android {
         applicationId "io.github.subhamtyagi.privacyapplock"
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 3
+        versionName "1.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false // because i have used crash reporter
+            shrinkResources false
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

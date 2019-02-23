@@ -104,6 +104,9 @@ public class CreatePwdActivity extends BaseActivity implements View.OnClickListe
     private void gotoLockMainActivity() {
         SpUtil.getInstance().putBoolean(AppConstants.LOCK_STATE, true);
         startService(new Intent(this, LockService.class));
+        //TODO: enable this
+        //context.startService(new Intent(context, LockAccessibilityService.class));
+
         SpUtil.getInstance().putBoolean(AppConstants.LOCK_IS_FIRST_LOCK, false);
         startActivity(new Intent(this, MainActivity.class));
         finish();

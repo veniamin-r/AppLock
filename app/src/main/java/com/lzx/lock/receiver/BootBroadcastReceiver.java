@@ -4,9 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.view.accessibility.AccessibilityEventSource;
 
 import com.lzx.lock.base.AppConstants;
 import com.lzx.lock.services.LoadAppListService;
+import com.lzx.lock.services.LockAccessibilityService;
 import com.lzx.lock.services.LockService;
 import com.lzx.lock.utils.LogUtil;
 import com.lzx.lock.utils.SpUtil;
@@ -23,6 +25,8 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
         context.startService(new Intent(context, LoadAppListService.class));
         if (SpUtil.getInstance().getBoolean(AppConstants.LOCK_STATE, false)) {
             context.startService(new Intent(context, LockService.class));
+            //TODO: enable this
+            //context.startService(new Intent(context, LockAccessibilityService.class));
         }
     }
 }

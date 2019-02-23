@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.CheckBox;
@@ -14,11 +15,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lzx.lock.R;
+import com.lzx.lock.activities.about.AboutMeActivity;
+import com.lzx.lock.activities.lock.GestureCreateActivity;
 import com.lzx.lock.base.AppConstants;
 import com.lzx.lock.base.BaseActivity;
 import com.lzx.lock.model.LockAutoTime;
-import com.lzx.lock.activities.about.AboutMeActivity;
-import com.lzx.lock.activities.lock.GestureCreateActivity;
+import com.lzx.lock.services.LockAccessibilityService;
 import com.lzx.lock.services.LockService;
 import com.lzx.lock.utils.SpUtil;
 import com.lzx.lock.utils.SystemBarHelper;
@@ -32,11 +34,12 @@ import com.lzx.lock.widget.SelectLockTimeDialog;
 
 public class LockSettingActivity extends BaseActivity implements View.OnClickListener
         , DialogInterface.OnDismissListener {
+
     public static final String ON_ITEM_CLICK_ACTION = "on_item_click_action";
     private static final int REQUEST_CHANGE_PWD = 3;
-    private TextView mBtnAbout, mLockTime, mBtnChangePwd, mIsShowPath, mLockTip, mLockScreenSwitch, mLockTakePicSwitch;
+    private TextView mBtnAbout, mLockTime, mLockTypeSwitch, mBtnChangePwd, mIsShowPath, mLockTip, mLockScreenSwitch, mLockTakePicSwitch;
     private CheckBox mLockSwitch;
-    private RelativeLayout mLockWhen, mLockScreen, mLockTakePic;
+    private RelativeLayout mLockWhen, mLockType, mLockScreen, mLockTakePic;
     private LockSettingReceiver mLockSettingReceiver;
     private SelectLockTimeDialog dialog;
     private RelativeLayout mTopLayout;
@@ -53,6 +56,8 @@ public class LockSettingActivity extends BaseActivity implements View.OnClickLis
         mBtnAbout = findViewById(R.id.about_me);
         mLockSwitch = findViewById(R.id.switch_compat);
         mLockWhen = findViewById(R.id.lock_when);
+        mLockType = findViewById(R.id.lock_type);
+        mLockTypeSwitch = findViewById(R.id.lock_type_switch);
         mLockScreen = findViewById(R.id.lock_screen);
         mLockTakePic = findViewById(R.id.lock_take_pic);
         mIsShowPath = findViewById(R.id.is_show_path);
@@ -77,6 +82,8 @@ public class LockSettingActivity extends BaseActivity implements View.OnClickLis
         boolean isLockAutoScreen = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_SCREEN, false);
         mLockScreenSwitch.setText(isLockAutoScreen ? "on" : "off");
 
+        boolean isLockAccessibilityOn = SpUtil.getInstance().getBoolean(AppConstants.LOCK_TYPE, false);
+        mLockTypeSwitch.setText(isLockAccessibilityOn ? "Accessibility" : "Usages Stats");
         boolean isTakePic = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_RECORD_PIC, false);
         mLockTakePicSwitch.setText(isTakePic ? "on" : "off");
 
@@ -91,6 +98,7 @@ public class LockSettingActivity extends BaseActivity implements View.OnClickLis
         mLockScreen.setOnClickListener(this);
         mIsShowPath.setOnClickListener(this);
         mLockScreenSwitch.setOnClickListener(this);
+        mLockTypeSwitch.setOnClickListener(this);
         mLockTakePic.setOnClickListener(this);
         mLockSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -143,6 +151,24 @@ public class LockSettingActivity extends BaseActivity implements View.OnClickLis
                 } else {
                     SpUtil.getInstance().putBoolean(AppConstants.LOCK_AUTO_SCREEN, true);
                     mLockScreenSwitch.setText("on");
+                }
+                break;
+            case R.id.lock_type:
+                boolean isLockTypeAccessibility = SpUtil.getInstance().getBoolean(AppConstants.LOCK_TYPE, false);
+                if (!isLockTypeAccessibility) {
+                    if (!LockAccessibilityService.isAccessibilitySettingsOn(getApplicationContext())) {
+                        Intent intentForAccessbility = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                        intentForAccessbility.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        getApplicationContext().startActivity(intentForAccessbility);
+                    }else {
+                        SpUtil.getInstance().putBoolean(AppConstants.LOCK_TYPE,true);
+
+                        mLockTypeSwitch.setText("Accessibility");
+                    }
+                } else {
+                    SpUtil.getInstance().putBoolean(AppConstants.LOCK_TYPE, false);
+
+                    mLockTypeSwitch.setText("Usage state");
                 }
                 break;
             case R.id.lock_take_pic:

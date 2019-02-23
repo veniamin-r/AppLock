@@ -1,7 +1,9 @@
 package com.lzx.lock.services;
 
 import android.app.ActivityManager;
+import android.app.AlarmManager;
 import android.app.IntentService;
+import android.app.PendingIntent;
 import android.app.usage.UsageEvents;
 import android.app.usage.UsageStatsManager;
 import android.content.BroadcastReceiver;
@@ -12,14 +14,16 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.lzx.lock.LockApplication;
+import com.lzx.lock.activities.lock.GestureUnlockActivity;
 import com.lzx.lock.base.AppConstants;
 import com.lzx.lock.db.CommLockInfoManager;
-import com.lzx.lock.activities.lock.GestureUnlockActivity;
+import com.lzx.lock.receiver.LockRestarterBroadcastReceiver;
 import com.lzx.lock.utils.SpUtil;
 
 import java.util.ArrayList;
@@ -37,6 +41,7 @@ public class LockService extends IntentService {
     public boolean threadIsTerminate = false;
     @Nullable
     public String savePkgName;
+    private boolean isLockTypeAccessibility;
     private long lastUnlockTimeSeconds = 0;
     private String lastUnlockPackageName = "";
 
@@ -57,6 +62,12 @@ public class LockService extends IntentService {
         return null;
     }
 
+  /*  @Override
+    public int onStartCommand( Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
+    }*/
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -73,6 +84,7 @@ public class LockService extends IntentService {
         registerReceiver(mServiceReceiver, filter);
 
         threadIsTerminate = true;
+        isLockTypeAccessibility = SpUtil.getInstance().getBoolean(AppConstants.LOCK_TYPE, false);
 
     }
 
@@ -94,35 +106,28 @@ public class LockService extends IntentService {
                 if (isLockOffScreenTime && !isLockOffScreen) {
                     long time = SpUtil.getInstance().getLong(AppConstants.LOCK_CURR_MILLISENCONS, 0);
                     long leaverTime = SpUtil.getInstance().getLong(AppConstants.LOCK_APART_MILLISENCONS, 0);
-                    if (!TextUtils.isEmpty(savePkgName)) {
-                        if (!TextUtils.isEmpty(packageName)) {
-                            if (!savePkgName.equals(packageName)) { //
-                                if (getHomes().contains(packageName) || packageName.contains("launcher")) {
-                                    boolean isSetUnLock = mLockInfoManager.isSetUnLock(savePkgName);
-                                    if (!isSetUnLock) {
-                                        if (System.currentTimeMillis() - time > leaverTime) {
-                                            mLockInfoManager.lockCommApplication(savePkgName);
-                                        }
-                                    }
+                    if (!TextUtils.isEmpty(savePkgName) && !TextUtils.isEmpty(packageName) && !savePkgName.equals(packageName)) {
+                        if (getHomes().contains(packageName) || packageName.contains("launcher")) {
+                            boolean isSetUnLock = mLockInfoManager.isSetUnLock(savePkgName);
+                            if (!isSetUnLock) {
+                                if (System.currentTimeMillis() - time > leaverTime) {
+                                    mLockInfoManager.lockCommApplication(savePkgName);
                                 }
                             }
                         }
+
                     }
                 }
 
                 if (isLockOffScreenTime && isLockOffScreen) {
                     long time = SpUtil.getInstance().getLong(AppConstants.LOCK_CURR_MILLISENCONS, 0);
                     long leaverTime = SpUtil.getInstance().getLong(AppConstants.LOCK_APART_MILLISENCONS, 0);
-                    if (!TextUtils.isEmpty(savePkgName)) {
-                        if (!TextUtils.isEmpty(packageName)) {
-                            if (!savePkgName.equals(packageName)) {
-                                if (getHomes().contains(packageName) || packageName.contains("launcher")) {
-                                    boolean isSetUnLock = mLockInfoManager.isSetUnLock(savePkgName);
-                                    if (!isSetUnLock) {
-                                        if (System.currentTimeMillis() - time > leaverTime) {
-                                            mLockInfoManager.lockCommApplication(savePkgName);
-                                        }
-                                    }
+                    if (!TextUtils.isEmpty(savePkgName) && !TextUtils.isEmpty(packageName) && !savePkgName.equals(packageName)) {
+                        if (getHomes().contains(packageName) || packageName.contains("launcher")) {
+                            boolean isSetUnLock = mLockInfoManager.isSetUnLock(savePkgName);
+                            if (!isSetUnLock) {
+                                if (System.currentTimeMillis() - time > leaverTime) {
+                                    mLockInfoManager.lockCommApplication(savePkgName);
                                 }
                             }
                         }
@@ -130,38 +135,30 @@ public class LockService extends IntentService {
                 }
 
 
-                if (!isLockOffScreenTime && isLockOffScreen) {
-                    if (!TextUtils.isEmpty(savePkgName)) {
-                        if (!TextUtils.isEmpty(packageName)) {
-                            if (!savePkgName.equals(packageName)) {
-                                isActionLock = false;
-                                if (getHomes().contains(packageName) || packageName.contains("launcher")) {
-                                    boolean isSetUnLock = mLockInfoManager.isSetUnLock(savePkgName);
-                                    if (!isSetUnLock) {
-                                        mLockInfoManager.lockCommApplication(savePkgName);
-                                    }
-                                }
-                            } else {
-                                isActionLock = true;
+                if (!isLockOffScreenTime && isLockOffScreen && !TextUtils.isEmpty(savePkgName) && !TextUtils.isEmpty(packageName)) {
+                    if (!savePkgName.equals(packageName)) {
+                        isActionLock = false;
+                        if (getHomes().contains(packageName) || packageName.contains("launcher")) {
+                            boolean isSetUnLock = mLockInfoManager.isSetUnLock(savePkgName);
+                            if (!isSetUnLock) {
+                                mLockInfoManager.lockCommApplication(savePkgName);
                             }
                         }
+                    } else {
+                        isActionLock = true;
                     }
+
                 }
 
 
-                if (!isLockOffScreenTime && !isLockOffScreen) {
-                    if (!TextUtils.isEmpty(savePkgName)) {
-                        if (!TextUtils.isEmpty(packageName)) {
-                            if (!savePkgName.equals(packageName)) {
-                                if (getHomes().contains(packageName) || packageName.contains("launcher")) {
-                                    boolean isSetUnLock = mLockInfoManager.isSetUnLock(savePkgName);
-                                    if (!isSetUnLock) {
-                                        mLockInfoManager.lockCommApplication(savePkgName);
-                                    }
-                                }
-                            }
+                if (!isLockOffScreenTime && !isLockOffScreen && !TextUtils.isEmpty(savePkgName) && !TextUtils.isEmpty(packageName) && !savePkgName.equals(packageName)) {
+                    if (getHomes().contains(packageName) || packageName.contains("launcher")) {
+                        boolean isSetUnLock = mLockInfoManager.isSetUnLock(savePkgName);
+                        if (!isSetUnLock) {
+                            mLockInfoManager.lockCommApplication(savePkgName);
                         }
                     }
+
                 }
 
 
@@ -195,8 +192,7 @@ public class LockService extends IntentService {
             if (null != appTasks && !appTasks.isEmpty()) {
                 return appTasks.get(0).topActivity.getPackageName();
             }
-        } else {
-
+        } else if (!isLockTypeAccessibility) {
             UsageStatsManager sUsageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
             long endTime = System.currentTimeMillis();
             long beginTime = endTime - 10000;
@@ -212,6 +208,8 @@ public class LockService extends IntentService {
             if (!android.text.TextUtils.isEmpty(result)) {
                 return result;
             }
+        } else {
+            return LockAccessibilityService.getInstance().getForegroundPackage();
         }
         return "";
     }
@@ -243,6 +241,9 @@ public class LockService extends IntentService {
     public void onDestroy() {
         super.onDestroy();
         threadIsTerminate = false;
+        Intent intent =new Intent(this, LockRestarterBroadcastReceiver.class);
+        intent.putExtra("type","lockservice");
+        sendBroadcast(intent);
         unregisterReceiver(mServiceReceiver);
     }
 
@@ -278,4 +279,19 @@ public class LockService extends IntentService {
             }
         }
     }
+
+/*
+    @Override
+    public void onTaskRemoved(Intent rootIntent){
+        Intent restartServiceTask = new Intent(getApplicationContext(),this.getClass());
+        restartServiceTask.setPackage(getPackageName());
+        PendingIntent restartPendingIntent =PendingIntent.getService(getApplicationContext(), 1,restartServiceTask, PendingIntent.FLAG_ONE_SHOT);
+        AlarmManager myAlarmService = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        myAlarmService.set(
+                AlarmManager.ELAPSED_REALTIME,
+                SystemClock.elapsedRealtime() + 1000,
+                restartPendingIntent);
+
+        super.onTaskRemoved(rootIntent);
+    }*/
 }

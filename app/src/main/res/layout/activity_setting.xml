@@ -104,8 +104,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:drawablePadding="15dp"
             android:drawableRight="@drawable/arrow_more"
+            android:drawablePadding="15dp"
             tool:text="After locking the screen"/>
 
         <View
@@ -115,6 +115,41 @@
             android:background="#DEDEDE"
             android:textColor="#2c2c2c"/>
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/lock_type"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@drawable/bg_white_clicked"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@string/lock_type"
+            android:textColor="#2c2c2c"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/lock_type_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawableRight="@drawable/arrow_more"
+            android:drawablePadding="15dp"
+            tool:text="Usage stats"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#DEDEDE"
+            android:textColor="#2c2c2c"/>
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:id="@+id/lock_screen"
@@ -148,6 +183,8 @@
             android:layout_alignParentBottom="true"
             android:background="#DEDEDE"/>
     </RelativeLayout>
+
+
 
     <RelativeLayout
         android:id="@+id/lock_take_pic"
