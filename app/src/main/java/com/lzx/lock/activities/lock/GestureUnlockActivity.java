@@ -7,9 +7,11 @@ import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -17,10 +19,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lzx.lock.R;
+import com.lzx.lock.activities.main.MainActivity;
 import com.lzx.lock.base.AppConstants;
 import com.lzx.lock.base.BaseActivity;
 import com.lzx.lock.db.CommLockInfoManager;
-import com.lzx.lock.activities.main.MainActivity;
 import com.lzx.lock.services.LockService;
 import com.lzx.lock.utils.LockPatternUtils;
 import com.lzx.lock.utils.LockUtil;
@@ -126,7 +128,15 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
                             public boolean onPreDraw() {
                                 mUnLockLayout.getViewTreeObserver().removeOnPreDrawListener(this);
                                 mUnLockLayout.buildDrawingCache();
-                                Bitmap bmp = LockUtil.drawableToBitmap(icon, mUnLockLayout);
+                                int width = mUnLockLayout.getWidth(), height = mUnLockLayout.getHeight();
+                                if (width == 0 || height== 0) {
+                                    Display display = getWindowManager().getDefaultDisplay();
+                                    Point size = new Point();
+                                    display.getSize(size);
+                                    width = size.x;
+                                    height = size.y;
+                                }
+                                Bitmap bmp = LockUtil.drawableToBitmap(icon, width, height);
                                 LockUtil.blur(GestureUnlockActivity.this, LockUtil.big(bmp), mUnLockLayout);  //高斯模糊
                                 return true;
                             }

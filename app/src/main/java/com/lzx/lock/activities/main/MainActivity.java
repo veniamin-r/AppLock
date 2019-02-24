@@ -1,6 +1,7 @@
 package com.lzx.lock.activities.main;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import com.lzx.lock.model.CommLockInfo;
 import com.lzx.lock.activities.setting.LockSettingActivity;
 import com.lzx.lock.mvp.contract.LockMainContract;
 import com.lzx.lock.mvp.p.LockMainPresenter;
+import com.lzx.lock.services.LockService;
 import com.lzx.lock.utils.SystemBarHelper;
 import com.lzx.lock.widget.DialogSearch;
 
@@ -89,6 +91,19 @@ public class MainActivity extends BaseActivity implements LockMainContract.View,
 
             }else Log.d(TAG, "initData: something is wrong");
         }
+        if(!isServiceRunning(LockService.class)){
+            startService(new Intent(this, LockService.class));
+        }
+    }
+
+    private boolean isServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

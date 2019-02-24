@@ -21,6 +21,8 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -93,7 +95,7 @@ public class LockUtil {
         return false;
     }
 
-    public static Bitmap drawableToBitmap(Drawable drawable, @NonNull RelativeLayout mUnLockLayout) {
+    public static Bitmap drawableToBitmap(Drawable drawable, int width,int height) {
         int w = 20;
         int h = 20;
         Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
@@ -119,13 +121,15 @@ public class LockUtil {
                 }
             }
         }
-        Bitmap bitmap2 = Bitmap.createBitmap(mUnLockLayout.getWidth(), mUnLockLayout.getHeight(), Bitmap.Config.ARGB_8888);
+
+        Bitmap bitmap2 = Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888);
         Canvas canvas2 = new Canvas(bitmap2);
-        RectF rectF = new RectF(0, 0, mUnLockLayout.getWidth(), mUnLockLayout.getHeight());
+        RectF rectF = new RectF(0, 0,width,height);
         canvas2.drawBitmap(Bitmap.createBitmap(pixex, w, h, Bitmap.Config.ARGB_8888), null, rectF, null);
         return bitmap2;
     }
 
+    private static final String TAG="LockUtil";
     public static void blur(Context mContent, @NonNull Bitmap bkg, View view) {
         long startMs = System.currentTimeMillis();
         float radius = 50;

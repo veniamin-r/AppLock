@@ -37,20 +37,28 @@ public class LockService extends IntentService {
     public static final String UNLOCK_ACTION = "UNLOCK_ACTION";
     public static final String LOCK_SERVICE_LASTTIME = "LOCK_SERVICE_LASTTIME";
     public static final String LOCK_SERVICE_LASTAPP = "LOCK_SERVICE_LASTAPP";
+    private static final String TAG = "LockService";
     public static boolean isActionLock = false;
     public boolean threadIsTerminate = false;
     @Nullable
     public String savePkgName;
+
+
+    UsageStatsManager sUsageStatsManager;
     private boolean isLockTypeAccessibility;
     private long lastUnlockTimeSeconds = 0;
     private String lastUnlockPackageName = "";
-
     private boolean lockState;
-
     private ServiceReceiver mServiceReceiver;
     private CommLockInfoManager mLockInfoManager;
     @Nullable
     private ActivityManager activityManager;
+
+  /*  @Override
+    public int onStartCommand( Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
+    }*/
 
     public LockService() {
         super("LockService");
@@ -62,19 +70,12 @@ public class LockService extends IntentService {
         return null;
     }
 
-  /*  @Override
-    public int onStartCommand( Intent intent, int flags, int startId) {
-        super.onStartCommand(intent, flags, startId);
-        return START_STICKY;
-    }*/
-
     @Override
     public void onCreate() {
         super.onCreate();
         lockState = SpUtil.getInstance().getBoolean(AppConstants.LOCK_STATE);
         mLockInfoManager = new CommLockInfoManager(this);
         activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-
 
         mServiceReceiver = new ServiceReceiver();
         IntentFilter filter = new IntentFilter();
@@ -83,8 +84,11 @@ public class LockService extends IntentService {
         filter.addAction(UNLOCK_ACTION);
         registerReceiver(mServiceReceiver, filter);
 
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            sUsageStatsManager = (UsageStatsManager) this.getSystemService(Context.USAGE_STATS_SERVICE);
+        }
+
         threadIsTerminate = true;
-        isLockTypeAccessibility = SpUtil.getInstance().getBoolean(AppConstants.LOCK_TYPE, false);
 
     }
 
@@ -96,12 +100,10 @@ public class LockService extends IntentService {
     private void checkData() {
         while (threadIsTerminate) {
             String packageName = getLauncherTopApp(LockService.this, activityManager);
-
-            if (lockState && !inWhiteList(packageName) && !TextUtils.isEmpty(packageName)) {
+            if (lockState && !TextUtils.isEmpty(packageName) && !inWhiteList(packageName)) {
                 boolean isLockOffScreenTime = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_SCREEN_TIME, false);
                 boolean isLockOffScreen = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_SCREEN, false);
                 savePkgName = SpUtil.getInstance().getString(AppConstants.LOCK_LAST_LOAD_PKG_NAME, "");
-                //Log.i("Server", "packageName = " + packageName + "  savePkgName = " + savePkgName);
 
                 if (isLockOffScreenTime && !isLockOffScreen) {
                     long time = SpUtil.getInstance().getLong(AppConstants.LOCK_CURR_MILLISENCONS, 0);
@@ -170,30 +172,27 @@ public class LockService extends IntentService {
                 }
             }
             try {
-                Thread.sleep(500);
+                Thread.sleep(220);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    /**
-     * 白名单
-     */
+
     private boolean inWhiteList(String packageName) {
-        return packageName.equals(AppConstants.APP_PACKAGE_NAME)
-                || packageName.equals("com.android.settings");
+        return packageName.equals(AppConstants.APP_PACKAGE_NAME) || packageName.equals("com.android.settings");
     }
 
-    //TODO:  Find new way to detect which is in foreground (may be use Accessibility service)
     public String getLauncherTopApp(@NonNull Context context, @NonNull ActivityManager activityManager) {
+        //TODO: use another way as this might be take long time for get value
+        isLockTypeAccessibility = SpUtil.getInstance().getBoolean(AppConstants.LOCK_TYPE, false);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             List<ActivityManager.RunningTaskInfo> appTasks = activityManager.getRunningTasks(1);
             if (null != appTasks && !appTasks.isEmpty()) {
                 return appTasks.get(0).topActivity.getPackageName();
             }
         } else if (!isLockTypeAccessibility) {
-            UsageStatsManager sUsageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
             long endTime = System.currentTimeMillis();
             long beginTime = endTime - 10000;
             String result = "";
@@ -241,15 +240,13 @@ public class LockService extends IntentService {
     public void onDestroy() {
         super.onDestroy();
         threadIsTerminate = false;
-        Intent intent =new Intent(this, LockRestarterBroadcastReceiver.class);
-        intent.putExtra("type","lockservice");
+        Intent intent = new Intent(this, LockRestarterBroadcastReceiver.class);
+        intent.putExtra("type", "lockservice");
         sendBroadcast(intent);
         unregisterReceiver(mServiceReceiver);
     }
 
-    /**
-     * 服务广播
-     */
+
     public class ServiceReceiver extends BroadcastReceiver {
 
         @Override
@@ -280,7 +277,7 @@ public class LockService extends IntentService {
         }
     }
 
-/*
+
     @Override
     public void onTaskRemoved(Intent rootIntent){
         Intent restartServiceTask = new Intent(getApplicationContext(),this.getClass());
@@ -291,7 +288,6 @@ public class LockService extends IntentService {
                 AlarmManager.ELAPSED_REALTIME,
                 SystemClock.elapsedRealtime() + 1000,
                 restartPendingIntent);
-
         super.onTaskRemoved(rootIntent);
-    }*/
+    }
 }

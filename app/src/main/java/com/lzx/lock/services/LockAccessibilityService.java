@@ -78,7 +78,7 @@ public class LockAccessibilityService extends AccessibilityService {
         sendBroadcast(intent);
     }
 
-   /* @Override
+    @Override
     public void onTaskRemoved(Intent rootIntent){
         Intent restartServiceTask = new Intent(getApplicationContext(),this.getClass());
         restartServiceTask.setPackage(getPackageName());
@@ -90,6 +90,6 @@ public class LockAccessibilityService extends AccessibilityService {
                 restartPendingIntent);
 
         super.onTaskRemoved(rootIntent);
-    }*/
+    }
 
 }

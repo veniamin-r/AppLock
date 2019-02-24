@@ -95,10 +95,11 @@ public class LockSettingActivity extends BaseActivity implements View.OnClickLis
         mBtnChangePwd.setOnClickListener(this);
         mBtnAbout.setOnClickListener(this);
         mLockWhen.setOnClickListener(this);
+        mLockType.setOnClickListener(this);
         mLockScreen.setOnClickListener(this);
         mIsShowPath.setOnClickListener(this);
         mLockScreenSwitch.setOnClickListener(this);
-        mLockTypeSwitch.setOnClickListener(this);
+       // mLockTypeSwitch.setOnClickListener(this);
         mLockTakePic.setOnClickListener(this);
         mLockSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
