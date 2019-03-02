@@ -34,11 +34,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * 图案解锁加密、解密工具类
- *
- * @author way
- */
+
 public class LockPatternUtils {
     /**
      * The minimum number of dots in a valid pattern.
@@ -48,7 +44,7 @@ public class LockPatternUtils {
      * The maximum number of incorrect attempts before the user is prevented
      * from trying again for {@link #FAILED_ATTEMPT_TIMEOUT_MS}.
      */
-    public static final int FAILED_ATTEMPTS_BEFORE_TIMEOUT = 5;
+    public static final int FAILED_ATTEMPTS_BEFORE_TIMEOUT = 4;
     /**
      * The minimum number of dots the user must include in a wrong pattern
      * attempt for it to be counted against the counts that affect

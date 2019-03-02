@@ -32,7 +32,7 @@
             android:layout_toEndOf="@+id/btn_back"
             android:layout_toRightOf="@+id/btn_back"
             android:gravity="center"
-            android:text="@string/create_password"
+            android:text="@string/create_pattern"
             android:textColor="@color/white"
             android:textSize="14sp"/>
 
@@ -50,7 +50,7 @@
             android:layout_below="@+id/lock_icon"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="@string/please_draw_your_password"
+            android:text="@string/please_draw_your_pattern"
             android:textColor="@color/white"
             android:textSize="14sp"/>
     </RelativeLayout>

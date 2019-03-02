@@ -181,7 +181,7 @@ public class LockService extends IntentService {
 
 
     private boolean inWhiteList(String packageName) {
-        return packageName.equals(AppConstants.APP_PACKAGE_NAME) || packageName.equals("com.android.settings");
+        return packageName.equals(AppConstants.APP_PACKAGE_NAME);
     }
 
     public String getLauncherTopApp(@NonNull Context context, @NonNull ActivityManager activityManager) {
@@ -253,8 +253,8 @@ public class LockService extends IntentService {
         public void onReceive(Context context, @NonNull Intent intent) {
             String action = intent.getAction();
 
-            boolean isLockOffScreen = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_SCREEN, false); //是否在手机屏幕关闭后再次锁定
-            boolean isLockOffScreenTime = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_SCREEN_TIME, false); //是否在手机屏幕关闭后时间段后再次锁定
+            boolean isLockOffScreen = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_SCREEN, false);
+            boolean isLockOffScreenTime = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_SCREEN_TIME, false);
 
             switch (action) {
                 case UNLOCK_ACTION:

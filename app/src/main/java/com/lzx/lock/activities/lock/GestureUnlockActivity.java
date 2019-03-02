@@ -80,22 +80,15 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
         mBgLayout = findViewById(R.id.bg_layout);
         mUnLockText = findViewById(R.id.unlock_text);
         mUnlockFailTip = findViewById(R.id.unlock_fail_tip);
-
         mAppLogo = findViewById(R.id.app_logo);
         mAppLabel = findViewById(R.id.app_label);
-
-
     }
 
     @Override
     protected void initData() {
-
         pkgName = getIntent().getStringExtra(AppConstants.LOCK_PACKAGE_NAME);
-
         actionFrom = getIntent().getStringExtra(AppConstants.LOCK_FROM);
-
         packageManager = getPackageManager();
-
         mLockInfoManager = new CommLockInfoManager(this);
         mPopWindow = new UnLockMenuPopWindow(this, pkgName, true);
 
@@ -137,7 +130,7 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
                                     height = size.y;
                                 }
                                 Bitmap bmp = LockUtil.drawableToBitmap(icon, width, height);
-                                LockUtil.blur(GestureUnlockActivity.this, LockUtil.big(bmp), mUnLockLayout);  //高斯模糊
+                                LockUtil.blur(GestureUnlockActivity.this, LockUtil.big(bmp), mUnLockLayout);
                                 return true;
                             }
                         });
@@ -179,12 +172,13 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
                         int retry = LockPatternUtils.FAILED_ATTEMPTS_BEFORE_TIMEOUT - mFailedPatternAttemptsSinceLastTimeout;
                         if (retry >= 0) {
                             String format = getResources().getString(R.string.password_error_count);
-//                            String str = String.format(format, retry);
-                            // mUnlockFailTip.setText(str);
-//                            ToastUtil.showShort(str);
-                        }
+                             mUnlockFailTip.setText(format);
+                             //TODO: click a pic of intruder
+
+                                                    }
                     } else {
-//                        ToastUtil.showShort(getString(R.string.password_short));
+
+                        //ToastUtil.showShort(getString(R.string.password_short));
                     }
                     if (mFailedPatternAttemptsSinceLastTimeout >= 3) {
                         mLockPatternView.postDelayed(mClearPatternRunnable, 500);

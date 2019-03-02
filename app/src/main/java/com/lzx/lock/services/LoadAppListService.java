@@ -7,9 +7,9 @@ import android.content.pm.ResolveInfo;
 import android.support.annotation.Nullable;
 
 import com.lzx.lock.base.AppConstants;
+import com.lzx.lock.db.CommLockInfoManager;
 import com.lzx.lock.model.CommLockInfo;
 import com.lzx.lock.model.FaviterInfo;
-import com.lzx.lock.db.CommLockInfoManager;
 import com.lzx.lock.utils.SpUtil;
 
 import org.litepal.crud.DataSupport;
@@ -45,7 +45,6 @@ public class LoadAppListService extends IntentService {
     protected void onHandleIntent(Intent handleIntent) {
 
         time = System.currentTimeMillis();
-
         boolean isInitFaviter = SpUtil.getInstance().getBoolean(AppConstants.LOCK_IS_INIT_FAVITER, false);
         boolean isInitDb = SpUtil.getInstance().getBoolean(AppConstants.LOCK_IS_INIT_DB, false);
         if (!isInitFaviter) {
@@ -66,11 +65,11 @@ public class LoadAppListService extends IntentService {
             }
 
             for (ResolveInfo resolveInfo : resolveInfos) {
-                if (!resolveInfo.activityInfo.packageName.equals(AppConstants.APP_PACKAGE_NAME) &&
-                        !resolveInfo.activityInfo.packageName.equals("com.android.settings")) {
+                if (!resolveInfo.activityInfo.packageName.equals(AppConstants.APP_PACKAGE_NAME)) {
                     appList.add(resolveInfo);
                 }
             }
+
             if (appList.size() > dbList.size()) {
                 List<ResolveInfo> reslist = new ArrayList<>();
                 HashMap<String, CommLockInfo> hashMap = new HashMap<>();
@@ -125,12 +124,12 @@ public class LoadAppListService extends IntentService {
         mLockInfoManager = null;
     }
 
-    /**
-     * 初始化推荐加锁的应用
-     */
+
     public void initFavoriteApps() {
         List<String> packageList = new ArrayList<>();
         List<FaviterInfo> faviterInfos = new ArrayList<>();
+
+        //android
         packageList.add("com.android.gallery3d");
         packageList.add("com.android.mms");
         packageList.add("com.android.contacts");
@@ -138,17 +137,29 @@ public class LoadAppListService extends IntentService {
         packageList.add("com.android.vending");
         packageList.add("com.android.settings");
         packageList.add("com.android.dialer");
+        packageList.add("com.android.camera");
+        //......
 
+        //google apps
         packageList.add("com.google.android.apps.photos");
         packageList.add("com.google.android.gm");
         packageList.add("com.google.android.youtube");
+        packageList.add("com.google.android.apps.tachyon");//duo
 
-        packageList.add("com.net.one97.paytm");
-
+        //social app
+        packageList.add("org.thoughtcrime.securesms");//signal
+        packageList.add("org.telegram.messenger");
         packageList.add("com.whatsapp");
         packageList.add("com.twitter.android");
         packageList.add("com.facebook.katana");
         packageList.add("com.facebook.orca");
+
+        //etc
+        packageList.add("org.fdroid.fdroid");
+        packageList.add("org.mozilla.firefox");
+        packageList.add("org.schabi.newpipe");
+        packageList.add("eu.faircode.email");//fair mail
+        packageList.add("com.simplemobile.gallery.pro");// simple gallery
 
         packageList.add("com.mediatek.filemanager");
         packageList.add("com.sec.android.gallery3d");

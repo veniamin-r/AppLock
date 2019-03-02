@@ -31,7 +31,6 @@ public class SplashActivity extends BaseActivity {
 
     private static final int RESULT_ACTION_USAGE_ACCESS_SETTINGS = 1;
     private static final int RESULT_ACTION_ACCESSIBILITY_SETTINGS = 3;
-    private static final int RESULT_ACTION_MANAGE_OVERLAY_PERMISSION = 2;
 
 
     private ImageView mImgSplash;
@@ -51,7 +50,10 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        //Load apps list;
         startService(new Intent(this, LoadAppListService.class));
+
+        //start lock services if  everything is already  setup
         if (SpUtil.getInstance().getBoolean(AppConstants.LOCK_STATE, false)) {
             startService(new Intent(this, LockService.class));
         }
@@ -103,7 +105,6 @@ public class SplashActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_ACTION_USAGE_ACCESS_SETTINGS) {
             if (LockUtil.isStatAccessPermissionSet(SplashActivity.this)) {
-                //TODO: check for accessibility permission is granted or not, if not start for permission
                 gotoCreatePwdActivity();
             } else {
                 ToastUtil.showToast("Permission denied");

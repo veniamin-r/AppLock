@@ -47,34 +47,11 @@ public class CommLockInfoManager {
                     && !rightCommLockInfo.isFaviterApp()
                     && !rightCommLockInfo.isLocked()) {
                 return -1;
-            } else if (leftCommLockInfo.isFaviterApp()
-                    && leftCommLockInfo.isLocked()
-                    && rightCommLockInfo.isFaviterApp()
-                    && !rightCommLockInfo.isLocked()) {
-                if (leftCommLockInfo.getAppInfo() != null
-                        && rightCommLockInfo.getAppInfo() != null)
-                    return 1;
-                else
-                    return 0;
             } else if (!leftCommLockInfo.isFaviterApp()
                     && leftCommLockInfo.isLocked()
                     && !rightCommLockInfo.isFaviterApp()
                     && !rightCommLockInfo.isLocked()) {
                 return -1;
-            } else if (leftCommLockInfo.isFaviterApp()
-                    && leftCommLockInfo.isLocked()
-                    && !rightCommLockInfo.isFaviterApp()
-                    && !rightCommLockInfo.isLocked()) {
-                return -1;
-            } else if (leftCommLockInfo.isFaviterApp()
-                    && leftCommLockInfo.isLocked()
-                    && rightCommLockInfo.isFaviterApp()
-                    && !rightCommLockInfo.isLocked()) {
-                if (leftCommLockInfo.getAppInfo() != null
-                        && rightCommLockInfo.getAppInfo() != null)
-                    return 1;
-                else
-                    return 0;
             } else if (!leftCommLockInfo.isFaviterApp()
                     && !leftCommLockInfo.isLocked()
                     && rightCommLockInfo.isFaviterApp()
@@ -103,12 +80,7 @@ public class CommLockInfoManager {
                     && !rightCommLockInfo.isFaviterApp()
                     && rightCommLockInfo.isLocked()) {
                 return 1;
-            } else if (!leftCommLockInfo.isFaviterApp()
-                    && !leftCommLockInfo.isLocked()
-                    && rightCommLockInfo.isFaviterApp()
-                    && rightCommLockInfo.isLocked()) {
-                return 1;
-            } else if (!leftCommLockInfo.isFaviterApp()
+            }else if (!leftCommLockInfo.isFaviterApp()
                     && leftCommLockInfo.isLocked()
                     && rightCommLockInfo.isFaviterApp()
                     && rightCommLockInfo.isLocked()) {
@@ -136,11 +108,6 @@ public class CommLockInfoManager {
                     && rightCommLockInfo.isFaviterApp()
                     && rightCommLockInfo.isLocked()) {
                 return 1;
-            } else if (!leftCommLockInfo.isFaviterApp()
-                    && leftCommLockInfo.isLocked()
-                    && !rightCommLockInfo.isFaviterApp()
-                    && !rightCommLockInfo.isLocked()) {
-                return -1;
             }
             return 0;
         }
@@ -173,8 +140,7 @@ public class CommLockInfoManager {
             ApplicationInfo appInfo = mPackageManager.getApplicationInfo(commLockInfo.getPackageName(), PackageManager.GET_UNINSTALLED_PACKAGES);
             String appName = mPackageManager.getApplicationLabel(appInfo).toString();
 
-            if (!commLockInfo.getPackageName().equals(AppConstants.APP_PACKAGE_NAME) && !commLockInfo.getPackageName().equals("com.android.settings")
-                    && !commLockInfo.getPackageName().equals("com.google.android.googlequicksearchbox")) {
+            if (!commLockInfo.getPackageName().equals(AppConstants.APP_PACKAGE_NAME) ) {
                 if (isfaviterApp) {
                     commLockInfo.setLocked(true);
                 } else {

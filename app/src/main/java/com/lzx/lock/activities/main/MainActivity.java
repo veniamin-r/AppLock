@@ -80,17 +80,14 @@ public class MainActivity extends BaseActivity implements LockMainContract.View,
         mDialogSearch = new DialogSearch(this);
         String packageName = this.getPackageName();
         PowerManager powerManager = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
-        Log.d(TAG, "initData: packagename=="+packageName);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (powerManager != null && !powerManager.isIgnoringBatteryOptimizations(packageName)) {
-                Log.d(TAG, "initData: everything is fine here");
                 @SuppressLint("BatteryLife")
                 Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
                 intent.setData(Uri.parse("package:" + packageName));
                 startActivity(intent);
 
-            }else Log.d(TAG, "initData: something is wrong");
-        }
+            }}
         if(!isServiceRunning(LockService.class)){
             startService(new Intent(this, LockService.class));
         }
@@ -139,8 +136,8 @@ public class MainActivity extends BaseActivity implements LockMainContract.View,
             }
         }
         titles = new ArrayList<>();
-        titles.add("System Applications" + " (" + sysNum + ")");
-        titles.add("Third-party usage" + " (" + userNum + ")");
+        titles.add("System Apps" + " (" + sysNum + ")");
+        titles.add("User Apps" + " (" + userNum + ")");
 
         SysAppFragment sysAppFragment = SysAppFragment.newInstance(list);
         UserAppFragment userAppFragment = UserAppFragment.newInstance(list);
@@ -167,8 +164,8 @@ public class MainActivity extends BaseActivity implements LockMainContract.View,
 
     public class CommentPagerAdapter extends FragmentStatePagerAdapter {
 
-        private List<Fragment> fragmentList = new ArrayList<>();
-        private List<String> titles = new ArrayList<>();
+        private List<Fragment> fragmentList ;
+        private List<String> titles ;
 
 
         public CommentPagerAdapter(FragmentManager fm, List<Fragment> fragmentList, List<String> titles) {

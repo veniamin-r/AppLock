@@ -29,7 +29,7 @@ public class GestureCreateActivity extends BaseActivity implements View.OnClickL
     private static final String KEY_PATTERN_CHOICE = "chosenPattern";
     private static final String KEY_UI_STAGE = "uiStage";
     @Nullable
-    protected List<LockPatternView.Cell> mChosenPattern = null; //密码
+    protected List<LockPatternView.Cell> mChosenPattern = null;
     private LockPatternView mLockPatternView;
     private TextView mLockTip;
     private LockStage mUiStage = LockStage.Introduction;
@@ -69,9 +69,7 @@ public class GestureCreateActivity extends BaseActivity implements View.OnClickL
         }
     }
 
-    /**
-     * 初始化锁屏控件
-     */
+
     private void initLockPatternView() {
         mLockPatternUtils = new LockPatternUtils(this);
         mPatternViewPattern = new LockPatternViewPattern(mLockPatternView);
