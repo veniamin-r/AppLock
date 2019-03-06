@@ -29,6 +29,7 @@ import com.lzx.lock.model.CommLockInfo;
 import com.lzx.lock.activities.setting.LockSettingActivity;
 import com.lzx.lock.mvp.contract.LockMainContract;
 import com.lzx.lock.mvp.p.LockMainPresenter;
+import com.lzx.lock.services.BackgroundManager;
 import com.lzx.lock.services.LockService;
 import com.lzx.lock.utils.SystemBarHelper;
 import com.lzx.lock.widget.DialogSearch;
@@ -80,28 +81,21 @@ public class MainActivity extends BaseActivity implements LockMainContract.View,
         mDialogSearch = new DialogSearch(this);
         String packageName = this.getPackageName();
         PowerManager powerManager = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (powerManager != null && !powerManager.isIgnoringBatteryOptimizations(packageName)) {
                 @SuppressLint("BatteryLife")
                 Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
                 intent.setData(Uri.parse("package:" + packageName));
                 startActivity(intent);
 
-            }}
-        if(!isServiceRunning(LockService.class)){
-            startService(new Intent(this, LockService.class));
+            }
+        }*/
+        if(!BackgroundManager.getInstance().init(this).isServiceRunning(LockService.class)){
+            BackgroundManager.getInstance().init(this).startService(LockService.class);
         }
+        BackgroundManager.getInstance().init(this).startAlarmManager();
     }
 
-    private boolean isServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     @Override
     protected void initAction() {

@@ -15,6 +15,7 @@ import com.lzx.lock.base.AppConstants;
 import com.lzx.lock.base.BaseActivity;
 import com.lzx.lock.activities.lock.GestureSelfUnlockActivity;
 import com.lzx.lock.activities.pwd.CreatePwdActivity;
+import com.lzx.lock.services.BackgroundManager;
 import com.lzx.lock.services.LoadAppListService;
 import com.lzx.lock.services.LockService;
 import com.lzx.lock.utils.AppUtils;
@@ -51,11 +52,11 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void initData() {
         //Load apps list;
-        startService(new Intent(this, LoadAppListService.class));
-
+        //startService(new Intent(this, LoadAppListService.class));
+        BackgroundManager.getInstance().init(this).startService(LoadAppListService.class);
         //start lock services if  everything is already  setup
         if (SpUtil.getInstance().getBoolean(AppConstants.LOCK_STATE, false)) {
-            startService(new Intent(this, LockService.class));
+            BackgroundManager.getInstance().init(this).startService(LockService.class);
         }
         animator = ObjectAnimator.ofFloat(mImgSplash, "alpha", 0.5f, 1);
         animator.setDuration(1500);

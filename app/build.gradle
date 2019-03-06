@@ -6,8 +6,8 @@ android {
         applicationId "io.github.subhamtyagi.privacyapplock"
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 4
-        versionName "1.0.4"
+        versionCode 5
+        versionName "1.0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -28,6 +28,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'
     //source code LitePal at https://github.com/LitePalFramework/LitePal  /Sqlite framework
+    //TODO: Change litepal with room
     implementation 'org.litepal.android:core:1.4.1'
     implementation 'com.android.support:design:28.0.0'
 

@@ -20,6 +20,7 @@ import com.lzx.lock.activities.lock.GestureCreateActivity;
 import com.lzx.lock.base.AppConstants;
 import com.lzx.lock.base.BaseActivity;
 import com.lzx.lock.model.LockAutoTime;
+import com.lzx.lock.services.BackgroundManager;
 import com.lzx.lock.services.LockAccessibilityService;
 import com.lzx.lock.services.LockService;
 import com.lzx.lock.utils.SpUtil;
@@ -108,10 +109,13 @@ public class LockSettingActivity extends BaseActivity implements View.OnClickLis
                 Intent intent = new Intent(LockSettingActivity.this, LockService.class);
                 if (b) {
                     mLockTip.setText("Opened, password is required when the lock application is opened");
-                    startService(intent);
+
+                    BackgroundManager.getInstance().init(LockSettingActivity.this).startService(LockService.class);
+
                 } else {
                     mLockTip.setText("Closed, no password is required when the lock app opens");
-                    stopService(intent);
+                    BackgroundManager.getInstance().init(LockSettingActivity.this).stopService(LockService.class);
+
                 }
             }
         });

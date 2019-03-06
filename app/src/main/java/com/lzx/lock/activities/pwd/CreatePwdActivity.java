@@ -15,6 +15,7 @@ import com.lzx.lock.model.LockStage;
 import com.lzx.lock.activities.main.MainActivity;
 import com.lzx.lock.mvp.contract.GestureCreateContract;
 import com.lzx.lock.mvp.p.GestureCreatePresenter;
+import com.lzx.lock.services.BackgroundManager;
 import com.lzx.lock.services.LockService;
 import com.lzx.lock.utils.LockPatternUtils;
 import com.lzx.lock.utils.SpUtil;
@@ -103,8 +104,7 @@ public class CreatePwdActivity extends BaseActivity implements View.OnClickListe
 
     private void gotoLockMainActivity() {
         SpUtil.getInstance().putBoolean(AppConstants.LOCK_STATE, true);
-        startService(new Intent(this, LockService.class));
-
+        BackgroundManager.getInstance().init(this).startService(LockService.class);
         SpUtil.getInstance().putBoolean(AppConstants.LOCK_IS_FIRST_LOCK, false);
         startActivity(new Intent(this, MainActivity.class));
         finish();

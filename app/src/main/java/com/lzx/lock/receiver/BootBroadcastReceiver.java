@@ -4,29 +4,24 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.view.accessibility.AccessibilityEventSource;
 
 import com.lzx.lock.base.AppConstants;
+import com.lzx.lock.services.BackgroundManager;
 import com.lzx.lock.services.LoadAppListService;
-import com.lzx.lock.services.LockAccessibilityService;
 import com.lzx.lock.services.LockService;
 import com.lzx.lock.utils.LogUtil;
 import com.lzx.lock.utils.SpUtil;
 
-/**
- * 开机启动广播
- * Created by xian on 2017/3/4.
- */
 
 public class BootBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(@NonNull Context context, Intent intent) {
         LogUtil.i("Boot service....");
-        context.startService(new Intent(context, LoadAppListService.class));
+       // context.startService(new Intent(context, LoadAppListService.class));
+        BackgroundManager.getInstance().init(context).startService(LoadAppListService.class);
         if (SpUtil.getInstance().getBoolean(AppConstants.LOCK_STATE, false)) {
-            context.startService(new Intent(context, LockService.class));
-            //TODO: enable this
-            //context.startService(new Intent(context, LockAccessibilityService.class));
+            BackgroundManager.getInstance().init(context).startService(LockService.class);
+            BackgroundManager.getInstance().init(context).startAlarmManager();
         }
     }
 }

@@ -70,6 +70,7 @@ public class LoadAppListService extends IntentService {
                 }
             }
 
+
             if (appList.size() > dbList.size()) {
                 List<ResolveInfo> reslist = new ArrayList<>();
                 HashMap<String, CommLockInfo> hashMap = new HashMap<>();
@@ -101,11 +102,8 @@ public class LoadAppListService extends IntentService {
 
                 if (commlist.size() != 0)
                     mLockInfoManager.deleteCommLockInfoTable(commlist);
-            } else {
-
             }
         } else {
-
             SpUtil.getInstance().putBoolean(AppConstants.LOCK_IS_INIT_DB, true);
             try {
                 if (mLockInfoManager != null) {
@@ -135,7 +133,8 @@ public class LoadAppListService extends IntentService {
         packageList.add("com.android.contacts");
         packageList.add("com.android.email");
         packageList.add("com.android.vending");
-        packageList.add("com.android.settings");
+        //TODO:
+       // packageList.add("com.android.settings");
         packageList.add("com.android.dialer");
         packageList.add("com.android.camera");
         //......
