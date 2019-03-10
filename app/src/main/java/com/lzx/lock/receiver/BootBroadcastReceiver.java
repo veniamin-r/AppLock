@@ -17,6 +17,7 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(@NonNull Context context, Intent intent) {
         LogUtil.i("Boot service....");
+        //TODO: pie compatable done
        // context.startService(new Intent(context, LoadAppListService.class));
         BackgroundManager.getInstance().init(context).startService(LoadAppListService.class);
         if (SpUtil.getInstance().getBoolean(AppConstants.LOCK_STATE, false)) {

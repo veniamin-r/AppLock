@@ -4,12 +4,14 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.os.Build;
 import android.support.annotation.Nullable;
 
 import com.lzx.lock.base.AppConstants;
 import com.lzx.lock.db.CommLockInfoManager;
 import com.lzx.lock.model.CommLockInfo;
 import com.lzx.lock.model.FaviterInfo;
+import com.lzx.lock.utils.NotificationUtil;
 import com.lzx.lock.utils.SpUtil;
 
 import org.litepal.crud.DataSupport;
@@ -39,6 +41,9 @@ public class LoadAppListService extends IntentService {
         super.onCreate();
         mPackageManager = getPackageManager();
         mLockInfoManager = new CommLockInfoManager(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationUtil.createNotification(this,"App Lock","App lock Services running in background");
+        }
     }
 
     @Override

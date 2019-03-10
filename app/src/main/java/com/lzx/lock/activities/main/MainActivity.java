@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lzx.lock.R;
+import com.lzx.lock.base.AppConstants;
 import com.lzx.lock.base.BaseActivity;
 import com.lzx.lock.model.CommLockInfo;
 import com.lzx.lock.activities.setting.LockSettingActivity;
@@ -72,24 +73,22 @@ public class MainActivity extends BaseActivity implements LockMainContract.View,
 
         mLockMainPresenter = new LockMainPresenter(this, this);
         mLockMainPresenter.loadAppInfo(this);
-
         //
     }
 
     @Override
     protected void initData() {
         mDialogSearch = new DialogSearch(this);
-        String packageName = this.getPackageName();
+
         PowerManager powerManager = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (powerManager != null && !powerManager.isIgnoringBatteryOptimizations(packageName)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (powerManager != null && !powerManager.isIgnoringBatteryOptimizations(AppConstants.APP_PACKAGE_NAME)) {
                 @SuppressLint("BatteryLife")
                 Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                intent.setData(Uri.parse("package:" + packageName));
+                intent.setData(Uri.parse("package:" + AppConstants.APP_PACKAGE_NAME));
                 startActivity(intent);
-
             }
-        }*/
+        }
         if(!BackgroundManager.getInstance().init(this).isServiceRunning(LockService.class)){
             BackgroundManager.getInstance().init(this).startService(LockService.class);
         }

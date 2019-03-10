@@ -30,7 +30,7 @@ public class NotificationUtil {
         NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
         int importance = NotificationManager.IMPORTANCE_HIGH;
-        NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "NOTIFICATION_CHANNEL_NAME", importance);
+        NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "App lock background task ", importance);
         mNotificationManager.createNotificationChannel(notificationChannel);
 
         Notification.Builder mBuilder = new Notification.Builder(mContext);

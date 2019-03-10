@@ -29,10 +29,8 @@ import com.lzx.lock.widget.DialogPermission;
  */
 
 public class SplashActivity extends BaseActivity {
-
     private static final int RESULT_ACTION_USAGE_ACCESS_SETTINGS = 1;
     private static final int RESULT_ACTION_ACCESSIBILITY_SETTINGS = 3;
-
 
     private ImageView mImgSplash;
     @Nullable
@@ -51,13 +49,15 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        //Load apps list;
+        //TODO: pie compatable done
         //startService(new Intent(this, LoadAppListService.class));
         BackgroundManager.getInstance().init(this).startService(LoadAppListService.class);
+
         //start lock services if  everything is already  setup
         if (SpUtil.getInstance().getBoolean(AppConstants.LOCK_STATE, false)) {
             BackgroundManager.getInstance().init(this).startService(LockService.class);
         }
+
         animator = ObjectAnimator.ofFloat(mImgSplash, "alpha", 0.5f, 1);
         animator.setDuration(1500);
         animator.start();

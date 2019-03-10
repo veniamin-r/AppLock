@@ -153,7 +153,7 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
                         startActivity(new Intent(GestureUnlockActivity.this, MainActivity.class));
                         finish();
                     } else {
-                        SpUtil.getInstance().putLong(AppConstants.LOCK_CURR_MILLISENCONS, System.currentTimeMillis());
+                        SpUtil.getInstance().putLong(AppConstants.LOCK_CURR_MILLISECONDS, System.currentTimeMillis());
                         SpUtil.getInstance().putString(AppConstants.LOCK_LAST_LOAD_PKG_NAME, pkgName);
 
                         //Send the last unlocked time to the app lock service

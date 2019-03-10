@@ -224,12 +224,12 @@ public class LockSettingActivity extends BaseActivity implements View.OnClickLis
                 if (isLast) {
                     mLockTime.setText(info.getTitle());
                     SpUtil.getInstance().putString(AppConstants.LOCK_APART_TITLE, info.getTitle());
-                    SpUtil.getInstance().putLong(AppConstants.LOCK_APART_MILLISENCONS, 0L);
+                    SpUtil.getInstance().putLong(AppConstants.LOCK_APART_MILLISECONDS, 0L);
                     SpUtil.getInstance().putBoolean(AppConstants.LOCK_AUTO_SCREEN_TIME, false);
                 } else {
                     mLockTime.setText(info.getTitle());
                     SpUtil.getInstance().putString(AppConstants.LOCK_APART_TITLE, info.getTitle());
-                    SpUtil.getInstance().putLong(AppConstants.LOCK_APART_MILLISENCONS, info.getTime());
+                    SpUtil.getInstance().putLong(AppConstants.LOCK_APART_MILLISECONDS, info.getTime());
                     SpUtil.getInstance().putBoolean(AppConstants.LOCK_AUTO_SCREEN_TIME, true);
                 }
                 dialog.dismiss();

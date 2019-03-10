@@ -2,10 +2,6 @@ package com.lzx.lock.model;
 
 import org.litepal.crud.DataSupport;
 
-/**
- * Created by lzx on 2017/3/9.
- * 386707112@qq.com
- */
 
 public class LockPrivate extends DataSupport {
 

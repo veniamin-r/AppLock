@@ -13,6 +13,10 @@ public class SpUtil {
     private Context mContext;
     private SharedPreferences mPref;
 
+    private boolean a;
+    private String b;
+
+
     private SpUtil() {
     }
 
@@ -27,7 +31,6 @@ public class SpUtil {
         return mInstance;
     }
 
-    //在AppBase里面初始化
     public void init(Context context) {
         if (mContext == null) {
             mContext = context;
@@ -40,25 +43,25 @@ public class SpUtil {
     public void putString(String key, String value) {
         Editor editor = mPref.edit();
         editor.putString(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     public void putLong(String key, long value) {
         Editor editor = mPref.edit();
         editor.putLong(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     public void putInt(String key, int value) {
         Editor editor = mPref.edit();
         editor.putInt(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     public void putBoolean(String key, boolean value) {
         Editor editor = mPref.edit();
         editor.putBoolean(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     public boolean getBoolean(String key) {
@@ -103,13 +106,13 @@ public class SpUtil {
     public void remove(String key) {
         Editor editor = mPref.edit();
         editor.remove(key);
-        editor.commit();
+        editor.apply();
     }
 
     public void clear() {
         Editor editor = mPref.edit();
         editor.clear();
-        editor.commit();
+        editor.apply();
     }
 
 
