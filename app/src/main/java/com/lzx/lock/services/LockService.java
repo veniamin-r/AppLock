@@ -31,9 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
-/**
- * Created by xian on 2017/2/17.
- */
+
 
 public class LockService extends IntentService {
 
@@ -177,7 +175,6 @@ public class LockService extends IntentService {
     }
 
     public String getLauncherTopApp(@NonNull Context context, @NonNull ActivityManager activityManager) {
-        //TODO: use another way as this might be take long time for get value
         //isLockTypeAccessibility = SpUtil.getInstance().getBoolean(AppConstants.LOCK_TYPE, false);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             List<ActivityManager.RunningTaskInfo> appTasks = activityManager.getRunningTasks(1);
