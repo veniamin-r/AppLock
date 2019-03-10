@@ -38,9 +38,12 @@ public class LockSettingActivity extends BaseActivity implements View.OnClickLis
 
     public static final String ON_ITEM_CLICK_ACTION = "on_item_click_action";
     private static final int REQUEST_CHANGE_PWD = 3;
-    private TextView mBtnAbout, mLockTime, mLockTypeSwitch, mBtnChangePwd, mIsShowPath, mLockTip, mLockScreenSwitch, mLockTakePicSwitch;
+    private TextView mBtnAbout,
+            mLockTime,
+            //mLockTypeSwitch,
+            mBtnChangePwd, mIsShowPath, mLockTip, mLockScreenSwitch, mLockTakePicSwitch;
     private CheckBox mLockSwitch;
-    private RelativeLayout mLockWhen, mLockType, mLockScreen, mLockTakePic;
+    private RelativeLayout mLockWhen, mLockScreen, mLockTakePic;// mLockType,
     private LockSettingReceiver mLockSettingReceiver;
     private SelectLockTimeDialog dialog;
     private RelativeLayout mTopLayout;
@@ -57,8 +60,8 @@ public class LockSettingActivity extends BaseActivity implements View.OnClickLis
         mBtnAbout = findViewById(R.id.about_me);
         mLockSwitch = findViewById(R.id.switch_compat);
         mLockWhen = findViewById(R.id.lock_when);
-        mLockType = findViewById(R.id.lock_type);
-        mLockTypeSwitch = findViewById(R.id.lock_type_switch);
+       // mLockType = findViewById(R.id.lock_type);
+        //mLockTypeSwitch = findViewById(R.id.lock_type_switch);
         mLockScreen = findViewById(R.id.lock_screen);
         mLockTakePic = findViewById(R.id.lock_take_pic);
         mIsShowPath = findViewById(R.id.is_show_path);
@@ -83,8 +86,9 @@ public class LockSettingActivity extends BaseActivity implements View.OnClickLis
         boolean isLockAutoScreen = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_SCREEN, false);
         mLockScreenSwitch.setText(isLockAutoScreen ? "on" : "off");
 
-        boolean isLockAccessibilityOn = SpUtil.getInstance().getBoolean(AppConstants.LOCK_TYPE, false);
-        mLockTypeSwitch.setText(isLockAccessibilityOn ? "Accessibility" : "Usages Stats");
+       // boolean isLockAccessibilityOn = SpUtil.getInstance().getBoolean(AppConstants.LOCK_TYPE, false);
+       // mLockTypeSwitch.setText(isLockAccessibilityOn ? "Accessibility" : "Usages Stats");
+
         boolean isTakePic = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_RECORD_PIC, false);
         mLockTakePicSwitch.setText(isTakePic ? "on" : "off");
 
@@ -96,7 +100,7 @@ public class LockSettingActivity extends BaseActivity implements View.OnClickLis
         mBtnChangePwd.setOnClickListener(this);
         mBtnAbout.setOnClickListener(this);
         mLockWhen.setOnClickListener(this);
-        mLockType.setOnClickListener(this);
+       // mLockType.setOnClickListener(this);
         mLockScreen.setOnClickListener(this);
         mIsShowPath.setOnClickListener(this);
         mLockScreenSwitch.setOnClickListener(this);
@@ -158,7 +162,7 @@ public class LockSettingActivity extends BaseActivity implements View.OnClickLis
                     mLockScreenSwitch.setText("on");
                 }
                 break;
-            case R.id.lock_type:
+            /*case R.id.lock_type:
                 boolean isLockTypeAccessibility = SpUtil.getInstance().getBoolean(AppConstants.LOCK_TYPE, false);
                 if (!isLockTypeAccessibility) {
                     if (!LockAccessibilityService.isAccessibilitySettingsOn(getApplicationContext())) {
@@ -175,7 +179,7 @@ public class LockSettingActivity extends BaseActivity implements View.OnClickLis
 
                     mLockTypeSwitch.setText("Usage state");
                 }
-                break;
+                break;*/
             case R.id.lock_take_pic:
                 boolean isTakePic = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_RECORD_PIC, false);
                 if (isTakePic) {

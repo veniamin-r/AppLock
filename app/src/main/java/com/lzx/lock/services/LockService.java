@@ -47,7 +47,7 @@ public class LockService extends IntentService {
     public String savePkgName;
     UsageStatsManager sUsageStatsManager;
     Timer timer = new Timer();
-    private boolean isLockTypeAccessibility;
+    //private boolean isLockTypeAccessibility;
     private long lastUnlockTimeSeconds = 0;
     private String lastUnlockPackageName = "";
     private boolean lockState;
@@ -116,7 +116,7 @@ public class LockService extends IntentService {
                             if (!isSetUnLock) {
                                 if (System.currentTimeMillis() - time > leaverTime) {
                                     mLockInfoManager.lockCommApplication(savePkgName);
-                                }
+                                 }
                             }
                         }
 
@@ -178,13 +178,13 @@ public class LockService extends IntentService {
 
     public String getLauncherTopApp(@NonNull Context context, @NonNull ActivityManager activityManager) {
         //TODO: use another way as this might be take long time for get value
-        isLockTypeAccessibility = SpUtil.getInstance().getBoolean(AppConstants.LOCK_TYPE, false);
+        //isLockTypeAccessibility = SpUtil.getInstance().getBoolean(AppConstants.LOCK_TYPE, false);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             List<ActivityManager.RunningTaskInfo> appTasks = activityManager.getRunningTasks(1);
             if (null != appTasks && !appTasks.isEmpty()) {
                 return appTasks.get(0).topActivity.getPackageName();
             }
-        } else if (!isLockTypeAccessibility) {
+        } /*else if (!isLockTypeAccessibility) {
             long endTime = System.currentTimeMillis();
             long beginTime = endTime - 10000;
             String result = "";
@@ -199,7 +199,7 @@ public class LockService extends IntentService {
             if (!android.text.TextUtils.isEmpty(result)) {
                 return result;
             }
-        } else {
+        }*/ else {
             return LockAccessibilityService.getInstance().getForegroundPackage();
         }
         return "";

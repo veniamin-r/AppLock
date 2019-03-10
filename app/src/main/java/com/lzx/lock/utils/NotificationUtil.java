@@ -23,6 +23,7 @@ public class NotificationUtil {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void createNotification(Service mContext,String title, String message) {
 
+
         Intent resultIntent = new Intent(mContext, MainActivity.class);
         resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent resultPendingIntent = PendingIntent.getActivity(mContext, 112 /* Request code */, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
