@@ -91,7 +91,7 @@
     <string name="github_https_github_com_subhamtyagi">GitHub:https://github.com/subhamtyagi</string>
     <string name="upstream_developer">Upstream Developer</string>
     <string name="up_stream_deve_name_espoir">Espoir</string>
-    <string name="github_https_github_com_lizixian18">GitHub:https://github.com/EspoirX/AppLock</string>
+    <string name="github_https_github_com_espoir_x">GitHub:https://github.com/EspoirX/AppLock</string>
     <string name="welcome_to_the_app_lock">Welcome to the App lock</string>
     <string name="reset">Reset</string>
     <string name="create_pattern">Create pattern</string>
@@ -103,7 +103,8 @@
     <string name="lock_immediately_after_locking_the_screen">Lock app immediately after locking the screen</string>
     <string name="open">Open</string>
     <string name="change_the_password">Change the pattern</string>
-    <string name="display_path">Display path</string>
+    <string name="show_pattern">Show pattern</string>
+    <string name="hide_pattern">Hide pattern</string>
     <string name="about_me">About Me</string>
     <string name="go_to_give_permission">Permit Permission</string>
     <string name="warning">Warning</string>
@@ -115,4 +116,7 @@
     <string name="accessibility_service_description">This permission is only used for locking the apps</string>
     <string name="accessibility_service_name">App lock</string>
     <string name="lock_type">Lock Type</string>
+    <string name="pattern_is_required">Pattern is required when the Locked Apps are opened</string>
+    <string name="pattern_is_not_required">Pattern is not required when the Locked Apps opened</string>
+    <string name="intruder_selfie">Intruder Selfie</string>
 </resources>

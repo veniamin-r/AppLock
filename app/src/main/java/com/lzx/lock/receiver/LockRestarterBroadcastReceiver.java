@@ -14,7 +14,8 @@ public class LockRestarterBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent != null) {
+        boolean lockState=SpUtil.getInstance().getBoolean(AppConstants.LOCK_STATE);
+        if (intent != null && lockState) {
             String type = intent.getStringExtra("type");
             if (type.contentEquals("lockservice"))
                 //context.startService(new Intent(context, LockService.class));

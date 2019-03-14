@@ -85,7 +85,7 @@
         android:layout_marginStart="40dp"
         android:autoLink="web"
         android:padding="@dimen/activity_horizontal_margin"
-        android:text="@string/github_https_github_com_lizixian18"
+        android:text="@string/github_https_github_com_espoir_x"
         android:textColorLink="@color/colorPrimary"/>
 
 

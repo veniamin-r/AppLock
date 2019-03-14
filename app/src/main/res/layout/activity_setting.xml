@@ -200,7 +200,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="Intruder Selfie"
+            android:text="@string/intruder_selfie"
             android:textColor="#2c2c2c"
             android:textSize="14sp"/>
 
@@ -251,7 +251,7 @@
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:text="@string/display_path"
+        android:text="@string/hide_pattern"
         android:textColor="#2c2c2c"
         android:textSize="14sp"/>
 

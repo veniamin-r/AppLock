@@ -84,6 +84,7 @@ public class BackgroundManager {
 
     public void stopService(Class<?> serviceClass) {
         checkContext();
-        ctx.stopService(new Intent(ctx, serviceClass));
+        if (isServiceRunning(LockService.class))
+            ctx.stopService(new Intent(ctx, serviceClass));
     }
 }

@@ -229,9 +229,12 @@ public class LockService extends IntentService {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationUtil.cancelNotification(this);
         }
-        Intent intent = new Intent(this, LockRestarterBroadcastReceiver.class);
-        intent.putExtra("type", "lockservice");
-        sendBroadcast(intent);
+        lockState = SpUtil.getInstance().getBoolean(AppConstants.LOCK_STATE);
+        if (lockState) {
+            Intent intent = new Intent(this, LockRestarterBroadcastReceiver.class);
+            intent.putExtra("type", "lockservice");
+            sendBroadcast(intent);
+        }
         unregisterReceiver(mServiceReceiver);
     }
 
@@ -244,14 +247,17 @@ public class LockService extends IntentService {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationUtil.cancelNotification(this);
         }
-        Intent restartServiceTask = new Intent(getApplicationContext(), this.getClass());
-        restartServiceTask.setPackage(getPackageName());
-        PendingIntent restartPendingIntent = PendingIntent.getService(getApplicationContext(), 1495, restartServiceTask, PendingIntent.FLAG_ONE_SHOT);
-        AlarmManager myAlarmService = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-        myAlarmService.set(
-                AlarmManager.ELAPSED_REALTIME,
-                SystemClock.elapsedRealtime() + 1500,
-                restartPendingIntent);
+        lockState = SpUtil.getInstance().getBoolean(AppConstants.LOCK_STATE);
+        if (lockState) {
+            Intent restartServiceTask = new Intent(getApplicationContext(), this.getClass());
+            restartServiceTask.setPackage(getPackageName());
+            PendingIntent restartPendingIntent = PendingIntent.getService(getApplicationContext(), 1495, restartServiceTask, PendingIntent.FLAG_ONE_SHOT);
+            AlarmManager myAlarmService = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+            myAlarmService.set(
+                    AlarmManager.ELAPSED_REALTIME,
+                    SystemClock.elapsedRealtime() + 1500,
+                    restartPendingIntent);
+        }
 
     }
 

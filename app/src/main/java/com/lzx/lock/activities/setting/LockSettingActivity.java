@@ -110,16 +110,19 @@ public class LockSettingActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 SpUtil.getInstance().putBoolean(AppConstants.LOCK_STATE, b);
-                Intent intent = new Intent(LockSettingActivity.this, LockService.class);
+                //Intent intent = new Intent(LockSettingActivity.this, LockService.class);
                 if (b) {
-                    mLockTip.setText("Opened, password is required when the lock application is opened");
-
+                    mLockTip.setText(R.string.pattern_is_required);
+                    //restart service
+                    BackgroundManager.getInstance().init(LockSettingActivity.this).stopService(LockService.class);
                     BackgroundManager.getInstance().init(LockSettingActivity.this).startService(LockService.class);
 
-                } else {
-                    mLockTip.setText("Closed, no password is required when the lock app opens");
-                    BackgroundManager.getInstance().init(LockSettingActivity.this).stopService(LockService.class);
+                    BackgroundManager.getInstance().init(LockSettingActivity.this).startAlarmManager();
 
+                } else {
+                    mLockTip.setText(R.string.pattern_is_not_required);
+                    BackgroundManager.getInstance().init(LockSettingActivity.this).stopService(LockService.class);
+                    BackgroundManager.getInstance().init(LockSettingActivity.this).stopAlarmManager();
                 }
             }
         });
@@ -146,10 +149,12 @@ public class LockSettingActivity extends BaseActivity implements View.OnClickLis
                 boolean ishideline = SpUtil.getInstance().getBoolean(AppConstants.LOCK_IS_HIDE_LINE, false);
                 if (ishideline) {
                     SpUtil.getInstance().putBoolean(AppConstants.LOCK_IS_HIDE_LINE, false);
-                    ToastUtil.showToast("Path is displayed");
+                    mIsShowPath.setText(R.string.hide_pattern);
+                    ToastUtil.showToast("Pattern is displayed");
                 } else {
                     SpUtil.getInstance().putBoolean(AppConstants.LOCK_IS_HIDE_LINE, true);
-                    ToastUtil.showToast("Path is hidden");
+                    mIsShowPath.setText(R.string.show_pattern);
+                    ToastUtil.showToast("Pattern is hidden");
                 }
                 break;
             case R.id.lock_screen:

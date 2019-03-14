@@ -22,8 +22,6 @@ public class NotificationUtil {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void createNotification(Service mContext,String title, String message) {
-
-
         Intent resultIntent = new Intent(mContext, MainActivity.class);
         resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent resultPendingIntent = PendingIntent.getActivity(mContext, 112 /* Request code */, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -46,7 +44,6 @@ public class NotificationUtil {
 
         mContext.startForeground(145,mBuilder.build());
     }
-
 
     public static void cancelNotification(Service mContext){
         NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);

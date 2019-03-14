@@ -34,6 +34,8 @@ import com.lzx.lock.widget.UnLockMenuPopWindow;
 
 import java.util.List;
 
+import io.github.subhamtyagi.crashreporter.CrashReporter;
+
 /**
  * Created by xian on 2017/2/17.
  */
@@ -130,7 +132,11 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
                                     height = size.y;
                                 }
                                 Bitmap bmp = LockUtil.drawableToBitmap(icon, width, height);
-                                LockUtil.blur(GestureUnlockActivity.this, LockUtil.big(bmp), mUnLockLayout);
+                                try {
+                                    LockUtil.blur(GestureUnlockActivity.this, LockUtil.big(bmp), mUnLockLayout,width,height);
+                                }catch (IllegalArgumentException ignore){
+                                    CrashReporter.logException(ignore);
+                                }
                                 return true;
                             }
                         });

@@ -130,13 +130,13 @@ public class LockUtil {
     }
 
     private static final String TAG="LockUtil";
-    public static void blur(Context mContent, @NonNull Bitmap bkg, View view) {
-        long startMs = System.currentTimeMillis();
+    public static void blur(Context mContent, @NonNull Bitmap bkg, View view,int width,int height) {
+        //long startMs = System.currentTimeMillis();
         float radius = 50;
         float scaleFactor = 8;
         Bitmap overlay = Bitmap.createBitmap(
-                (int) (view.getMeasuredWidth() / scaleFactor),
-                (int) (view.getMeasuredHeight() / scaleFactor),
+                (int) (width / scaleFactor),
+                (int) (height/ scaleFactor),
                 Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(overlay);
         canvas.translate(-view.getLeft() / scaleFactor, -view.getTop() / scaleFactor);

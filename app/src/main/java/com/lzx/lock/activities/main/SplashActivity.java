@@ -49,7 +49,6 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        //TODO: pie compatable done
         //startService(new Intent(this, LoadAppListService.class));
         BackgroundManager.getInstance().init(this).startService(LoadAppListService.class);
 
