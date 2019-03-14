@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="@string/l_xian"
+        android:text="@string/up_stream_deve_name_espoir"
         android:textColor="@color/font_deep_gray"
         android:textSize="16sp"/>
 
