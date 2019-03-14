@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Timer;
 
 
-
 public class LockService extends IntentService {
 
     public static final String UNLOCK_ACTION = "UNLOCK_ACTION";
@@ -114,10 +113,9 @@ public class LockService extends IntentService {
                             if (!isSetUnLock) {
                                 if (System.currentTimeMillis() - time > leaverTime) {
                                     mLockInfoManager.lockCommApplication(savePkgName);
-                                 }
+                                }
                             }
                         }
-
                     }
                 }
 
@@ -164,7 +162,7 @@ public class LockService extends IntentService {
                 }
             }
             try {
-                Thread.sleep(250);
+                Thread.sleep(210);
             } catch (Exception ignore) {
             }
         }
@@ -181,7 +179,7 @@ public class LockService extends IntentService {
             if (null != appTasks && !appTasks.isEmpty()) {
                 return appTasks.get(0).topActivity.getPackageName();
             }
-        } /*else if (!isLockTypeAccessibility) {
+        } else {
             long endTime = System.currentTimeMillis();
             long beginTime = endTime - 10000;
             String result = "";
@@ -196,8 +194,6 @@ public class LockService extends IntentService {
             if (!android.text.TextUtils.isEmpty(result)) {
                 return result;
             }
-        }*/ else {
-            return LockAccessibilityService.getInstance().getForegroundPackage();
         }
         return "";
     }
