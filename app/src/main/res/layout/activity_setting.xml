@@ -50,7 +50,6 @@
         android:paddingRight="20dp">
 
         <TextView
-            android:id="@+id/lock_title"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:gravity="center_vertical"
@@ -58,16 +57,8 @@
             android:textColor="#2c2c2c"
             android:textSize="14sp"/>
 
-        <TextView
-            android:id="@+id/lock_tip"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_below="@+id/lock_title"
-            android:gravity="center_vertical"
-            tool:text="Opened, password is required when the lock application is opened"/>
-
         <CheckBox
-            android:id="@+id/switch_compat"
+            android:id="@+id/checkbox_app_lock_on_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -80,40 +71,6 @@
             android:layout_height="1dp"
             android:layout_alignParentBottom="true"
             android:background="#DEDEDE"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/lock_when"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@drawable/bg_white_clicked"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="@string/lock_settings"
-            android:textColor="#2c2c2c"
-            android:textSize="14sp"/>
-
-        <TextView
-            android:id="@+id/lock_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:drawableRight="@drawable/arrow_more"
-            android:drawablePadding="15dp"
-            tool:text="After locking the screen"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:background="#DEDEDE"
-            android:textColor="#2c2c2c"/>
     </RelativeLayout>
 <!--
 
@@ -154,7 +111,6 @@
 -->
 
     <RelativeLayout
-        android:id="@+id/lock_screen"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="@drawable/bg_white_clicked"
@@ -169,15 +125,14 @@
             android:textColor="#2c2c2c"
             android:textSize="14sp"/>
 
-        <TextView
-            android:id="@+id/lock_screen_switch"
+        <CheckBox
+            android:id="@+id/checkbox_lock_screen_switch_on_phone_lock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:drawablePadding="15dp"
-            android:drawableRight="@drawable/arrow_more"
-            android:text="@string/open"/>
+            android:layout_gravity="center_vertical"
+            android:button="@drawable/bg_checkbox_lock"/>
 
         <View
             android:layout_width="match_parent"
@@ -187,9 +142,7 @@
     </RelativeLayout>
 
 
-
     <RelativeLayout
-        android:id="@+id/lock_take_pic"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="@drawable/bg_white_clicked"
@@ -204,21 +157,118 @@
             android:textColor="#2c2c2c"
             android:textSize="14sp"/>
 
-        <TextView
-            android:id="@+id/lock_take_pic_switch"
+        <CheckBox
+            android:id="@+id/checkbox_intruder_selfie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:drawablePadding="15dp"
-            android:drawableRight="@drawable/arrow_more"
-            android:text="@string/open"/>
+            android:layout_gravity="center_vertical"
+            android:button="@drawable/bg_checkbox_lock"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_alignParentBottom="true"
             android:background="#DEDEDE"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@drawable/bg_white_clicked"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@string/hide_pattern"
+            android:textColor="#2c2c2c"
+            android:textSize="14sp"/>
+
+        <CheckBox
+            android:id="@+id/checkbox_show_hide_pattern"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:button="@drawable/bg_checkbox_lock"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#DEDEDE"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@drawable/bg_white_clicked"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@string/vibrate"
+            android:textColor="#2c2c2c"
+            android:textSize="14sp"/>
+
+        <CheckBox
+            android:id="@+id/checkbox_vibrate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:button="@drawable/bg_checkbox_lock"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#DEDEDE"/>
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:id="@+id/lock_when"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@drawable/bg_white_clicked"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@string/lock_settings"
+            android:textColor="#2c2c2c"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/lock_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawableRight="@drawable/arrow_more"
+            android:drawablePadding="15dp"
+            tool:text="After locking the screen"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#DEDEDE"
+            android:textColor="#2c2c2c"/>
     </RelativeLayout>
 
 
@@ -232,26 +282,6 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:text="@string/change_the_password"
-        android:textColor="#2c2c2c"
-        android:textSize="14sp"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="#DEDEDE"/>
-
-    <TextView
-        android:id="@+id/is_show_path"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@drawable/bg_white_clicked"
-        android:drawableRight="@drawable/arrow_more"
-        android:gravity="center_vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="@string/hide_pattern"
         android:textColor="#2c2c2c"
         android:textSize="14sp"/>
 

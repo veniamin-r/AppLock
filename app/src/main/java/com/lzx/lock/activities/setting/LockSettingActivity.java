@@ -6,13 +6,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lzx.lock.R;
 import com.lzx.lock.activities.about.AboutMeActivity;
@@ -21,7 +21,6 @@ import com.lzx.lock.base.AppConstants;
 import com.lzx.lock.base.BaseActivity;
 import com.lzx.lock.model.LockAutoTime;
 import com.lzx.lock.services.BackgroundManager;
-import com.lzx.lock.services.LockAccessibilityService;
 import com.lzx.lock.services.LockService;
 import com.lzx.lock.utils.SpUtil;
 import com.lzx.lock.utils.SystemBarHelper;
@@ -34,16 +33,21 @@ import com.lzx.lock.widget.SelectLockTimeDialog;
  */
 
 public class LockSettingActivity extends BaseActivity implements View.OnClickListener
-        , DialogInterface.OnDismissListener {
+        , DialogInterface.OnDismissListener, CompoundButton.OnCheckedChangeListener {
 
     public static final String ON_ITEM_CLICK_ACTION = "on_item_click_action";
     private static final int REQUEST_CHANGE_PWD = 3;
-    private TextView mBtnAbout,
-            mLockTime,
-            //mLockTypeSwitch,
-            mBtnChangePwd, mIsShowPath, mLockTip, mLockScreenSwitch, mLockTakePicSwitch;
-    private CheckBox mLockSwitch;
-    private RelativeLayout mLockWhen, mLockScreen, mLockTakePic;// mLockType,
+
+    private CheckBox cbLockSwitch;
+    private CheckBox cbLockScreen;
+    private CheckBox cbIntruderSelfie;
+    private CheckBox cbHidePattern;
+    private CheckBox cbVibration;
+
+    private TextView tvAbout,
+            tvLockTime,
+            tvChangePwd;
+
     private LockSettingReceiver mLockSettingReceiver;
     private SelectLockTimeDialog dialog;
     private RelativeLayout mTopLayout;
@@ -55,19 +59,17 @@ public class LockSettingActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
-        mBtnChangePwd = findViewById(R.id.btn_change_pwd);
-        mLockTime = findViewById(R.id.lock_time);
-        mBtnAbout = findViewById(R.id.about_me);
-        mLockSwitch = findViewById(R.id.switch_compat);
-        mLockWhen = findViewById(R.id.lock_when);
-       // mLockType = findViewById(R.id.lock_type);
-        //mLockTypeSwitch = findViewById(R.id.lock_type_switch);
-        mLockScreen = findViewById(R.id.lock_screen);
-        mLockTakePic = findViewById(R.id.lock_take_pic);
-        mIsShowPath = findViewById(R.id.is_show_path);
-        mLockTip = findViewById(R.id.lock_tip);
-        mLockScreenSwitch = findViewById(R.id.lock_screen_switch);
-        mLockTakePicSwitch = findViewById(R.id.lock_take_pic_switch);
+        cbLockSwitch=findViewById(R.id.checkbox_app_lock_on_off);
+        cbLockScreen=findViewById(R.id.checkbox_lock_screen_switch_on_phone_lock);
+        cbIntruderSelfie=findViewById(R.id.checkbox_intruder_selfie);
+        cbHidePattern=findViewById(R.id.checkbox_show_hide_pattern);
+        cbVibration=findViewById(R.id.checkbox_vibrate);
+
+        tvChangePwd = findViewById(R.id.btn_change_pwd);
+        tvLockTime = findViewById(R.id.lock_time);
+        tvAbout = findViewById(R.id.about_me);
+
+        //
         mTopLayout = findViewById(R.id.top_layout);
         mTopLayout.setPadding(0, SystemBarHelper.getStatusBarHeight(this), 0, 0);
     }
@@ -81,51 +83,29 @@ public class LockSettingActivity extends BaseActivity implements View.OnClickLis
         dialog = new SelectLockTimeDialog(this, "");
         dialog.setOnDismissListener(this);
         boolean isLockOpen = SpUtil.getInstance().getBoolean(AppConstants.LOCK_STATE);
-        mLockSwitch.setChecked(isLockOpen);
+        cbLockSwitch.setChecked(isLockOpen);
 
         boolean isLockAutoScreen = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_SCREEN, false);
-        mLockScreenSwitch.setText(isLockAutoScreen ? "on" : "off");
-
-       // boolean isLockAccessibilityOn = SpUtil.getInstance().getBoolean(AppConstants.LOCK_TYPE, false);
-       // mLockTypeSwitch.setText(isLockAccessibilityOn ? "Accessibility" : "Usages Stats");
+        cbLockScreen.setChecked(isLockAutoScreen);
 
         boolean isTakePic = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_RECORD_PIC, false);
-        mLockTakePicSwitch.setText(isTakePic ? "on" : "off");
-
-        mLockTime.setText(SpUtil.getInstance().getString(AppConstants.LOCK_APART_TITLE, "immediately"));
+        cbIntruderSelfie.setChecked(isTakePic);
+        tvLockTime.setText(SpUtil.getInstance().getString(AppConstants.LOCK_APART_TITLE, "immediately"));
     }
 
     @Override
     protected void initAction() {
-        mBtnChangePwd.setOnClickListener(this);
-        mBtnAbout.setOnClickListener(this);
-        mLockWhen.setOnClickListener(this);
-       // mLockType.setOnClickListener(this);
-        mLockScreen.setOnClickListener(this);
-        mIsShowPath.setOnClickListener(this);
-        mLockScreenSwitch.setOnClickListener(this);
-       // mLockTypeSwitch.setOnClickListener(this);
-        mLockTakePic.setOnClickListener(this);
-        mLockSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                SpUtil.getInstance().putBoolean(AppConstants.LOCK_STATE, b);
-                //Intent intent = new Intent(LockSettingActivity.this, LockService.class);
-                if (b) {
-                    mLockTip.setText(R.string.pattern_is_required);
-                    //restart service
-                    BackgroundManager.getInstance().init(LockSettingActivity.this).stopService(LockService.class);
-                    BackgroundManager.getInstance().init(LockSettingActivity.this).startService(LockService.class);
 
-                    BackgroundManager.getInstance().init(LockSettingActivity.this).startAlarmManager();
+        cbLockSwitch.setOnCheckedChangeListener(this);
+        cbLockScreen.setOnCheckedChangeListener(this);
+        cbIntruderSelfie.setOnCheckedChangeListener(this);
+        cbHidePattern.setOnCheckedChangeListener(this);
+        cbVibration.setOnCheckedChangeListener(this);
 
-                } else {
-                    mLockTip.setText(R.string.pattern_is_not_required);
-                    BackgroundManager.getInstance().init(LockSettingActivity.this).stopService(LockService.class);
-                    BackgroundManager.getInstance().init(LockSettingActivity.this).stopAlarmManager();
-                }
-            }
-        });
+        tvLockTime.setOnClickListener(this);
+        tvChangePwd.setOnClickListener(this);
+        tvAbout.setOnClickListener(this);
+
     }
 
     @Override
@@ -145,57 +125,43 @@ public class LockSettingActivity extends BaseActivity implements View.OnClickLis
                 dialog.setTitle(title);
                 dialog.show();
                 break;
-            case R.id.is_show_path:
-                boolean ishideline = SpUtil.getInstance().getBoolean(AppConstants.LOCK_IS_HIDE_LINE, false);
-                if (ishideline) {
-                    SpUtil.getInstance().putBoolean(AppConstants.LOCK_IS_HIDE_LINE, false);
-                    mIsShowPath.setText(R.string.hide_pattern);
-                    ToastUtil.showToast("Pattern is displayed");
-                } else {
-                    SpUtil.getInstance().putBoolean(AppConstants.LOCK_IS_HIDE_LINE, true);
-                    mIsShowPath.setText(R.string.show_pattern);
-                    ToastUtil.showToast("Pattern is hidden");
-                }
-                break;
-            case R.id.lock_screen:
-                boolean isLockAutoScreen = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_SCREEN, false);
-                if (isLockAutoScreen) {
-                    SpUtil.getInstance().putBoolean(AppConstants.LOCK_AUTO_SCREEN, false);
-                    mLockScreenSwitch.setText("off");
-                } else {
-                    SpUtil.getInstance().putBoolean(AppConstants.LOCK_AUTO_SCREEN, true);
-                    mLockScreenSwitch.setText("on");
-                }
-                break;
-            /*case R.id.lock_type:
-                boolean isLockTypeAccessibility = SpUtil.getInstance().getBoolean(AppConstants.LOCK_TYPE, false);
-                if (!isLockTypeAccessibility) {
-                    if (!LockAccessibilityService.isAccessibilitySettingsOn(getApplicationContext())) {
-                        Intent intentForAccessbility = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-                        intentForAccessbility.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        getApplicationContext().startActivity(intentForAccessbility);
-                    }else {
-                        SpUtil.getInstance().putBoolean(AppConstants.LOCK_TYPE,true);
-
-                        mLockTypeSwitch.setText("Accessibility");
-                    }
-                } else {
-                    SpUtil.getInstance().putBoolean(AppConstants.LOCK_TYPE, false);
-
-                    mLockTypeSwitch.setText("Usage state");
-                }
-                break;*/
-            case R.id.lock_take_pic:
-                boolean isTakePic = SpUtil.getInstance().getBoolean(AppConstants.LOCK_AUTO_RECORD_PIC, false);
-                if (isTakePic) {
-                    SpUtil.getInstance().putBoolean(AppConstants.LOCK_AUTO_RECORD_PIC, false);
-                    mLockTakePicSwitch.setText("off");
-                } else {
-                    SpUtil.getInstance().putBoolean(AppConstants.LOCK_AUTO_RECORD_PIC, true);
-                    mLockTakePicSwitch.setText("on");
-                }
-                break;
         }
+    }
+
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean b) {
+        switch (buttonView.getId()) {
+            case R.id.checkbox_app_lock_on_off:
+                SpUtil.getInstance().putBoolean(AppConstants.LOCK_STATE, b);
+                if (b) {
+                    BackgroundManager.getInstance().init(LockSettingActivity.this).stopService(LockService.class);
+                    BackgroundManager.getInstance().init(LockSettingActivity.this).startService(LockService.class);
+
+                    BackgroundManager.getInstance().init(LockSettingActivity.this).startAlarmManager();
+
+                } else {
+                    BackgroundManager.getInstance().init(LockSettingActivity.this).stopService(LockService.class);
+                    BackgroundManager.getInstance().init(LockSettingActivity.this).stopAlarmManager();
+                }
+                break;
+            case R.id.checkbox_lock_screen_switch_on_phone_lock:
+                SpUtil.getInstance().putBoolean(AppConstants.LOCK_AUTO_SCREEN, b);
+                break;
+            case R.id.checkbox_intruder_selfie:
+                SpUtil.getInstance().putBoolean(AppConstants.LOCK_AUTO_RECORD_PIC, b);
+                Toast.makeText(LockSettingActivity.this, "Not implemented yet", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.checkbox_show_hide_pattern:
+                SpUtil.getInstance().putBoolean(AppConstants.LOCK_IS_HIDE_LINE, b);
+                break;
+            case R.id.checkbox_vibrate:
+                SpUtil.getInstance().putBoolean(AppConstants.PATTERN_VIBRATION,b);
+                Toast.makeText(LockSettingActivity.this, "Not implemented yet", Toast.LENGTH_SHORT).show();
+                break;
+
+        }
+
     }
 
     @Override
@@ -231,12 +197,12 @@ public class LockSettingActivity extends BaseActivity implements View.OnClickLis
                 LockAutoTime info = intent.getParcelableExtra("info");
                 boolean isLast = intent.getBooleanExtra("isLast", true);
                 if (isLast) {
-                    mLockTime.setText(info.getTitle());
+                    tvLockTime.setText(info.getTitle());
                     SpUtil.getInstance().putString(AppConstants.LOCK_APART_TITLE, info.getTitle());
                     SpUtil.getInstance().putLong(AppConstants.LOCK_APART_MILLISECONDS, 0L);
                     SpUtil.getInstance().putBoolean(AppConstants.LOCK_AUTO_SCREEN_TIME, false);
                 } else {
-                    mLockTime.setText(info.getTitle());
+                    tvLockTime.setText(info.getTitle());
                     SpUtil.getInstance().putString(AppConstants.LOCK_APART_TITLE, info.getTitle());
                     SpUtil.getInstance().putLong(AppConstants.LOCK_APART_MILLISECONDS, info.getTime());
                     SpUtil.getInstance().putBoolean(AppConstants.LOCK_AUTO_SCREEN_TIME, true);

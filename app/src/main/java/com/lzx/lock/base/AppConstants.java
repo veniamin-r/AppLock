@@ -34,5 +34,6 @@ public class AppConstants {
     public static final String LOCK_APART_TITLE = "lock_apart_title";//string
     public static final String LOCK_LAST_LOAD_PKG_NAME = "last_load_package_name";//string
     public static final String LOCK_AUTO_RECORD_PIC = "AutoRecordPic";//boolean
+    public static final String PATTERN_VIBRATION="pattern_vibration";
     // public static final String LOCK_TYPE = "lock_type";//boolean ACCESSIBILITY OR USAGES STATE
 }
