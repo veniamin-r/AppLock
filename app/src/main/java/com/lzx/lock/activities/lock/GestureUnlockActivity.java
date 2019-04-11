@@ -94,6 +94,8 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
         mLockInfoManager = new CommLockInfoManager(this);
         mPopWindow = new UnLockMenuPopWindow(this, pkgName, true);
 
+
+
         initLayoutBackground();
         initLockPatternView();
 
@@ -124,7 +126,7 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
                                 mUnLockLayout.getViewTreeObserver().removeOnPreDrawListener(this);
                                 mUnLockLayout.buildDrawingCache();
                                 int width = mUnLockLayout.getWidth(), height = mUnLockLayout.getHeight();
-                                if (width == 0 || height== 0) {
+                                if (width == 0 || height == 0) {
                                     Display display = getWindowManager().getDefaultDisplay();
                                     Point size = new Point();
                                     display.getSize(size);
@@ -133,8 +135,8 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
                                 }
                                 Bitmap bmp = LockUtil.drawableToBitmap(icon, width, height);
                                 try {
-                                    LockUtil.blur(GestureUnlockActivity.this, LockUtil.big(bmp), mUnLockLayout,width,height);
-                                }catch (IllegalArgumentException ignore){
+                                    LockUtil.blur(GestureUnlockActivity.this, LockUtil.big(bmp), mUnLockLayout, width, height);
+                                } catch (IllegalArgumentException ignore) {
                                     CrashReporter.logException(ignore);
                                 }
                                 return true;
@@ -178,10 +180,9 @@ public class GestureUnlockActivity extends BaseActivity implements View.OnClickL
                         int retry = LockPatternUtils.FAILED_ATTEMPTS_BEFORE_TIMEOUT - mFailedPatternAttemptsSinceLastTimeout;
                         if (retry >= 0) {
                             String format = getResources().getString(R.string.password_error_count);
-                             mUnlockFailTip.setText(format);
-                             //TODO: click a pic of intruder
-
-                                                    }
+                            mUnlockFailTip.setText(format);
+                            //TODO: click a pic of intruder
+                        }
                     } else {
 
                         //ToastUtil.showShort(getString(R.string.password_short));
