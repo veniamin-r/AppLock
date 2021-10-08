@@ -3,10 +3,11 @@ package com.lzx.lock.widget;
 import android.animation.AnimatorSet;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.lzx.lock.R;
 import com.lzx.lock.adapters.SelectTimeAdapter;

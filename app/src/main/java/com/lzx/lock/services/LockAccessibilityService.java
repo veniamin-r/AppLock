@@ -7,8 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.view.accessibility.AccessibilityEvent;
+
+import androidx.annotation.NonNull;
 
 import com.lzx.lock.receiver.LockRestarterBroadcastReceiver;
 

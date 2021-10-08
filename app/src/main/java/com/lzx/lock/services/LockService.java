@@ -15,9 +15,10 @@ import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.lzx.lock.LockApplication;
 import com.lzx.lock.activities.lock.GestureUnlockActivity;

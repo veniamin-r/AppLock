@@ -6,9 +6,10 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.ImageView;
+
+import androidx.annotation.Nullable;
 
 import com.lzx.lock.R;
 import com.lzx.lock.base.AppConstants;

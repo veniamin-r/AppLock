@@ -1,12 +1,14 @@
 package com.lzx.lock.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.lzx.lock.R;
 import com.lzx.lock.model.LockAutoTime;
@@ -45,7 +47,7 @@ public class SelectTimeAdapter extends RecyclerView.Adapter<SelectTimeAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(SelectTimeAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(SelectTimeAdapter.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final LockAutoTime info = mTimeList.get(position);
         holder.mItemTime.setText(info.getTitle());
         holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -19,12 +19,13 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.RelativeLayout;
+
+import androidx.annotation.NonNull;
 
 import com.lzx.lock.base.BaseActivity;
 

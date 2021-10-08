@@ -11,12 +11,14 @@
             android:exported="false"/>
 
         <activity
+            android:exported="false"
             android:name="io.github.subhamtyagi.crashreporter.ui.CrashReporterActivity"
             android:launchMode="singleTask"
             android:taskAffinity="io.github.subhamtyagi.android.task"
             android:theme="@style/CrashReporter.Theme"/>
 
         <activity
+            android:exported="false"
             android:name="io.github.subhamtyagi.crashreporter.ui.LogMessageActivity"
             android:parentActivityName="io.github.subhamtyagi.crashreporter.ui.CrashReporterActivity"
             android:theme="@style/CrashReporter.Theme"/>

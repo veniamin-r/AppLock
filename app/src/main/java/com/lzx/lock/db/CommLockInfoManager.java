@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.support.annotation.NonNull;
 
 import com.lzx.lock.base.AppConstants;
 import com.lzx.lock.model.CommLockInfo;
@@ -20,6 +19,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import static org.litepal.crud.DataSupport.where;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by xian on 2017/2/17.

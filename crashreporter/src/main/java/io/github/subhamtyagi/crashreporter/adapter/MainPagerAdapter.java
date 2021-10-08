@@ -1,9 +1,10 @@
 
 package io.github.subhamtyagi.crashreporter.adapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import io.github.subhamtyagi.crashreporter.ui.CrashLogFragment;
 import io.github.subhamtyagi.crashreporter.ui.ExceptionLogFragment;

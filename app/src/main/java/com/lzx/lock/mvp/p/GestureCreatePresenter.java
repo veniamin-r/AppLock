@@ -1,8 +1,6 @@
 package com.lzx.lock.mvp.p;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.lzx.lock.R;
 import com.lzx.lock.model.LockStage;
@@ -19,6 +17,9 @@ import static com.lzx.lock.model.LockStage.ConfirmWrong;
 import static com.lzx.lock.model.LockStage.FirstChoiceValid;
 import static com.lzx.lock.model.LockStage.Introduction;
 import static com.lzx.lock.model.LockStage.NeedToConfirm;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Created by xian on 2017/2/17.

@@ -30,7 +30,8 @@
         <activity
             android:name=".activities.main.SplashActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -72,7 +73,8 @@
         <service android:name=".services.LoadAppListService"/>
         <service android:name=".services.LockService"/>
 
-        <receiver android:name=".receiver.BootBroadcastReceiver">
+        <receiver android:name=".receiver.BootBroadcastReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
 

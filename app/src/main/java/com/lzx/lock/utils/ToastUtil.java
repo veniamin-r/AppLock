@@ -1,6 +1,6 @@
 package com.lzx.lock.utils;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.widget.Toast;
 
 import com.lzx.lock.LockApplication;

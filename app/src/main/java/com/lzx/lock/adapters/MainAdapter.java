@@ -1,16 +1,18 @@
 package com.lzx.lock.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.lzx.lock.R;
 import com.lzx.lock.model.CommLockInfo;
@@ -51,7 +53,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final MainViewHolder holder, final int position) {
+    public void onBindViewHolder(final MainViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final CommLockInfo lockInfo = mLockInfos.get(position);
         initData(holder.mAppName, holder.mSwitchCompat, holder.mAppIcon, lockInfo);
         holder.mSwitchCompat.setOnClickListener(new View.OnClickListener() {
